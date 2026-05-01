@@ -1,8 +1,11 @@
-﻿__pycache__/
+# Python
+__pycache__/
 *.py[cod]
 *.class
 
-
-# 操作系统文件
+# 操作系统
 .DS_Store
 Thumbs.db
+
+# 旧版模型（不上传）
+models/原模型/
