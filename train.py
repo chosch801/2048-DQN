@@ -26,9 +26,10 @@ import torch.nn as nn
 import torch.optim as optim
 
 from fast_afterstate import (
+    augment_observation_pairs,
     boards_to_observations,
     observations_to_boards,
-    rewards_from_merge_scores,
+    rewards_from_transitions,
     slide_all_actions_batch,
 )
 from env import Env2048
@@ -62,10 +63,12 @@ class AfterstateDQNAgent:
         gamma: float = 0.99,
         learning_rate: float = 2e-4,
         batch_size: int = 128,
+        num_quantiles: int = 51,
         replay_capacity: int = 500_000,
         learning_starts: int = 20_000,
         update_frequency: int = 4,
         target_update_frequency: int = 2_500,
+        max_optimizer_steps_per_collect: int = 4,
         epsilon_start: float = 1.0,
         epsilon_final: float = 0.05,
         epsilon_decay_steps: int = 1_000_000,
@@ -85,9 +88,13 @@ class AfterstateDQNAgent:
         self.seed = int(seed)
         self.gamma = float(gamma)
         self.batch_size = int(batch_size)
+        self.num_quantiles = int(num_quantiles)
         self.learning_starts = int(learning_starts)
         self.update_frequency = int(update_frequency)
         self.target_update_frequency = int(target_update_frequency)
+        self.max_optimizer_steps_per_collect = int(
+            max_optimizer_steps_per_collect
+        )
         self.epsilon_start = float(epsilon_start)
         self.epsilon_final = float(epsilon_final)
         self.epsilon_decay_steps = int(epsilon_decay_steps)
@@ -96,14 +103,32 @@ class AfterstateDQNAgent:
             raise ValueError("num_envs must be at least 1")
         if self.update_frequency < 1:
             raise ValueError("update_frequency must be at least 1")
+        if self.num_quantiles < 1:
+            raise ValueError("num_quantiles must be at least 1")
+        if self.max_optimizer_steps_per_collect < 1:
+            raise ValueError("max_optimizer_steps_per_collect must be at least 1")
         self.update_credit = 0
 
         self.env = Env2048(seed=seed)
         self.buffer = ReplayBuffer(capacity=replay_capacity)
-        self.online_net = AfterstateValueNet().to(self.device)
-        self.target_net = AfterstateValueNet().to(self.device)
+        self.online_net = AfterstateValueNet(
+            num_quantiles=self.num_quantiles
+        ).to(self.device)
+        self.target_net = AfterstateValueNet(
+            num_quantiles=self.num_quantiles
+        ).to(self.device)
         self.target_net.load_state_dict(self.online_net.state_dict())
         self.target_net.eval()
+
+        self.tau = (
+            torch.arange(
+                0.5,
+                self.num_quantiles,
+                1.0,
+                device=self.device,
+            )
+            / self.num_quantiles
+        )
 
         self.optimizer = optim.Adam(
             self.online_net.parameters(),
@@ -113,10 +138,8 @@ class AfterstateDQNAgent:
             "cuda",
             enabled=self.amp_enabled,
         )
-        self.loss_fn = nn.SmoothL1Loss(reduction="none")
-
         default_save_dir = os.path.join(
-            os.path.dirname(os.path.abspath(__file__)), "models", "v3"
+            os.path.dirname(os.path.abspath(__file__)), "models", "v3_1"
         )
         self.save_dir = save_dir or default_save_dir
         os.makedirs(self.save_dir, exist_ok=True)
@@ -158,14 +181,14 @@ class AfterstateDQNAgent:
     def _next_value_targets(
         self,
         next_states: np.ndarray,
-        next_masks: np.ndarray,
+        _next_masks: np.ndarray,
         dones: np.ndarray,
     ) -> torch.Tensor:
-        """Compute a sampled-chance, vectorized afterstate Double-DQN target."""
+        """Compute a sampled-chance, vectorized quantile Double-DQN target."""
 
         batch_count = len(next_states)
         targets = torch.zeros(
-            batch_count,
+            (batch_count, self.num_quantiles),
             dtype=torch.float32,
             device=self.device,
         )
@@ -175,7 +198,10 @@ class AfterstateDQNAgent:
 
         boards = observations_to_boards(next_states)
         afterstates, merge_scores, changed = slide_all_actions_batch(boards)
-        legal = changed & np.asarray(next_masks, dtype=bool) & active[:, None]
+        # ``changed`` is recomputed from the transformed board and is therefore
+        # also the correct mask after symmetry augmentation.  The stored mask
+        # remains part of replay for diagnostics and compatibility.
+        legal = changed & active[:, None]
         locations = np.argwhere(legal)
         if len(locations) == 0:
             return targets
@@ -190,13 +216,18 @@ class AfterstateDQNAgent:
             online_values = self.online_net(candidate_tensor)
             target_values = self.target_net(candidate_tensor)
         rewards = self._tensor(
-            rewards_from_merge_scores(
-                merge_scores[board_indices, action_indices]
+            rewards_from_transitions(
+                merge_scores[board_indices, action_indices],
+                afterstates[board_indices, action_indices],
             ),
             torch.float32,
         )
-        candidate_online_scores = rewards + self.gamma * online_values.float()
-        candidate_target_scores = rewards + self.gamma * target_values.float()
+        candidate_online_scores = (
+            rewards.unsqueeze(1) + self.gamma * online_values.float()
+        )
+        candidate_target_quantiles = (
+            rewards.unsqueeze(1) + self.gamma * target_values.float()
+        )
 
         online_scores = torch.full(
             (batch_count, 4),
@@ -204,21 +235,25 @@ class AfterstateDQNAgent:
             dtype=torch.float32,
             device=self.device,
         )
-        target_scores = torch.full_like(online_scores, -torch.inf)
+        target_quantiles = torch.full(
+            (batch_count, 4, self.num_quantiles),
+            -torch.inf,
+            dtype=torch.float32,
+            device=self.device,
+        )
         board_index_tensor = self._tensor(board_indices, torch.long)
         action_index_tensor = self._tensor(action_indices, torch.long)
         online_scores[board_index_tensor, action_index_tensor] = (
-            candidate_online_scores
+            candidate_online_scores.mean(dim=1)
         )
-        target_scores[board_index_tensor, action_index_tensor] = (
-            candidate_target_scores
+        target_quantiles[board_index_tensor, action_index_tensor] = (
+            candidate_target_quantiles
         )
 
         active_tensor = self._tensor(np.flatnonzero(active), torch.long)
         best_actions = torch.argmax(online_scores, dim=1)
-        targets[active_tensor] = target_scores[
-            active_tensor,
-            best_actions[active_tensor],
+        targets[active_tensor] = target_quantiles[
+            active_tensor, best_actions[active_tensor]
         ]
         return targets
 
@@ -236,19 +271,36 @@ class AfterstateDQNAgent:
             return None
 
         batch = self.buffer.sample(sample_size)
-        afterstates = self._tensor(batch["afterstate"], torch.float32)
+        afterstates, next_states = augment_observation_pairs(
+            batch["afterstate"],
+            batch["next_state"],
+        )
+        afterstates = self._tensor(afterstates, torch.float32)
         with self._autocast_context():
-            current_values = self.online_net(afterstates)
+            current_quantiles = self.online_net(afterstates)
             targets = self._next_value_targets(
-                batch["next_state"],
+                next_states,
                 batch["next_mask"],
                 batch["done"],
             )
 
-            td_errors = targets - current_values
-            per_sample_loss = self.loss_fn(current_values, targets)
+            pairwise_td = targets.unsqueeze(1) - current_quantiles.unsqueeze(2)
+            abs_td = pairwise_td.abs()
+            huber = torch.where(
+                abs_td <= 1.0,
+                0.5 * pairwise_td.square(),
+                abs_td - 0.5,
+            )
+            tau_view = self.tau.view(1, self.num_quantiles, 1)
+            quantile_weight = (
+                tau_view - (pairwise_td.detach() < 0).float()
+            ).abs()
+            per_sample_loss = (quantile_weight * huber).mean(dim=(1, 2))
             is_weights = self._tensor(batch["is_weights"], torch.float32)
             loss = (is_weights * per_sample_loss).mean()
+            td_errors = (
+                targets.mean(dim=1) - current_quantiles.mean(dim=1)
+            )
 
         self.optimizer.zero_grad(set_to_none=True)
         self.scaler.scale(loss).backward()
@@ -272,17 +324,19 @@ class AfterstateDQNAgent:
 
         return {
             "loss": float(loss.item()),
-            "mean_value": float(current_values.detach().mean().item()),
+            "mean_value": float(current_quantiles.detach().mean().item()),
             "mean_abs_td": float(td_errors.detach().abs().mean().item()),
         }
 
     def _checkpoint_payload(self, episode: int) -> dict[str, Any]:
         payload: dict[str, Any] = {
-            "version": "v3-afterstate-cnn-dqn",
+            "version": "v3.1-afterstate-quantile-cnn-dqn",
             "episode": int(episode),
             "total_env_steps": int(self.total_env_steps),
             "update_steps": int(self.update_steps),
             "replay_capacity": int(self.buffer.capacity),
+            "num_quantiles": self.num_quantiles,
+            "max_optimizer_steps_per_collect": self.max_optimizer_steps_per_collect,
             "model_state_dict": self.online_net.state_dict(),
             "target_state_dict": self.target_net.state_dict(),
             "optimizer_state_dict": self.optimizer.state_dict(),
@@ -313,8 +367,8 @@ class AfterstateDQNAgent:
             map_location=self.device,
             weights_only=False,
         )
-        if checkpoint.get("version") != "v3-afterstate-cnn-dqn":
-            raise ValueError("checkpoint is not a compatible V3 checkpoint")
+        if checkpoint.get("version") != "v3.1-afterstate-quantile-cnn-dqn":
+            raise ValueError("checkpoint is not a compatible V3.1 checkpoint")
 
         self.online_net.load_state_dict(checkpoint["model_state_dict"])
         self.target_net.load_state_dict(checkpoint["target_state_dict"])
@@ -441,14 +495,24 @@ class AfterstateDQNAgent:
                 step_values: list[float] = []
                 updates_due = self.update_credit // self.update_frequency
                 if updates_due > 0:
-                    metrics = self.update_model(
-                        batch_size=self.batch_size * updates_due,
-                        logical_update_count=updates_due,
+                    optimizer_steps = min(
+                        updates_due,
+                        self.max_optimizer_steps_per_collect,
                     )
+                    updates_per_step = updates_due // optimizer_steps
+                    extra_updates = updates_due % optimizer_steps
+                    for optimizer_index in range(optimizer_steps):
+                        logical_updates = updates_per_step + int(
+                            optimizer_index < extra_updates
+                        )
+                        metrics = self.update_model(
+                            batch_size=self.batch_size * logical_updates,
+                            logical_update_count=logical_updates,
+                        )
+                        if metrics is not None:
+                            step_losses.append(metrics["loss"])
+                            step_values.append(metrics["mean_value"])
                     self.update_credit -= updates_due * self.update_frequency
-                    if metrics is not None:
-                        step_losses.append(metrics["loss"])
-                        step_values.append(metrics["mean_value"])
 
                 states = next_states
                 masks = next_masks
@@ -511,10 +575,16 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--resume", type=str, default=None)
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--batch-size", type=int, default=128)
+    parser.add_argument("--num-quantiles", type=int, default=51)
     parser.add_argument("--replay-capacity", type=int, default=500_000)
     parser.add_argument("--learning-starts", type=int, default=20_000)
     parser.add_argument("--update-frequency", type=int, default=4)
     parser.add_argument("--target-update-frequency", type=int, default=2_500)
+    parser.add_argument(
+        "--max-optimizer-steps-per-collect",
+        type=int,
+        default=4,
+    )
     parser.add_argument("--learning-rate", type=float, default=2e-4)
     parser.add_argument("--gamma", type=float, default=0.99)
     parser.add_argument("--epsilon-final", type=float, default=0.05)
@@ -533,10 +603,12 @@ def main() -> None:
         gamma=args.gamma,
         learning_rate=args.learning_rate,
         batch_size=args.batch_size,
+        num_quantiles=args.num_quantiles,
         replay_capacity=args.replay_capacity,
         learning_starts=args.learning_starts,
         update_frequency=args.update_frequency,
         target_update_frequency=args.target_update_frequency,
+        max_optimizer_steps_per_collect=args.max_optimizer_steps_per_collect,
         epsilon_final=args.epsilon_final,
         epsilon_decay_steps=args.epsilon_decay_steps,
         use_cuda=not args.no_cuda,

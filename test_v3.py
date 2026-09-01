@@ -9,8 +9,10 @@ import torch
 
 from afterstate import (
     action_candidates,
+    augment_observation_pairs,
     board_to_observation,
     observation_to_board,
+    reward_from_transition,
     slide_board,
     spawn_outcomes,
     valid_actions,
@@ -56,6 +58,21 @@ class AfterstateTests(unittest.TestCase):
         reconstructed = observation_to_board(board_to_observation(board))
         np.testing.assert_array_equal(reconstructed, board)
 
+    def test_symmetry_augmentation_keeps_pair_alignment(self):
+        first = np.arange(16, dtype=np.float32)[None, :]
+        second = first + 100.0
+        augmented_first, augmented_second = augment_observation_pairs(
+            first,
+            second,
+        )
+        np.testing.assert_array_equal(augmented_second - augmented_first, 100.0)
+
+    def test_transition_reward_uses_merge_and_empty_bonus(self):
+        afterstate = np.zeros((4, 4), dtype=np.int64)
+        afterstate[0, 0] = 2
+        reward = reward_from_transition(16, afterstate)
+        self.assertAlmostEqual(reward, 2.14)
+
     def test_action_candidates_match_valid_mask(self):
         board = np.array(
             [[2, 2, 4, 8], [16, 32, 64, 128], [256, 512, 1024, 2048], [4096, 8192, 16384, 32768]],
@@ -96,7 +113,7 @@ class InterfaceTests(unittest.TestCase):
         network = AfterstateValueNet()
         observations = torch.zeros((4, 16), dtype=torch.float32)
         values = network(observations)
-        self.assertEqual(tuple(values.shape), (4,))
+        self.assertEqual(tuple(values.shape), (4, 51))
 
         buffer = ReplayBuffer(capacity=8)
         mask = np.array([True, True, False, False])

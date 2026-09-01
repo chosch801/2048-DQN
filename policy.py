@@ -10,8 +10,8 @@ import torch
 from fast_afterstate import (
     action_candidates,
     boards_to_observations,
-    reward_from_merge_score,
-    rewards_from_merge_scores,
+    reward_from_transition,
+    rewards_from_transitions,
     slide_all_actions_batch,
 )
 
@@ -39,8 +39,11 @@ def score_actions(
     )
     values = model(observation_tensor).detach().cpu().numpy()
 
-    for value, (action, _, merge_score) in zip(values, candidates):
-        scores[action] = reward_from_merge_score(merge_score) + gamma * float(value)
+    for value, (action, afterstate, merge_score) in zip(values, candidates):
+        scores[action] = reward_from_transition(
+            merge_score,
+            afterstate,
+        ) + gamma * float(value.mean())
     return scores
 
 
@@ -104,9 +107,10 @@ def score_actions_batch(
         context = nullcontext()
     with context:
         values = model(observation_tensor)
-    values = values.float().cpu().numpy()
-    immediate_rewards = rewards_from_merge_scores(
-        merge_scores[board_indices, action_indices]
+    values = values.float().cpu().numpy().mean(axis=1)
+    immediate_rewards = rewards_from_transitions(
+        merge_scores[board_indices, action_indices],
+        afterstates[board_indices, action_indices],
     )
     scores[board_indices, action_indices] = (
         immediate_rewards + gamma * values

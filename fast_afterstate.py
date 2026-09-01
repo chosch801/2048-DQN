@@ -11,12 +11,15 @@ from __future__ import annotations
 import numpy as np
 
 from afterstate import (
+    augment_observation_pairs,
     board_to_observation,
     boards_to_observations,
     observation_to_board,
     observations_to_boards,
     reward_from_merge_score,
+    reward_from_transition,
     rewards_from_merge_scores,
+    rewards_from_transitions,
     slide_board as reference_slide_board,
     spawn_outcomes,
     spawn_random_tile,

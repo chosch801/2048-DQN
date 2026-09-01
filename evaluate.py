@@ -43,8 +43,8 @@ def load_model(checkpoint_path: str, device: torch.device) -> AfterstateValueNet
         map_location=device,
         weights_only=False,
     )
-    if checkpoint.get("version") != "v3-afterstate-cnn-dqn":
-        raise ValueError("checkpoint is not a compatible V3 checkpoint")
+    if checkpoint.get("version") != "v3.1-afterstate-quantile-cnn-dqn":
+        raise ValueError("checkpoint is not a compatible V3.1 checkpoint")
 
     model = AfterstateValueNet().to(device)
     model.load_state_dict(checkpoint["model_state_dict"])
@@ -116,7 +116,7 @@ def run_evaluation(
 
 def print_report(result: dict, checkpoint_path: str) -> None:
     print("=" * 62)
-    print("V3 Afterstate CNN-DQN 纯贪心评估")
+    print("V3.1 Afterstate Quantile CNN-DQN 纯贪心评估")
     print(f"checkpoint: {checkpoint_path}")
     print("=" * 62)
     print(f"均分:       {result['mean_score']:10.1f}")
@@ -134,7 +134,7 @@ def print_report(result: dict, checkpoint_path: str) -> None:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="V3 纯贪心评估")
+    parser = argparse.ArgumentParser(description="V3.1 纯贪心评估")
     parser.add_argument("--ckpt", type=str, default=None)
     parser.add_argument("--episodes", type=int, default=1000)
     parser.add_argument("--gamma", type=float, default=0.99)
@@ -145,7 +145,7 @@ def main() -> None:
 
     base_dir = os.path.dirname(os.path.abspath(__file__))
     if args.ckpt is None:
-        args.ckpt = find_latest_checkpoint(os.path.join(base_dir, "models", "v3"))
+        args.ckpt = find_latest_checkpoint(os.path.join(base_dir, "models", "v3_1"))
     if args.ckpt is None:
         print("未找到 V3 checkpoint，请使用 --ckpt 指定路径")
         sys.exit(1)

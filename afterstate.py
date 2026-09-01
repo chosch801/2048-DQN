@@ -24,6 +24,19 @@ ACTION_COUNT = 4
 ACTION_ROTATIONS = {2: 0, 0: 1, 3: 2, 1: 3}
 
 
+def _make_symmetry_index_maps() -> np.ndarray:
+    base = np.arange(BOARD_SIZE * BOARD_SIZE).reshape(BOARD_SIZE, BOARD_SIZE)
+    maps = []
+    for rotation in range(4):
+        rotated = np.rot90(base, k=rotation)
+        maps.append(rotated.reshape(-1))
+        maps.append(np.fliplr(rotated).reshape(-1))
+    return np.stack(maps).astype(np.int64)
+
+
+SYMMETRY_INDEX_MAPS = _make_symmetry_index_maps()
+
+
 def slide_board(board: np.ndarray, action: int) -> tuple[np.ndarray, int, bool]:
     """Return ``(afterstate, merge_score, changed)`` without spawning a tile."""
 
@@ -164,16 +177,15 @@ def observations_to_boards(observations: np.ndarray) -> np.ndarray:
 
 
 def reward_from_merge_score(merge_score: int | float) -> float:
-    """Convert the native merge score to the V3 learning reward.
+    """Convert a native merge score to the V3 learning reward.
 
-    The logarithm keeps large merges important without allowing one rare merge
-    to dominate a minibatch.  Empty-cell and invalid-action bonuses are not
-    part of V3; invalid actions are masked before selection.
+    This is the V2 merge scale.  Keeping it makes larger merges sufficiently
+    informative for the critic while Huber/quantile loss limits outliers.
     """
 
     if merge_score <= 0:
         return 0.0
-    return float(np.log2(float(merge_score) + 1.0))
+    return float(np.sqrt(float(merge_score)) / 2.0)
 
 
 def rewards_from_merge_scores(merge_scores: np.ndarray) -> np.ndarray:
@@ -182,5 +194,51 @@ def rewards_from_merge_scores(merge_scores: np.ndarray) -> np.ndarray:
     scores = np.asarray(merge_scores, dtype=np.float32)
     rewards = np.zeros_like(scores, dtype=np.float32)
     positive = scores > 0
-    rewards[positive] = np.log2(scores[positive] + 1.0)
+    rewards[positive] = np.sqrt(scores[positive]) / 2.0
     return rewards
+
+
+def reward_from_transition(
+    merge_score: int | float,
+    afterstate: np.ndarray,
+) -> float:
+    """Return merge reward plus a small deterministic empty-cell bonus."""
+
+    empty_afterstate = int(np.count_nonzero(np.asarray(afterstate) == 0))
+    empty_after_spawn = max(empty_afterstate - 1, 0)
+    return reward_from_merge_score(merge_score) + 0.01 * empty_after_spawn
+
+
+def rewards_from_transitions(
+    merge_scores: np.ndarray,
+    afterstates: np.ndarray,
+) -> np.ndarray:
+    """Vectorized transition reward for one or many afterstates."""
+
+    rewards = rewards_from_merge_scores(merge_scores)
+    empty_afterstates = np.sum(np.asarray(afterstates) == 0, axis=(-2, -1))
+    return rewards + 0.01 * np.maximum(empty_afterstates - 1, 0).astype(
+        np.float32
+    )
+
+
+def augment_observation_pairs(
+    first: np.ndarray,
+    second: np.ndarray,
+) -> tuple[np.ndarray, np.ndarray]:
+    """Apply the same random board symmetry to two observation batches."""
+
+    first = np.asarray(first, dtype=np.float32).reshape(-1, 16)
+    second = np.asarray(second, dtype=np.float32).reshape(-1, 16)
+    if len(first) != len(second):
+        raise ValueError("observation batches must have the same length")
+    if len(first) == 0:
+        return first.copy(), second.copy()
+
+    choices = np.random.randint(len(SYMMETRY_INDEX_MAPS), size=len(first))
+    batch_indices = np.arange(len(first))[:, None]
+    maps = SYMMETRY_INDEX_MAPS[choices]
+    return (
+        first[batch_indices, maps].copy(),
+        second[batch_indices, maps].copy(),
+    )

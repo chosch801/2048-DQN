@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from afterstate import board_to_observation, reward_from_merge_score
+from afterstate import board_to_observation, reward_from_transition
 from game_2048 import Game2048
 
 
@@ -24,7 +24,7 @@ class Env2048:
         info = self._get_info(afterstate=afterstate, merge_score=merge_score)
         return (
             board_to_observation(next_state),
-            reward_from_merge_score(merge_score),
+            reward_from_transition(merge_score, afterstate),
             done,
             False,
             info,
@@ -51,4 +51,3 @@ class Env2048:
 
     def render(self) -> None:
         self.game.render()
-

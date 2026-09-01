@@ -6,7 +6,7 @@ import numpy as np
 
 from fast_afterstate import (
     boards_to_observations,
-    rewards_from_merge_scores,
+    rewards_from_transitions,
     slide_all_actions_batch,
 )
 from game_2048 import Game2048
@@ -97,11 +97,18 @@ class BatchEnv2048:
         for index in active_indices:
             self.games[index].game_over = bool(dones[index])
 
+        selected_afterstates = afterstates[
+            np.arange(self.num_envs),
+            actions,
+        ]
         selected_merge_scores = merge_scores[
             np.arange(self.num_envs),
             actions,
         ]
-        rewards = rewards_from_merge_scores(selected_merge_scores)
+        rewards = rewards_from_transitions(
+            selected_merge_scores,
+            selected_afterstates,
+        )
         next_observations = boards_to_observations(next_boards)
         afterstate_observations = boards_to_observations(
             afterstates.reshape(-1, 4, 4)
