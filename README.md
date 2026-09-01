@@ -1,122 +1,64 @@
-# 2048 强化学习 (Transformer + 分布 Dueling DQN)
+# 2048 V3：Afterstate CNN-DQN
 
-本项目采用深度强化学习技术训练 2048 游戏智能体。在原始 Double DQN 基线的基础上，逐步整合了分布强化学习、优先经验回放、NoisyNet 探索等多种增强组件，最终实现了模型从"仅偶尔合成 512"到"稳定合成 1024、偶尔合成 2048"的跨越。
+这是一个独立于原 V2 的训练目录。V3 不修改 `D:\Desktop\pp\2048`，也不读取 V2 的 checkpoint。
 
-## 1. 网络架构
+## 当前目标
 
-### 1.1 特征提取主干：Transformer
+V3 只负责训练一个更贴近 2048 转移结构的 DQN 网络：
 
-- **状态表征**：4×4 盘面数值经 log2 预处理后映射为 16 维序列。
-- **2D 位置编码**：分别对行和列进行嵌入后拼接，帮助模型建立网格空间感。
-- **Transformer Encoder**：d_model=64，2 层 2 头，使用全局平均池化（GAP）提取特征。
-
-### 1.2 决策头：Dueling + 分布
-
-```
-特征(64) → Q-Trunk(256)
-              ├→ Value 流 (NoisyLinear → 51 分位数)     → V(s, τ)
-              └→ Advantage 流 (NoisyLinear → 4×51 分位数) → A(s, a, τ)
-
-Q(s, a, τ) = V(s, τ) + A(s, a, τ) − mean_a A(s, a, τ)
+```text
+state → 确定性滑动/合并 → afterstate → 随机生成 2/4 → next_state
 ```
 
-- **Dueling**：解耦"局面本身的价值"和"动作之间的差异"，提升样本效率。
-- **分布输出**：每个动作输出 51 个分位数，刻画完整回报分布，而非单一期望值。模型能区分"稳健动作"与"高风险高回报动作"。
-- **NoisyNet 探索**：输出层权重注入可学习的分解高斯噪声 (W = μ + σ ⊙ ε)，探索由梯度自动调节，替代人工设定的 ε-greedy。
+网络估计 afterstate value，动作分数为：
 
-### 1.3 SSL 辅助预测头
-
-预测执行动作后的下一步盘面状态（Next-State），辅助主干网络更快理解 2048 的碰撞合并与方块生成机制。
-
-## 2. 奖励函数
-
-简化为两项，让模型从交互中自主发现策略：
-
-| 奖励项 | 公式 | 说明 |
-|--------|------|------|
-| 合并得分 | √score / 2 | 原生奖励的平方根缩放 |
-| 空格引导 | +0.01 × 空格数 | 极弱信号，鼓励维持操作空间 |
-
-**被移除的手工项**：里程碑突破奖励、角落锁定奖励、单调性惩罚、合并潜力奖励。经验证明模型在去掉这些"拐杖"后，反而自己涌现了角落锁定等高级策略。
-
-## 3. 训练机制
-
-| 组件 | 配置 | 说明 |
-|------|------|------|
-| 算法 | Double DQN + 3 步 TD | 解耦动作选择与估值，信号跨步传播 |
-| 经验回放 | PER (Sum-Tree) | 按 TD 误差优先级采样，IS 权重纠正 |
-| 探索 | NoisyNet | 权重噪声自调节，替代 ε-greedy |
-| 损失 | Quantile Huber | 51 分位数的加权 Huber 损失 |
-| 优化器 | Adam (lr=1e-4) | 梯度裁剪 max_norm=1.0 |
-| 缓冲池 | 100 万条 | 保留多样化经验 |
-| 更新频率 | 每 4 步 | 减少连续数据的冗余梯度 |
-
-## 4. 评估结果
-
-1000 局纯贪心评估（NoisyNet 关闭，取 51 分位数均值）：
-
-| 指标 | 5000 局训练 | 10000 局训练 |
-|------|-----------|------------|
-| 均分 | 8,988 | 10,941 |
-| 中位分 | 8,238 | 9,916 |
-| 最高分 | 27,252 | 35,424 |
-| ≥ 512 | 79.5% | 86.0% |
-| ≥ 1024 | 34.8% | 47.5% |
-| ≥ 2048 | 1.1% | 2.2% |
-
-**自主涌现的行为**：模型在没有手工奖励引导的情况下，自然学会了将最大方块锚定在角落（移动集中在两个方向，极少使用相反方向）。这是典型的"蛇形策略"特征。详细报告见 `models/evaluation_comparison.md`。
-
-## 5. 局限与展望
-
-1. **尚未达到 4096**：模型在 2048 后仍缺乏更高阶的空间规划能力。引入循环编码器（如 LSTM）捕捉时间依赖可能有助于突破。
-2. **超参数敏感**：分布 RL 和 PER 的组合引入了额外的超参数（分位数数量、优先级指数、IS 权重退火速率），需要更多消融实验确定最优配置。
-3. **训练时间**：分布 RL 的 Quantile Huber Loss 带来 N² 计算开销（51² = 2601 对成对比较），每步更新比标量版本慢约 1.5 倍。
-4. **课程学习**：后期阶段逐步放宽策略约束（如空格引导的权重）可能帮助模型突破当前策略高原。
-
-## 6. 项目运行
-
-### 环境依赖
-
-```bash
-pip install numpy torch matplotlib
+```text
+Q(state, action) = 当前合并奖励 + γ × V(afterstate)
 ```
 
-### 文件结构
+训练侧保留 DQN 的 online/target 网络、Double-DQN 动作选择、PER、Huber TD loss 和 ε-greedy。V3 不使用 Transformer、分布式 QR-DQN、NoisyNet、SSL 或 MCTS。
 
-| 文件 | 说明 |
-|------|------|
-| `game_2048.py` | 2048 游戏本体与矩阵运算 |
-| `env.py` | RL 环境封装与奖励函数 |
-| `model.py` | 网络结构（Transformer + Dueling + 分布头 + NoisyNet） |
-| `replay_buffer.py` | 优先经验回放池（Sum-Tree + n 步回报） |
-| `train.py` | 训练主程序（含断点续训） |
-| `evaluate.py` | 独立评估脚本 |
+Expectimax 不在训练循环中使用，后续会作为单独的推理策略加入。
 
-### 启动训练
+## 文件
 
-```bash
-python train.py           # 从零开始训练（默认目标 10000 局）
-python train.py           # 中断后自动续训到目标局数
+- `afterstate.py`：确定性滑动、随机生成枚举、状态编码和奖励缩放。
+- `fast_afterstate.py`：从副本提取的可选 Numba 单盘/批量滑动加速后端。
+- `game_2048.py`：可设 seed 的游戏引擎。
+- `env.py`：返回 afterstate 信息的环境封装。
+- `model.py`：CNN afterstate value network。
+- `policy.py`：基于 afterstate value 的动作选择。
+- `replay_buffer.py`：PER 回放池。
+- `train.py`：批量环境训练与 checkpoint 恢复。
+- `vector_env.py`：多个独立棋局的批量采样环境。
+- `evaluate.py`：不使用搜索的纯贪心评估。
+- `test_v3.py`：转移、编码、网络和 replay smoke tests。
+
+如果安装了 Numba，V3 会自动使用 JIT 加速的确定性滑动和批量候选生成；没有 Numba 时会回退到 `afterstate.py` 的参考实现。
+
+## 运行
+
+在 PowerShell 中：
+
+```powershell
+cd D:\Desktop\pp\2048-v3
+python -m unittest test_v3.py
+python train.py --episodes 10000 --seed 0 --num-envs 64
+python evaluate.py --episodes 1000 --seed 100000
 ```
 
-修改 `train.py` 末尾的 `target_episodes` 可调整目标总局数。
+短 smoke run 可以使用：
 
-### 评估模型
-
-```bash
-python evaluate.py                        # 自动加载最新 checkpoint
-python evaluate.py --ckpt <path>          # 指定 checkpoint 路径
-python evaluate.py --episodes 100         # 只评估 100 局
+```powershell
+python train.py --episodes 3 --learning-starts 32 --batch-size 8 --save-every 0
 ```
 
-### 手动游戏
+恢复训练：
 
-```bash
-python game_2048.py     # 终端手动游玩 (W/A/S/D + Q 退出)
+```powershell
+python train.py --episodes 50000 --resume models/v3/dqn_ep10000.pth
 ```
 
----
+默认 V3 checkpoint 位于 `models/v3/`。目录根部可能存在历史 V2 文件，但 V3 训练和评估不会扫描或加载它们。V3 checkpoint 与原 V2 checkpoint 不兼容。评估结果需要分别记录纯贪心和后续加入搜索后的结果。
 
-*项目从原始 Double DQN + ε-greedy 基线出发，参考了强化学习领域近年来的多项架构改进。完整的改动历程与技术原理见 [CHANGELOG.md](./CHANGELOG.md)。*
-
->原始版本（Double DQN + ε-greedy + 手工奖励）见 [v1.0 commit](https://github.com/chosch801/2048-Transformer-DDQN/commit/d874b07)
+训练默认同时采样 64 个独立棋局，并把 exploitative 动作候选合并为一次 CNN 前向；`--num-envs 1` 可退回单棋局批处理模式。训练过程中不运行评估，`--save-every 5000` 时会在第 5000 和第 10000 局保存完整 checkpoint。

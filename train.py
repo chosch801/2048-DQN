@@ -1,438 +1,555 @@
-"""2048 分布 Dueling DQN 训练主程序。
+"""Train the V3 afterstate CNN-DQN agent.
 
-六项核心改进：
-  1. 多步 Double-Q 目标 (n=3) — TD 信号跨多步传播，缓解延迟奖励的信用分配问题
-  2. 简化奖励函数 — 仅保留原生合并得分（sqrt 缩放）+ 弱空格引导，其余手工项全部移除
-  3. 优先经验回放 (PER) — Sum-Tree 按 TD 误差优先采样 + 重要性采样权重纠正分布偏移
-  4. NoisyNet 探索 — 权重注入分解高斯噪声，替代 epsilon-greedy 的盲目随机探索
-  5. Dueling 架构 — Q = V(s) + A(s,a) − mean(A)，解耦状态价值与动作优势
-  6. 分布强化学习 — 51 个分位数替代标量 Q 值 + Quantile Huber Loss
+V3 intentionally keeps the training loop small and explicit:
+
+    state -> deterministic afterstate -> random next state
+
+The network estimates afterstate value.  A legal action is scored as its
+transformed merge reward plus the discounted value of its afterstate.  The
+training target uses the sampled random next state, while the next player
+action is evaluated through its deterministic afterstate.  Expectimax is not
+used here; it will be an independent inference-time module later.
 """
 
+from __future__ import annotations
+
+import argparse
+from contextlib import nullcontext
+import os
+import random
+import time
+from typing import Any
+
+import numpy as np
 import torch
 import torch.nn as nn
 import torch.optim as optim
-import numpy as np
-import os
-import glob
-import matplotlib.pyplot as plt
 
+from fast_afterstate import (
+    boards_to_observations,
+    observations_to_boards,
+    rewards_from_merge_scores,
+    slide_all_actions_batch,
+)
 from env import Env2048
-from model import TransformerDQN
+from model import AfterstateValueNet
+from policy import choose_actions_batch
 from replay_buffer import ReplayBuffer
+from vector_env import BatchEnv2048
 
 
-class DQNAgent:
-    def __init__(self):
-        # ── 超参数 ───────────────────────────────────────────────
-        self.gamma = 0.99               # 折扣因子
-        self.lr = 1e-4                  # Adam 学习率
-        self.batch_size = 128           # 小批量大小
-        self.target_update_freq = 1000  # 目标网络每 1000 步硬更新一次
-        self.ssl_weight = 0.1           # SSL 辅助任务在总损失中的权重
-        self.update_freq = 4            # 每 4 步做一次梯度更新，减少冗余计算
-        self.num_quant = 51             # 分位数数量，控制回报分布的精度
-        self.kappa = 1.0                # Quantile Huber Loss 的 κ 阈值
+def set_seed(seed: int) -> None:
+    """Seed all RNGs used by V3 without forcing slow deterministic kernels."""
 
-        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        print(f"训练设备: {self.device}")
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(seed)
+        # Target/action candidate batches have dynamic lengths; benchmarking
+        # every new candidate count can cost more than the convolution saves.
+        torch.backends.cudnn.benchmark = False
+        torch.set_float32_matmul_precision("high")
 
-        # ── 环境、经验池、网络 ──────────────────────────────────
-        self.env = Env2048()
-        self.buffer = ReplayBuffer(capacity=1_000_000)  # 100 万容量，保留多样化的经验
 
-        # 行为网络：参与梯度更新
-        self.policy_net = TransformerDQN(num_quant=self.num_quant).to(self.device)
-        self.policy_net.train()
+class AfterstateDQNAgent:
+    """DQN-style learner whose critic is evaluated on afterstates."""
 
-        # 目标网络：仅用于计算稳定的 TD 目标，定期从 policy_net 拷贝
-        self.target_net = TransformerDQN(num_quant=self.num_quant).to(self.device)
-        self.target_net.load_state_dict(self.policy_net.state_dict())
+    def __init__(
+        self,
+        device: torch.device | None = None,
+        seed: int = 0,
+        gamma: float = 0.99,
+        learning_rate: float = 2e-4,
+        batch_size: int = 128,
+        replay_capacity: int = 500_000,
+        learning_starts: int = 20_000,
+        update_frequency: int = 4,
+        target_update_frequency: int = 2_500,
+        epsilon_start: float = 1.0,
+        epsilon_final: float = 0.05,
+        epsilon_decay_steps: int = 1_000_000,
+        save_dir: str | None = None,
+        use_cuda: bool = True,
+        use_amp: bool = True,
+        num_envs: int = 64,
+    ):
+        set_seed(seed)
+        if device is None:
+            device = torch.device(
+                "cuda" if use_cuda and torch.cuda.is_available() else "cpu"
+            )
+
+        self.device = device
+        self.amp_enabled = bool(use_amp and self.device.type == "cuda")
+        self.seed = int(seed)
+        self.gamma = float(gamma)
+        self.batch_size = int(batch_size)
+        self.learning_starts = int(learning_starts)
+        self.update_frequency = int(update_frequency)
+        self.target_update_frequency = int(target_update_frequency)
+        self.epsilon_start = float(epsilon_start)
+        self.epsilon_final = float(epsilon_final)
+        self.epsilon_decay_steps = int(epsilon_decay_steps)
+        self.num_envs = int(num_envs)
+        if self.num_envs < 1:
+            raise ValueError("num_envs must be at least 1")
+        if self.update_frequency < 1:
+            raise ValueError("update_frequency must be at least 1")
+        self.update_credit = 0
+
+        self.env = Env2048(seed=seed)
+        self.buffer = ReplayBuffer(capacity=replay_capacity)
+        self.online_net = AfterstateValueNet().to(self.device)
+        self.target_net = AfterstateValueNet().to(self.device)
+        self.target_net.load_state_dict(self.online_net.state_dict())
         self.target_net.eval()
 
-        # 分位水平 τ_i = (i − 0.5) / N，共 N=51 个
-        self.tau = torch.arange(0.5, self.num_quant, 1.0, device=self.device) / self.num_quant
+        self.optimizer = optim.Adam(
+            self.online_net.parameters(),
+            lr=learning_rate,
+        )
+        self.scaler = torch.amp.GradScaler(
+            "cuda",
+            enabled=self.amp_enabled,
+        )
+        self.loss_fn = nn.SmoothL1Loss(reduction="none")
 
-        self.optimizer = optim.Adam(self.policy_net.parameters(), lr=self.lr)
-        self.loss_fn = nn.SmoothL1Loss(reduction='none')  # reduction='none' 供 PER IS 加权
-
-        self.total_env_steps = 0
-
-        # ── 持久化路径 ──────────────────────────────────────────
-        base_dir = os.path.dirname(os.path.abspath(__file__))
-        self.save_dir = os.path.join(base_dir, "models")
+        default_save_dir = os.path.join(
+            os.path.dirname(os.path.abspath(__file__)), "models", "v3"
+        )
+        self.save_dir = save_dir or default_save_dir
         os.makedirs(self.save_dir, exist_ok=True)
-
-        self.step_count = 0
-        self.start_episode = 0
         self.buffer_path = os.path.join(self.save_dir, "replay_buffer.npz")
 
-        # ── 指标记录（用于画图） ──────────────────────────────────
-        self.history = {
-            'episodes': [],
-            'scores': [],
-            'max_tiles': [],
-            'rewards': [],
-            'dqn_losses': [],
-            'ssl_losses': [],
-            'mean_qs': [],
-            'episode_lengths': [],
+        self.start_episode = 0
+        self.total_env_steps = 0
+        self.update_steps = 0
+        self.history: dict[str, list[Any]] = {
+            "episodes": [],
+            "scores": [],
+            "max_tiles": [],
+            "rewards": [],
+            "episode_lengths": [],
+            "losses": [],
+            "mean_values": [],
         }
 
-        # 尝试加载断点继续训练
-        self._load_checkpoint()
-
-    # ─────────────────────────────────────────────────────────────
-    #  断点续训
-    # ─────────────────────────────────────────────────────────────
-    def _load_checkpoint(self):
-        checkpoints = [f for f in os.listdir(self.save_dir)
-                       if f.startswith("dqn_ep") and f.endswith(".pth")]
-        if not checkpoints:
-            return
-
-        latest_ckpt = max(checkpoints,
-                         key=lambda x: int(x.split('ep')[1].split('.pth')[0]))
-        ckpt_path = os.path.join(self.save_dir, latest_ckpt)
-
-        try:
-            checkpoint = torch.load(ckpt_path, map_location=self.device, weights_only=False)
-
-            if isinstance(checkpoint, dict) and "model_state_dict" in checkpoint:
-                self.policy_net.load_state_dict(checkpoint["model_state_dict"])
-                if "optimizer_state_dict" in checkpoint:
-                    self.optimizer.load_state_dict(checkpoint["optimizer_state_dict"])
-                self.start_episode = int(latest_ckpt.split('ep')[1].split('.pth')[0])
-                self.total_env_steps = checkpoint["total_env_steps"]
-                if "step_count" in checkpoint:
-                    self.step_count = checkpoint["step_count"]
-                if "update_freq" in checkpoint:
-                    self.update_freq = checkpoint["update_freq"]
-                if "history" in checkpoint:
-                    self.history = checkpoint["history"]
-            else:
-                # 兼容仅保存权重快照的旧格式
-                self.policy_net.load_state_dict(checkpoint)
-                self.start_episode = int(latest_ckpt.split('ep')[1].split('.pth')[0])
-                self.total_env_steps = self.start_episode * 150
-
-            self.target_net.load_state_dict(self.policy_net.state_dict())
-            print(f"\n>>> [Checkpoint] 成功读取快照：{latest_ckpt}！")
-
-            if os.path.exists(self.buffer_path):
-                self.buffer.load(self.buffer_path)
-            else:
-                print(">>> [Warning] 未发现可用的 ReplayBuffer，经验池将从零填充。")
-            print(f">>> 从第 {self.start_episode + 1} Episode 继续 (NoisyNet 探索) <<<\n")
-
-        except Exception as e:
-            print(f"读取存档 {latest_ckpt} 异常: {e}, 自动降级从头开始训练。")
-
-    # ─────────────────────────────────────────────────────────────
-    #  纯贪婪评估（关闭 NoisyNet 噪声）
-    # ─────────────────────────────────────────────────────────────
-    def evaluate(self, num_eval_episodes=5):
-        self.policy_net.eval()  # model.eval() 使 FactorizedNoisyLinear 关闭噪声
-        eval_scores = []
-        eval_max_tiles = []
-
-        with torch.no_grad():
-            for _ in range(num_eval_episodes):
-                state, info = self.env.reset()
-                valid_actions = info["valid_actions"]
-                while True:
-                    state_t = torch.FloatTensor(state).unsqueeze(0).to(self.device)
-                    q_quantiles, _ = self.policy_net(state_t)        # (1, 4, 51)
-                    q_expected = q_quantiles.mean(dim=-1).cpu().numpy().flatten()
-                    q_expected[~valid_actions] = -np.inf
-                    action = int(np.argmax(q_expected))
-
-                    next_state, reward, done, _, next_info = self.env.step(action)
-                    valid_actions = next_info["valid_actions"]
-                    state = next_state
-                    if done:
-                        eval_scores.append(next_info["score"])
-                        eval_max_tiles.append(next_info["max_tile"])
-                        break
-
-        self.policy_net.train()  # 恢复训练模式
-        avg_score = np.mean(eval_scores)
-        avg_tile = np.mean(eval_max_tiles)
-        print(f"\n=======================================================")
-        print(f"=== [评估] ({num_eval_episodes} 局, 零探索) ===")
-        print(f"Avg Score: {avg_score:.0f} | Avg Max Tile: {avg_tile:.0f}")
-        print(f"=======================================================\n")
-
-    # ─────────────────────────────────────────────────────────────
-    #  动作选择：NoisyNet 探索 + 分布取均值
-    # ─────────────────────────────────────────────────────────────
-    def select_action(self, state, valid_actions):
-        """始终贪婪选择，探索由网络权重的随机噪声驱动。"""
-        with torch.no_grad():
-            state_t = torch.FloatTensor(state).unsqueeze(0).to(self.device)
-            q_quantiles, _ = self.policy_net(state_t)             # (1, 4, N)
-            q_expected = q_quantiles.mean(dim=-1).cpu().numpy().flatten()
-            q_expected[~valid_actions] = -np.inf
-            return int(np.argmax(q_expected))
-
-    # ─────────────────────────────────────────────────────────────
-    #  模型更新：分布 Double DQN + 多步 TD + PER
-    # ─────────────────────────────────────────────────────────────
-    def update_model(self):
-        if len(self.buffer) < self.batch_size:
-            return
-
-        n_step = 3
-        gamma_n = self.gamma ** n_step
-
-        # 优先采样，同时获取 1-step 与 n-step 数据
-        (b_s, b_a, _b_r, b_ns, _b_d, b_mask, b_next_mask,
-         b_nr, b_nns, b_nd, b_nnm,                       # n-step 数据
-         tree_indices, is_weights) = self.buffer.sample(  # PER 数据
-            self.batch_size, n_step=n_step, gamma=self.gamma)
-
-        # ═══════════════════════════════════════════════════════
-        #  分支 A: 分布 Double DQN + 多步 TD + PER
-        # ═══════════════════════════════════════════════════════
-
-        # 当前状态 → 51 个分位数的 Q 值
-        q_quantiles, ssl_pred = self.policy_net(b_s)           # (B, 4, N), (B, 4, 16)
-        b_a_expand = b_a.unsqueeze(2).expand(-1, -1, self.num_quant)
-        q_current = q_quantiles.gather(1, b_a_expand).squeeze(1)  # (B, N)
-
-        with torch.no_grad():
-            # --- Double DQN 解耦：policy 选动作, target 估值 ---
-            q_next_pol, _ = self.policy_net(b_nns)             # (B, 4, N)
-            q_next_tgt, _ = self.target_net(b_nns)             # (B, 4, N)
-
-            # 取分位数均值 → 期望 Q → 选最优动作
-            q_next_pol_mean = q_next_pol.mean(dim=-1)          # (B, 4)
-            q_next_pol_mean[~b_nnm] = -float('inf')            # 掩码无效动作
-            best_actions = q_next_pol_mean.argmax(dim=1, keepdim=True)
-
-            # 取出最优动作对应的目标分位数
-            best_exp = best_actions.unsqueeze(2).expand(-1, -1, self.num_quant)
-            q_next_target = q_next_tgt.gather(1, best_exp).squeeze(1)  # (B, N)
-
-            # 终止状态 Q 值置零
-            q_next_target[b_nd.bool().squeeze(1)] = 0.0
-
-            # 分布 TD 目标: y_j = Σγ^k r_k + γ^n · θ_j(s_{t+n}, a*)
-            target_quantiles = b_nr + gamma_n * q_next_target * (1 - b_nd.float())
-
-        # --- Quantile Huber Loss ──────────────────────────
-        # δ_{ij} = y_j − θ_i   (B, N, N)，N=51 个分位数两两比较
-        td_error = target_quantiles.unsqueeze(1) - q_current.unsqueeze(2)
-
-        # Huber: L_κ(δ) = 0.5δ² (|δ|≤κ), κ(|δ|−0.5κ) (|δ|>κ)
-        abs_td = td_error.abs()
-        huber = torch.where(
-            abs_td <= self.kappa,
-            0.5 * td_error ** 2,
-            self.kappa * (abs_td - 0.5 * self.kappa),
+        print(f"训练设备: {self.device} | AMP: {self.amp_enabled}")
+        print(
+            f"V3 参数量: {sum(p.numel() for p in self.online_net.parameters()):,}"
         )
 
-        # 分位权重: ρ_τ(δ) = |τ − 1_{δ<0}| · L_κ(δ)
-        tau_view = self.tau.view(1, self.num_quant, 1)              # (1, N, 1)
-        quantile_weight = (tau_view - (td_error.detach() < 0).float()).abs()
+    def epsilon(self) -> float:
+        progress = min(1.0, self.total_env_steps / self.epsilon_decay_steps)
+        return self.epsilon_start + progress * (
+            self.epsilon_final - self.epsilon_start
+        )
 
-        # 逐样本损失 → IS 加权 → 批均值
-        per_sample_loss = (quantile_weight * huber).sum(dim=2).sum(dim=1) / self.num_quant
-        loss_dqn = (is_weights * per_sample_loss).mean()
+    def _tensor(self, array: np.ndarray, dtype: torch.dtype) -> torch.Tensor:
+        return torch.as_tensor(array, dtype=dtype, device=self.device)
 
-        # PER 优先级：基于分位数期望值的 TD 误差
-        td_errors_per = (q_current.mean(dim=1) - target_quantiles.mean(dim=1)).abs()
+    def _autocast_context(self):
+        if self.amp_enabled:
+            return torch.autocast(device_type="cuda", dtype=torch.float16)
+        return nullcontext()
 
-        # ═══════════════════════════════════════════════════════
-        #  分支 B: SSL 自监督预测（仍为 1-step）
-        # ═══════════════════════════════════════════════════════
-        action_indices = b_a.unsqueeze(-1).expand(-1, -1, 16)
-        predicted_next_states = ssl_pred.gather(1, action_indices).squeeze(1)
-        loss_ssl = self.loss_fn(predicted_next_states, b_ns).mean()
+    @torch.no_grad()
+    def _next_value_targets(
+        self,
+        next_states: np.ndarray,
+        next_masks: np.ndarray,
+        dones: np.ndarray,
+    ) -> torch.Tensor:
+        """Compute a sampled-chance, vectorized afterstate Double-DQN target."""
 
-        # ── 总损失 & 反向传播 ───────────────────────────
-        total_loss = loss_dqn + self.ssl_weight * loss_ssl
+        batch_count = len(next_states)
+        targets = torch.zeros(
+            batch_count,
+            dtype=torch.float32,
+            device=self.device,
+        )
+        active = np.asarray(dones, dtype=np.float32) < 0.5
+        if not np.any(active):
+            return targets
 
-        self.optimizer.zero_grad()
-        total_loss.backward()
-        nn.utils.clip_grad_norm_(self.policy_net.parameters(), max_norm=1.0)
-        self.optimizer.step()
+        boards = observations_to_boards(next_states)
+        afterstates, merge_scores, changed = slide_all_actions_batch(boards)
+        legal = changed & np.asarray(next_masks, dtype=bool) & active[:, None]
+        locations = np.argwhere(legal)
+        if len(locations) == 0:
+            return targets
 
-        # PER 优先级更新
+        board_indices = locations[:, 0]
+        action_indices = locations[:, 1]
+        candidate_observations = boards_to_observations(
+            afterstates[board_indices, action_indices]
+        )
+        candidate_tensor = self._tensor(candidate_observations, torch.float32)
+        with self._autocast_context():
+            online_values = self.online_net(candidate_tensor)
+            target_values = self.target_net(candidate_tensor)
+        rewards = self._tensor(
+            rewards_from_merge_scores(
+                merge_scores[board_indices, action_indices]
+            ),
+            torch.float32,
+        )
+        candidate_online_scores = rewards + self.gamma * online_values.float()
+        candidate_target_scores = rewards + self.gamma * target_values.float()
+
+        online_scores = torch.full(
+            (batch_count, 4),
+            -torch.inf,
+            dtype=torch.float32,
+            device=self.device,
+        )
+        target_scores = torch.full_like(online_scores, -torch.inf)
+        board_index_tensor = self._tensor(board_indices, torch.long)
+        action_index_tensor = self._tensor(action_indices, torch.long)
+        online_scores[board_index_tensor, action_index_tensor] = (
+            candidate_online_scores
+        )
+        target_scores[board_index_tensor, action_index_tensor] = (
+            candidate_target_scores
+        )
+
+        active_tensor = self._tensor(np.flatnonzero(active), torch.long)
+        best_actions = torch.argmax(online_scores, dim=1)
+        targets[active_tensor] = target_scores[
+            active_tensor,
+            best_actions[active_tensor],
+        ]
+        return targets
+
+    def update_model(
+        self,
+        batch_size: int | None = None,
+        logical_update_count: int = 1,
+    ) -> dict[str, float] | None:
+        """Run one optimizer step, optionally representing several small updates."""
+
+        sample_size = self.batch_size if batch_size is None else int(batch_size)
+        if sample_size < 1:
+            raise ValueError("batch_size must be at least 1")
+        if len(self.buffer) < max(sample_size, self.learning_starts):
+            return None
+
+        batch = self.buffer.sample(sample_size)
+        afterstates = self._tensor(batch["afterstate"], torch.float32)
+        with self._autocast_context():
+            current_values = self.online_net(afterstates)
+            targets = self._next_value_targets(
+                batch["next_state"],
+                batch["next_mask"],
+                batch["done"],
+            )
+
+            td_errors = targets - current_values
+            per_sample_loss = self.loss_fn(current_values, targets)
+            is_weights = self._tensor(batch["is_weights"], torch.float32)
+            loss = (is_weights * per_sample_loss).mean()
+
+        self.optimizer.zero_grad(set_to_none=True)
+        self.scaler.scale(loss).backward()
+        self.scaler.unscale_(self.optimizer)
+        nn.utils.clip_grad_norm_(self.online_net.parameters(), max_norm=10.0)
+        self.scaler.step(self.optimizer)
+        self.scaler.update()
+
         self.buffer.update_priorities(
-            tree_indices.cpu().numpy(),
-            td_errors_per.detach().cpu().numpy(),
+            batch["tree_indices"],
+            td_errors.detach().cpu().numpy(),
         )
 
-        # 目标网络定期同步（硬更新）
-        self.step_count += 1
-        if self.step_count % self.target_update_freq == 0:
-            self.target_net.load_state_dict(self.policy_net.state_dict())
+        previous_update_steps = self.update_steps
+        self.update_steps += int(logical_update_count)
+        if (
+            previous_update_steps // self.target_update_frequency
+            != self.update_steps // self.target_update_frequency
+        ):
+            self.target_net.load_state_dict(self.online_net.state_dict())
 
-        return (
-            q_current.detach().mean().item(),
-            loss_dqn.item(),
-            loss_ssl.item(),
+        return {
+            "loss": float(loss.item()),
+            "mean_value": float(current_values.detach().mean().item()),
+            "mean_abs_td": float(td_errors.detach().abs().mean().item()),
+        }
+
+    def _checkpoint_payload(self, episode: int) -> dict[str, Any]:
+        payload: dict[str, Any] = {
+            "version": "v3-afterstate-cnn-dqn",
+            "episode": int(episode),
+            "total_env_steps": int(self.total_env_steps),
+            "update_steps": int(self.update_steps),
+            "replay_capacity": int(self.buffer.capacity),
+            "model_state_dict": self.online_net.state_dict(),
+            "target_state_dict": self.target_net.state_dict(),
+            "optimizer_state_dict": self.optimizer.state_dict(),
+            "scaler_state_dict": self.scaler.state_dict(),
+            "history": self.history,
+            "seed": self.seed,
+            "python_rng_state": random.getstate(),
+            "numpy_rng_state": np.random.get_state(),
+            "torch_rng_state": torch.get_rng_state(),
+            "env_rng_state": self.env.game.rng.getstate(),
+            "num_envs": self.num_envs,
+            "update_credit": int(self.update_credit),
+        }
+        if torch.cuda.is_available():
+            payload["cuda_rng_state_all"] = torch.cuda.get_rng_state_all()
+        return payload
+
+    def save_checkpoint(self, episode: int) -> str:
+        checkpoint_path = os.path.join(self.save_dir, f"dqn_ep{episode}.pth")
+        torch.save(self._checkpoint_payload(episode), checkpoint_path)
+        self.buffer.save(self.buffer_path)
+        print(f"[保存] {checkpoint_path} | replay={len(self.buffer)}")
+        return checkpoint_path
+
+    def load_checkpoint(self, checkpoint_path: str) -> None:
+        checkpoint = torch.load(
+            checkpoint_path,
+            map_location=self.device,
+            weights_only=False,
         )
+        if checkpoint.get("version") != "v3-afterstate-cnn-dqn":
+            raise ValueError("checkpoint is not a compatible V3 checkpoint")
 
-    # ─────────────────────────────────────────────────────────────
-    #  训练主循环
-    # ─────────────────────────────────────────────────────────────
-    def train(self, target_episodes):
-        """训练至 target_episodes 局（含断点续训）。
-        例如 target_episodes=9000，已训 5000 局 → 续训 5001~9000。"""
-        if self.start_episode >= target_episodes:
-            print(f"已到达目标 {target_episodes} 局，无需继续训练。")
+        self.online_net.load_state_dict(checkpoint["model_state_dict"])
+        self.target_net.load_state_dict(checkpoint["target_state_dict"])
+        self.optimizer.load_state_dict(checkpoint["optimizer_state_dict"])
+        if "scaler_state_dict" in checkpoint:
+            self.scaler.load_state_dict(checkpoint["scaler_state_dict"])
+        self.start_episode = int(checkpoint["episode"])
+        self.total_env_steps = int(checkpoint["total_env_steps"])
+        self.update_steps = int(checkpoint["update_steps"])
+        self.update_credit = int(checkpoint.get("update_credit", 0))
+        self.history = checkpoint.get("history", self.history)
+
+        saved_capacity = checkpoint.get("replay_capacity")
+        if saved_capacity is not None and int(saved_capacity) != self.buffer.capacity:
+            self.buffer = ReplayBuffer(capacity=int(saved_capacity))
+
+        if "python_rng_state" in checkpoint:
+            random.setstate(checkpoint["python_rng_state"])
+        if "numpy_rng_state" in checkpoint:
+            np.random.set_state(checkpoint["numpy_rng_state"])
+        if "torch_rng_state" in checkpoint:
+            torch.set_rng_state(checkpoint["torch_rng_state"])
+        if torch.cuda.is_available() and "cuda_rng_state_all" in checkpoint:
+            torch.cuda.set_rng_state_all(checkpoint["cuda_rng_state_all"])
+        if "env_rng_state" in checkpoint:
+            self.env.game.rng.setstate(checkpoint["env_rng_state"])
+
+        if os.path.exists(self.buffer_path):
+            self.buffer.load(self.buffer_path)
+            print(f"[恢复] replay={len(self.buffer)}")
+        print(f"[恢复] episode={self.start_episode} env_steps={self.total_env_steps}")
+
+    def train(
+        self,
+        target_episodes: int,
+        save_every: int = 5_000,
+    ) -> None:
+        """Train in exact-size chunks of independent vectorized episodes."""
+
+        target_episodes = int(target_episodes)
+        if target_episodes <= self.start_episode:
+            print(
+                f"[跳过] checkpoint 已到 episode={self.start_episode}, "
+                f"目标为 {target_episodes}"
+            )
             return
-        print(f"====== 2048 分布 Dueling DQN 训练: {self.start_episode + 1} → {target_episodes} ======")
-        best_score = 0
 
-        for episode in range(self.start_episode + 1, target_episodes + 1):
-            state, info = self.env.reset()
-            valid_actions = info["valid_actions"]
-            episode_reward = 0
-            ep_steps = 0
-            ep_q_vals = []
-            ep_dqn_losses = []
-            ep_ssl_losses = []
+        start_time = time.time()
+        completed = self.start_episode
+        while completed < target_episodes:
+            next_boundary = target_episodes
+            if save_every > 0:
+                next_boundary = min(
+                    next_boundary,
+                    ((completed // save_every) + 1) * save_every,
+                )
+            chunk_size = min(self.num_envs, next_boundary - completed)
+            batch_env = BatchEnv2048(
+                num_envs=chunk_size,
+                seed=self.seed + completed,
+            )
+            states, masks = batch_env.reset()
+            active = np.ones(chunk_size, dtype=bool)
+            episode_rewards = np.zeros(chunk_size, dtype=np.float32)
+            episode_steps = np.zeros(chunk_size, dtype=np.int64)
+            episode_losses: list[list[float]] = [
+                [] for _ in range(chunk_size)
+            ]
+            episode_values: list[list[float]] = [
+                [] for _ in range(chunk_size)
+            ]
 
-            while True:
-                action = self.select_action(state, valid_actions)
-                next_state, reward, done, _, next_info = self.env.step(action)
-                next_valid_actions = next_info["valid_actions"]
+            while np.any(active):
+                active_indices = np.flatnonzero(active)
+                boards = batch_env.boards()
+                actions = choose_actions_batch(
+                    self.online_net,
+                    boards,
+                    masks,
+                    self.device,
+                    self.gamma,
+                    epsilon=self.epsilon(),
+                    active_mask=active,
+                    amp_enabled=self.amp_enabled,
+                )
+                (
+                    next_states,
+                    rewards,
+                    dones,
+                    afterstate_observations,
+                    next_masks,
+                    infos,
+                ) = batch_env.step(actions, active_mask=active)
 
-                self.buffer.push(state, action, reward, next_state, done,
-                                 valid_actions, next_valid_actions)
+                selected_afterstates = afterstate_observations[
+                    active_indices,
+                    actions[active_indices],
+                ]
+                self.buffer.push_batch(
+                    state=states[active_indices],
+                    action=actions[active_indices],
+                    reward=rewards[active_indices],
+                    afterstate=selected_afterstates,
+                    next_state=next_states[active_indices],
+                    done=dones[active_indices],
+                    mask=masks[active_indices],
+                    next_mask=next_masks[active_indices],
+                )
 
-                # 每 update_freq 步更新一次，减少连续数据的冗余梯度
-                if self.total_env_steps % self.update_freq == 0:
-                    metrics = self.update_model()
+                active_count = len(active_indices)
+                previous_steps = self.total_env_steps
+                self.total_env_steps += active_count
+                previous_eligible = max(
+                    0,
+                    previous_steps - self.learning_starts,
+                )
+                current_eligible = max(
+                    0,
+                    self.total_env_steps - self.learning_starts,
+                )
+                self.update_credit += current_eligible - previous_eligible
+
+                step_losses: list[float] = []
+                step_values: list[float] = []
+                updates_due = self.update_credit // self.update_frequency
+                if updates_due > 0:
+                    metrics = self.update_model(
+                        batch_size=self.batch_size * updates_due,
+                        logical_update_count=updates_due,
+                    )
+                    self.update_credit -= updates_due * self.update_frequency
                     if metrics is not None:
-                        ep_q_vals.append(metrics[0])
-                        ep_dqn_losses.append(metrics[1])
-                        ep_ssl_losses.append(metrics[2])
+                        step_losses.append(metrics["loss"])
+                        step_values.append(metrics["mean_value"])
 
-                self.total_env_steps += 1
-                ep_steps += 1
-                state = next_state
-                valid_actions = next_valid_actions
-                episode_reward += reward
+                states = next_states
+                masks = next_masks
+                episode_rewards[active_indices] += rewards[active_indices]
+                episode_steps[active_indices] += 1
+                for index in active_indices:
+                    if step_losses:
+                        episode_losses[index].extend(step_losses)
+                    if step_values:
+                        episode_values[index].extend(step_values)
+                    if not dones[index]:
+                        continue
 
-                if done:
-                    break
+                    completed += 1
+                    self.history["episodes"].append(completed)
+                    self.history["scores"].append(infos[index]["score"])
+                    self.history["max_tiles"].append(infos[index]["max_tile"])
+                    self.history["rewards"].append(
+                        float(episode_rewards[index])
+                    )
+                    self.history["episode_lengths"].append(
+                        int(episode_steps[index])
+                    )
+                    self.history["losses"].append(
+                        float(np.mean(episode_losses[index]))
+                        if episode_losses[index]
+                        else 0.0
+                    )
+                    self.history["mean_values"].append(
+                        float(np.mean(episode_values[index]))
+                        if episode_values[index]
+                        else 0.0
+                    )
+                    active[index] = False
 
-            final_score = next_info["score"]
-            max_tile = next_info["max_tile"]
-            mean_ep_q = np.mean(ep_q_vals) if ep_q_vals else 0.0
-            mean_dqn_loss = np.mean(ep_dqn_losses) if ep_dqn_losses else 0.0
-            mean_ssl_loss = np.mean(ep_ssl_losses) if ep_ssl_losses else 0.0
+                    if completed % 10 == 0 or completed == self.start_episode + 1:
+                        elapsed = max(time.time() - start_time, 1e-6)
+                        print(
+                            f"[{completed:6d}/{target_episodes}] "
+                            f"score={infos[index]['score']:6d} "
+                            f"tile={infos[index]['max_tile']:5d} "
+                            f"steps={episode_steps[index]:4d} "
+                            f"eps={self.epsilon():.3f} "
+                            f"loss={self.history['losses'][-1]:.4f} "
+                            f"speed={self.total_env_steps / elapsed:.1f} "
+                            "step/s"
+                        )
 
-            if final_score > best_score:
-                best_score = final_score
+            should_save = (
+                save_every > 0
+                and (completed % save_every == 0 or completed == target_episodes)
+            )
+            if should_save:
+                self.save_checkpoint(completed)
 
-            # 记录指标
-            self.history['episodes'].append(episode)
-            self.history['scores'].append(final_score)
-            self.history['max_tiles'].append(max_tile)
-            self.history['rewards'].append(episode_reward)
-            self.history['dqn_losses'].append(mean_dqn_loss)
-            self.history['ssl_losses'].append(mean_ssl_loss)
-            self.history['mean_qs'].append(mean_ep_q)
-            self.history['episode_lengths'].append(ep_steps)
 
-            if episode % 10 == 0:
-                print(f"Epi: {episode:5d} | Score: {final_score:5.0f} | "
-                      f"Max Tile: {max_tile:4d} | Rwd: {episode_reward:5.1f} | "
-                      f"Len: {ep_steps:4d} | DQN_L: {mean_dqn_loss:.4f} | "
-                      f"SSL_L: {mean_ssl_loss:.4f} | Mean Q: {mean_ep_q:.4f}")
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="V3 Afterstate CNN-DQN 训练")
+    parser.add_argument("--episodes", type=int, default=10_000)
+    parser.add_argument("--resume", type=str, default=None)
+    parser.add_argument("--seed", type=int, default=0)
+    parser.add_argument("--batch-size", type=int, default=128)
+    parser.add_argument("--replay-capacity", type=int, default=500_000)
+    parser.add_argument("--learning-starts", type=int, default=20_000)
+    parser.add_argument("--update-frequency", type=int, default=4)
+    parser.add_argument("--target-update-frequency", type=int, default=2_500)
+    parser.add_argument("--learning-rate", type=float, default=2e-4)
+    parser.add_argument("--gamma", type=float, default=0.99)
+    parser.add_argument("--epsilon-final", type=float, default=0.05)
+    parser.add_argument("--epsilon-decay-steps", type=int, default=1_000_000)
+    parser.add_argument("--save-every", type=int, default=5_000)
+    parser.add_argument("--num-envs", type=int, default=64)
+    parser.add_argument("--no-cuda", action="store_true")
+    parser.add_argument("--no-amp", action="store_true")
+    return parser.parse_args()
 
-            # 每 100 局：保存快照、画图、纯贪心评估
-            if episode % 100 == 0:
-                # 清理旧快照
-                for ckpt in glob.glob(os.path.join(self.save_dir, "dqn_ep*.pth")):
-                    try:
-                        os.remove(ckpt)
-                    except OSError:
-                        pass
 
-                save_path = os.path.join(self.save_dir, f"dqn_ep{episode}.pth")
-                torch.save({
-                    "model_state_dict": self.policy_net.state_dict(),
-                    "optimizer_state_dict": self.optimizer.state_dict(),
-                    "total_env_steps": self.total_env_steps,
-                    "step_count": self.step_count,
-                    "update_freq": self.update_freq,
-                    "history": self.history,
-                }, save_path)
-
-                self.buffer.save(self.buffer_path)
-                print(f"--> [存档] 已保存至 {save_path}")
-
-                self.plot_metrics()
-                self.evaluate(num_eval_episodes=5)
-
-    # ─────────────────────────────────────────────────────────────
-    #  训练指标可视化面板
-    # ─────────────────────────────────────────────────────────────
-    def plot_metrics(self):
-        if len(self.history['episodes']) == 0:
-            return
-
-        fig, axs = plt.subplots(3, 2, figsize=(20, 15))
-        fig.suptitle('2048 Distributional Dueling DQN Training Dashboard', fontsize=16)
-        eps = self.history['episodes']
-
-        # [0, 0] 每局得分
-        axs[0, 0].plot(eps, self.history['scores'], alpha=0.3, linewidth=0.5)
-        if len(eps) >= 100:
-            avg = np.convolve(self.history['scores'], np.ones(100) / 100, mode='valid')
-            axs[0, 0].plot(eps[99:], avg, color='blue', linewidth=2, label='Avg(100)')
-        axs[0, 0].set_title('Episode Score', fontsize=14)
-        axs[0, 0].legend()
-
-        # [0, 1] 最高方块（对数纵轴）
-        axs[0, 1].plot(eps, self.history['max_tiles'], color='orange',
-                       alpha=0.3, marker='.', markersize=1, linestyle='none')
-        axs[0, 1].set_title('Max Tile Reached', fontsize=14)
-        axs[0, 1].set_yscale('log', base=2)
-        axs[0, 1].grid(axis='y', linestyle='--', alpha=0.7)
-
-        # [1, 0] 累计奖励
-        axs[1, 0].plot(eps, self.history['rewards'], color='green', alpha=0.3, linewidth=0.5)
-        axs[1, 0].set_title('Episode Cumulative Reward', fontsize=14)
-
-        # [1, 1] 每局存活步数（替代原来的 epsilon 图）
-        if self.history['episode_lengths']:
-            axs[1, 1].plot(eps, self.history['episode_lengths'],
-                           color='red', alpha=0.3, linewidth=0.5)
-            if len(eps) >= 100:
-                avg_len = np.convolve(self.history['episode_lengths'],
-                                      np.ones(100) / 100, mode='valid')
-                axs[1, 1].plot(eps[99:], avg_len, color='darkred', linewidth=2, label='Avg(100)')
-        axs[1, 1].set_title('Episode Length (steps survived)', fontsize=14)
-        axs[1, 1].legend()
-
-        # [2, 0] DQN + SSL 损失
-        axs[2, 0].plot(eps, self.history['dqn_losses'], alpha=0.8, linewidth=0.5, label='DQN Loss')
-        axs[2, 0].plot(eps, self.history['ssl_losses'], alpha=0.8, linewidth=0.5, label='SSL Loss')
-        axs[2, 0].set_title('Training Losses', fontsize=14)
-        axs[2, 0].set_yscale('log')
-        axs[2, 0].legend()
-
-        # [2, 1] 期望 Q 值均值
-        axs[2, 1].plot(eps, self.history['mean_qs'], color='purple', linewidth=1.5)
-        axs[2, 1].set_title('Expected Mean Q Value', fontsize=14)
-
-        plt.tight_layout()
-        img_path = os.path.join(self.save_dir, "training_dashboard.png")
-        plt.savefig(img_path, dpi=300, bbox_inches='tight')
-        plt.close()
-        print(f"--> [面板] 可视化走势图已写入 {img_path}")
+def main() -> None:
+    args = parse_args()
+    agent = AfterstateDQNAgent(
+        seed=args.seed,
+        gamma=args.gamma,
+        learning_rate=args.learning_rate,
+        batch_size=args.batch_size,
+        replay_capacity=args.replay_capacity,
+        learning_starts=args.learning_starts,
+        update_frequency=args.update_frequency,
+        target_update_frequency=args.target_update_frequency,
+        epsilon_final=args.epsilon_final,
+        epsilon_decay_steps=args.epsilon_decay_steps,
+        use_cuda=not args.no_cuda,
+        use_amp=not args.no_amp,
+        num_envs=args.num_envs,
+    )
+    if args.resume:
+        agent.load_checkpoint(args.resume)
+    agent.train(
+        target_episodes=args.episodes,
+        save_every=args.save_every,
+    )
 
 
 if __name__ == "__main__":
-    agent = DQNAgent()
-
-    # 目标总局数，可根据需要调整
-    # 无论中断多少次，每次启动都会自动续训到 10,000
-    agent.train(target_episodes=10000)
+    main()
