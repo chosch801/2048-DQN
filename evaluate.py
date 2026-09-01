@@ -16,9 +16,9 @@ import time
 import numpy as np
 import torch
 
-from env import Env2048
 from model import AfterstateValueNet
-from policy import choose_action
+from policy import choose_actions_batch
+from vector_env import BatchEnv2048
 
 
 def find_latest_checkpoint(models_dir: str) -> str | None:
@@ -59,39 +59,76 @@ def run_evaluation(
     episodes: int,
     gamma: float,
     seed: int | None,
+    num_envs: int = 64,
 ) -> dict:
-    env = Env2048(seed=seed)
+    """Run deterministic greedy games in parallel without search."""
+
+    episodes = int(episodes)
+    num_envs = int(num_envs)
+    if episodes < 1:
+        raise ValueError("episodes must be at least 1")
+    if num_envs < 1:
+        raise ValueError("num_envs must be at least 1")
+
+    base_seed = (
+        int(seed)
+        if seed is not None
+        else int(np.random.default_rng().integers(0, 2**31 - 1))
+    )
     scores: list[int] = []
     max_tiles: list[int] = []
     lengths: list[int] = []
     action_counts = np.zeros(4, dtype=np.int64)
     start_time = time.time()
 
-    for episode in range(int(episodes)):
-        episode_seed = None if seed is None else seed + episode
-        _, info = env.reset(seed=episode_seed)
-        steps = 0
+    completed = 0
+    while completed < episodes:
+        chunk_size = min(num_envs, episodes - completed)
+        env = BatchEnv2048(num_envs=chunk_size, seed=base_seed + completed)
+        _, masks = env.reset()
+        active = np.ones(chunk_size, dtype=bool)
+        episode_lengths = np.zeros(chunk_size, dtype=np.int64)
 
-        while True:
-            action = choose_action(
+        while np.any(active):
+            active_indices = np.flatnonzero(active)
+            actions = choose_actions_batch(
                 model,
-                env.game.board,
-                info["valid_actions"],
+                env.boards(),
+                masks,
                 device,
                 gamma,
+                epsilon=0.0,
+                active_mask=active,
+                amp_enabled=device.type == "cuda",
             )
-            action_counts[action] += 1
-            _, _, done, _, info = env.step(action)
-            steps += 1
-            if done:
-                scores.append(int(info["score"]))
-                max_tiles.append(int(info["max_tile"]))
-                lengths.append(steps)
-                break
+            (
+                _,
+                _,
+                dones,
+                _,
+                next_masks,
+                infos,
+            ) = env.step(actions, active_mask=active)
+            action_counts[actions[active_indices]] += 1
+            episode_lengths[active_indices] += 1
 
-        if (episode + 1) % 100 == 0:
+            for index in active_indices:
+                if not dones[index]:
+                    continue
+                completed += 1
+                scores.append(int(infos[index]["score"]))
+                max_tiles.append(int(infos[index]["max_tile"]))
+                lengths.append(int(episode_lengths[index]))
+                active[index] = False
+
+            masks = next_masks
+
+        if completed % 100 == 0 or completed == episodes:
             elapsed = max(time.time() - start_time, 1e-6)
-            print(f"已评估 {episode + 1}/{episodes} 局 ({(episode + 1) / elapsed:.1f} 局/秒)")
+            print(
+                f"已评估 {completed}/{episodes} 局 "
+                f"({completed / elapsed:.1f} 局/秒)"
+            )
 
     score_array = np.asarray(scores)
     tile_array = np.asarray(max_tiles)
@@ -140,6 +177,7 @@ def main() -> None:
     parser.add_argument("--gamma", type=float, default=0.99)
     parser.add_argument("--seed", type=int, default=100_000)
     parser.add_argument("--output", type=str, default=None)
+    parser.add_argument("--num-envs", type=int, default=64)
     parser.add_argument("--no-cuda", action="store_true")
     args = parser.parse_args()
 
@@ -155,7 +193,14 @@ def main() -> None:
     )
     print(f"评估设备: {device}")
     model = load_model(args.ckpt, device)
-    result = run_evaluation(model, device, args.episodes, args.gamma, args.seed)
+    result = run_evaluation(
+        model,
+        device,
+        args.episodes,
+        args.gamma,
+        args.seed,
+        num_envs=args.num_envs,
+    )
     print_report(result, args.ckpt)
 
     if args.output:
