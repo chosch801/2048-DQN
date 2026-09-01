@@ -390,9 +390,11 @@ class AfterstateDQNAgent:
         if "numpy_rng_state" in checkpoint:
             np.random.set_state(checkpoint["numpy_rng_state"])
         if "torch_rng_state" in checkpoint:
-            torch.set_rng_state(checkpoint["torch_rng_state"])
+            torch.set_rng_state(checkpoint["torch_rng_state"].cpu())
         if torch.cuda.is_available() and "cuda_rng_state_all" in checkpoint:
-            torch.cuda.set_rng_state_all(checkpoint["cuda_rng_state_all"])
+            torch.cuda.set_rng_state_all(
+                [state.cpu() for state in checkpoint["cuda_rng_state_all"]]
+            )
         if "env_rng_state" in checkpoint:
             self.env.game.rng.setstate(checkpoint["env_rng_state"])
 
