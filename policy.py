@@ -10,7 +10,9 @@ import torch
 from fast_afterstate import (
     action_candidates,
     boards_to_observations,
+    reward_from_log_merge_score,
     reward_from_transition,
+    rewards_from_log_merge_scores,
     rewards_from_transitions,
     slide_all_actions_batch,
 )
@@ -23,6 +25,7 @@ def score_actions(
     device: torch.device,
     gamma: float,
     valid_mask: np.ndarray | None = None,
+    reward_mode: str = "transition",
 ) -> np.ndarray:
     """Score actions as immediate reward plus discounted afterstate value."""
 
@@ -40,10 +43,15 @@ def score_actions(
     values = model(observation_tensor).detach().cpu().numpy()
 
     for value, (action, afterstate, merge_score) in zip(values, candidates):
-        scores[action] = reward_from_transition(
-            merge_score,
-            afterstate,
-        ) + gamma * float(value.mean())
+        if reward_mode == "log":
+            immediate_reward = reward_from_log_merge_score(merge_score)
+        elif reward_mode == "transition":
+            immediate_reward = reward_from_transition(merge_score, afterstate)
+        else:
+            raise ValueError(f"unsupported reward_mode: {reward_mode}")
+        scores[action] = immediate_reward + gamma * float(
+            np.asarray(value).mean()
+        )
     return scores
 
 
@@ -54,6 +62,7 @@ def choose_action(
     device: torch.device,
     gamma: float,
     epsilon: float = 0.0,
+    reward_mode: str = "transition",
 ) -> int:
     """Choose a legal epsilon-greedy action using afterstate values."""
 
@@ -64,7 +73,14 @@ def choose_action(
     if epsilon > 0.0 and np.random.random() < epsilon:
         return int(np.random.choice(legal_actions))
 
-    scores = score_actions(model, board, device, gamma, valid_mask)
+    scores = score_actions(
+        model,
+        board,
+        device,
+        gamma,
+        valid_mask,
+        reward_mode=reward_mode,
+    )
     return int(np.argmax(scores))
 
 
@@ -76,6 +92,7 @@ def score_actions_batch(
     device: torch.device,
     gamma: float,
     amp_enabled: bool = False,
+    reward_mode: str = "transition",
 ) -> np.ndarray:
     """Score legal actions for many boards with one shared model call."""
 
@@ -107,11 +124,19 @@ def score_actions_batch(
         context = nullcontext()
     with context:
         values = model(observation_tensor)
-    values = values.float().cpu().numpy().mean(axis=1)
-    immediate_rewards = rewards_from_transitions(
-        merge_scores[board_indices, action_indices],
-        afterstates[board_indices, action_indices],
-    )
+    values = values.float().cpu().numpy()
+    values = values.reshape(len(observations), -1).mean(axis=1)
+    selected_merge_scores = merge_scores[board_indices, action_indices]
+    selected_afterstates = afterstates[board_indices, action_indices]
+    if reward_mode == "log":
+        immediate_rewards = rewards_from_log_merge_scores(selected_merge_scores)
+    elif reward_mode == "transition":
+        immediate_rewards = rewards_from_transitions(
+            selected_merge_scores,
+            selected_afterstates,
+        )
+    else:
+        raise ValueError(f"unsupported reward_mode: {reward_mode}")
     scores[board_indices, action_indices] = (
         immediate_rewards + gamma * values
     ).astype(np.float32)
@@ -127,6 +152,7 @@ def choose_actions_batch(
     epsilon: float = 0.0,
     active_mask: np.ndarray | None = None,
     amp_enabled: bool = False,
+    reward_mode: str = "transition",
 ) -> np.ndarray:
     """Choose legal epsilon-greedy actions for a batch of boards.
 
@@ -167,6 +193,7 @@ def choose_actions_batch(
             device,
             gamma,
             amp_enabled=amp_enabled,
+            reward_mode=reward_mode,
         )
         actions[exploit_indices] = np.argmax(scores, axis=1)
     return actions

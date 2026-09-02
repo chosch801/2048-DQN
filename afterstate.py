@@ -188,6 +188,14 @@ def reward_from_merge_score(merge_score: int | float) -> float:
     return float(np.sqrt(float(merge_score)) / 2.0)
 
 
+def reward_from_log_merge_score(merge_score: int | float) -> float:
+    """Convert a merge score with the archived V3.0 reward scale."""
+
+    if merge_score <= 0:
+        return 0.0
+    return float(np.log2(float(merge_score) + 1.0))
+
+
 def rewards_from_merge_scores(merge_scores: np.ndarray) -> np.ndarray:
     """Vectorized version of :func:`reward_from_merge_score`."""
 
@@ -196,6 +204,13 @@ def rewards_from_merge_scores(merge_scores: np.ndarray) -> np.ndarray:
     positive = scores > 0
     rewards[positive] = np.sqrt(scores[positive]) / 2.0
     return rewards
+
+
+def rewards_from_log_merge_scores(merge_scores: np.ndarray) -> np.ndarray:
+    """Vectorized archived V3.0 merge reward."""
+
+    scores = np.asarray(merge_scores, dtype=np.float32)
+    return np.log2(scores + 1.0).astype(np.float32)
 
 
 def reward_from_transition(

@@ -30,6 +30,13 @@ def plot_training(checkpoint_path: str, output_path: str) -> None:
         map_location="cpu",
         weights_only=False,
     )
+    version = checkpoint.get("version", "")
+    if version == "v3.1-afterstate-quantile-cnn-dqn":
+        model_label = "V3.1 Afterstate Quantile CNN-DQN"
+        loss_label = "Quantile Huber loss"
+    else:
+        model_label = "V3.0 Afterstate CNN-DQN"
+        loss_label = "Smooth-L1 TD loss"
     history = checkpoint["history"]
     episodes = np.asarray(history["episodes"], dtype=np.int64)
     scores = np.asarray(history["scores"], dtype=np.float64)
@@ -51,7 +58,7 @@ def plot_training(checkpoint_path: str, output_path: str) -> None:
 
     figure, axes = plt.subplots(2, 2, figsize=(15, 10), constrained_layout=True)
     figure.suptitle(
-        f"V3 Afterstate CNN-DQN training history | {len(episodes):,} episodes",
+        f"{model_label} training history | {len(episodes):,} episodes",
         fontsize=16,
     )
 
@@ -153,7 +160,7 @@ def plot_training(checkpoint_path: str, output_path: str) -> None:
     )
     loss_axis.set_title("Training loss")
     loss_axis.set_xlabel("Episode")
-    loss_axis.set_ylabel("Smooth-L1 TD loss")
+    loss_axis.set_ylabel(loss_label)
     loss_axis.set_ylim(bottom=0)
     loss_axis.legend(loc="upper right")
     loss_axis.grid(alpha=0.2)

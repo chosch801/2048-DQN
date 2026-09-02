@@ -20,7 +20,8 @@ from afterstate import (
 from env import Env2048
 from fast_afterstate import NUMBA_AVAILABLE, slide_board as fast_slide_board
 from model import AfterstateValueNet
-from policy import choose_actions_batch
+from model_v30 import AfterstateValueNetV30
+from policy import choose_actions_batch, score_actions, score_actions_batch
 from replay_buffer import ReplayBuffer
 from vector_env import BatchEnv2048
 
@@ -189,6 +190,44 @@ class InterfaceTests(unittest.TestCase):
         )
         self.assertTrue(
             np.all(masks[np.arange(len(actions)), actions])
+        )
+
+    def test_legacy_policy_reward_mode_matches_batch(self):
+        board = np.array(
+            [
+                [2, 2, 4, 8],
+                [16, 32, 64, 128],
+                [256, 512, 1024, 0],
+                [0, 0, 0, 0],
+            ],
+            dtype=np.int64,
+        )
+        valid_mask = valid_actions(board)
+        model = AfterstateValueNetV30()
+        model.eval()
+
+        single_scores = score_actions(
+            model,
+            board,
+            torch.device("cpu"),
+            gamma=0.99,
+            valid_mask=valid_mask,
+            reward_mode="log",
+        )
+        batch_scores = score_actions_batch(
+            model,
+            board[None, ...],
+            valid_mask[None, ...],
+            torch.device("cpu"),
+            gamma=0.99,
+            reward_mode="log",
+        )[0]
+        np.testing.assert_allclose(
+            single_scores,
+            batch_scores,
+            rtol=1e-5,
+            atol=1e-5,
+            equal_nan=True,
         )
 
 

@@ -17,6 +17,7 @@ import numpy as np
 import torch
 
 from model import AfterstateValueNet
+from model_v30 import AfterstateValueNetV30
 from policy import choose_actions_batch
 from vector_env import BatchEnv2048
 
@@ -37,29 +38,37 @@ def find_latest_checkpoint(models_dir: str) -> str | None:
     )
 
 
-def load_model(checkpoint_path: str, device: torch.device) -> AfterstateValueNet:
+def load_model(
+    checkpoint_path: str,
+    device: torch.device,
+) -> tuple[torch.nn.Module, str]:
     checkpoint = torch.load(
         checkpoint_path,
         map_location=device,
         weights_only=False,
     )
-    if checkpoint.get("version") != "v3.1-afterstate-quantile-cnn-dqn":
-        raise ValueError("checkpoint is not a compatible V3.1 checkpoint")
+    version = checkpoint.get("version")
+    if version == "v3.1-afterstate-quantile-cnn-dqn":
+        model: torch.nn.Module = AfterstateValueNet().to(device)
+    elif version == "v3-afterstate-cnn-dqn":
+        model = AfterstateValueNetV30().to(device)
+    else:
+        raise ValueError(f"unsupported V3 checkpoint version: {version}")
 
-    model = AfterstateValueNet().to(device)
     model.load_state_dict(checkpoint["model_state_dict"])
     model.eval()
-    return model
+    return model, str(version)
 
 
 @torch.inference_mode()
 def run_evaluation(
-    model: AfterstateValueNet,
+    model: torch.nn.Module,
     device: torch.device,
     episodes: int,
     gamma: float,
     seed: int | None,
     num_envs: int = 64,
+    reward_mode: str = "transition",
 ) -> dict:
     """Run deterministic greedy games in parallel without search."""
 
@@ -100,6 +109,7 @@ def run_evaluation(
                 epsilon=0.0,
                 active_mask=active,
                 amp_enabled=device.type == "cuda",
+                reward_mode=reward_mode,
             )
             (
                 _,
@@ -151,9 +161,12 @@ def run_evaluation(
     }
 
 
-def print_report(result: dict, checkpoint_path: str) -> None:
+def print_report(result: dict, checkpoint_path: str, version: str) -> None:
     print("=" * 62)
-    print("V3.1 Afterstate Quantile CNN-DQN 纯贪心评估")
+    if version == "v3-afterstate-cnn-dqn":
+        print("V3.0 Afterstate CNN-DQN 纯贪心评估")
+    else:
+        print("V3.1 Afterstate Quantile CNN-DQN 纯贪心评估")
     print(f"checkpoint: {checkpoint_path}")
     print("=" * 62)
     print(f"均分:       {result['mean_score']:10.1f}")
@@ -192,7 +205,8 @@ def main() -> None:
         "cpu" if args.no_cuda or not torch.cuda.is_available() else "cuda"
     )
     print(f"评估设备: {device}")
-    model = load_model(args.ckpt, device)
+    model, version = load_model(args.ckpt, device)
+    reward_mode = "log" if version == "v3-afterstate-cnn-dqn" else "transition"
     result = run_evaluation(
         model,
         device,
@@ -200,8 +214,9 @@ def main() -> None:
         args.gamma,
         args.seed,
         num_envs=args.num_envs,
+        reward_mode=reward_mode,
     )
-    print_report(result, args.ckpt)
+    print_report(result, args.ckpt, version)
 
     if args.output:
         with open(args.output, "w", encoding="utf-8") as output_file:
