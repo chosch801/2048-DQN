@@ -33,6 +33,7 @@ Expectimax 不在训练循环中使用，后续会作为单独的推理策略加
 - `train.py`：批量环境训练与 checkpoint 恢复。
 - `vector_env.py`：多个独立棋局的批量采样环境。
 - `evaluate.py`：不使用搜索的纯贪心评估，自动匹配 V3.0/V3.1 checkpoint 的网络和奖励尺度。
+- `plot_evaluation_summary.py`：将评估 JSON 中的得分、方块达成率和游戏长度汇总为可视化图。
 - `test_v3.py`：转移、编码、网络和 replay smoke tests。
 
 如果安装了 Numba，V3 会自动使用 JIT 加速的确定性滑动和批量候选生成；没有 Numba 时会回退到 `afterstate.py` 的参考实现。
@@ -55,6 +56,7 @@ python evaluate.py --ckpt models/v3/dqn_ep10000.pth --episodes 1000 --seed 10000
 python evaluate.py --ckpt models/v3_1/dqn_ep10000.pth --episodes 1000 --seed 100000 --num-envs 64 --no-cuda --output models/v3_1/eval_ep10000_greedy_1000.json
 python plot_training.py --checkpoint models/v3/dqn_ep10000.pth --output training_curve_v30.png
 python plot_training.py --checkpoint models/v3_1/dqn_ep10000.pth --output training_curve_v31.png
+python plot_evaluation_summary.py --input models/v3_1/eval_ep15000_greedy_1000.json --output evaluation_summary_ep15000.png
 ```
 
 评估脚本当前不使用 Expectimax；它只测量网络本身的贪心策略。旧版 V3.0 的训练 checkpoint 与 V3.1 网络不兼容，但 `evaluate.py` 可以通过 `model_v30.py` 读取旧版权重，并自动使用旧版 log reward，因此可以直接生成同口径对比结果。
