@@ -4,12 +4,21 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
+import re
 
 import matplotlib
 
 matplotlib.use("Agg")
 
 import matplotlib.pyplot as plt
+
+
+def model_label(input_path: str) -> str:
+    match = re.search(r"eval_ep(\d+)", os.path.basename(input_path))
+    if match:
+        return f"V3.1 episode {int(match.group(1)):,}"
+    return "V3.1"
 
 
 def plot_evaluation_summary(input_path: str, output_path: str) -> None:
@@ -26,7 +35,7 @@ def plot_evaluation_summary(input_path: str, output_path: str) -> None:
         constrained_layout=True,
     )
     figure.suptitle(
-        "V3.1 episode 15000 | 1000-game greedy evaluation summary",
+        f"{model_label(input_path)} | 1000-game greedy evaluation summary",
         fontsize=16,
     )
 

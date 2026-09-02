@@ -56,6 +56,8 @@ python evaluate.py --ckpt models/v3/dqn_ep10000.pth --episodes 1000 --seed 10000
 python evaluate.py --ckpt models/v3_1/dqn_ep10000.pth --episodes 1000 --seed 100000 --num-envs 64 --no-cuda --output models/v3_1/eval_ep10000_greedy_1000.json
 python plot_training.py --checkpoint models/v3/dqn_ep10000.pth --output training_curve_v30.png
 python plot_training.py --checkpoint models/v3_1/dqn_ep10000.pth --output training_curve_v31.png
+python plot_evaluation_summary.py --input models/v3_1/eval_ep5000_greedy_1000.json --output evaluation_summary_ep5000.png
+python plot_evaluation_summary.py --input models/v3_1/eval_ep10000_greedy_1000.json --output evaluation_summary_ep10000.png
 python plot_evaluation_summary.py --input models/v3_1/eval_ep15000_greedy_1000.json --output evaluation_summary_ep15000.png
 ```
 
