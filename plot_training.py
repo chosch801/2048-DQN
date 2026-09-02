@@ -54,6 +54,7 @@ def plot_training(checkpoint_path: str, output_path: str) -> None:
         ">=512": rolling_mean((max_tiles >= 512).astype(float), 100),
         ">=1024": rolling_mean((max_tiles >= 1024).astype(float), 100),
         ">=2048": rolling_mean((max_tiles >= 2048).astype(float), 100),
+        ">=4096": rolling_mean((max_tiles >= 4096).astype(float), 100),
     }
 
     figure, axes = plt.subplots(2, 2, figsize=(15, 10), constrained_layout=True)
@@ -105,7 +106,12 @@ def plot_training(checkpoint_path: str, output_path: str) -> None:
     tile_axis.set_ylim(bottom=0)
     tile_axis.grid(alpha=0.2)
     rate_axis = tile_axis.twinx()
-    rate_colors = {">=512": "#16a34a", ">=1024": "#ea580c", ">=2048": "#be123c"}
+    rate_colors = {
+        ">=512": "#16a34a",
+        ">=1024": "#ea580c",
+        ">=2048": "#be123c",
+        ">=4096": "#0f766e",
+    }
     for label, values in success_100.items():
         rate_axis.plot(
             episodes,
