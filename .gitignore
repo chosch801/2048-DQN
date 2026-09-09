@@ -7,5 +7,24 @@ __pycache__/
 .DS_Store
 Thumbs.db
 
-# 旧版模型（不上传）
-models/原模型/
+# 本地训练产物：默认不上传 checkpoint、回放池和中间评估结果
+*.pth
+*.npz
+/models/*
+
+# 只保留 V3.1 episode 15000 的最终权重和评估摘要
+!/models/v3_1/
+/models/v3_1/*
+!/models/v3_1/dqn_ep15000.pth
+!/models/v3_1/eval_ep15000_greedy_1000.json
+
+# 开发过程记录不上传
+/改动.md
+
+# 只保留 README 中引用的四张 V3.1 结果图
+/training_curve*.png
+!/training_curve_v31_ep15000.png
+/evaluation_summary*.png
+!/evaluation_summary_ep5000.png
+!/evaluation_summary_ep10000.png
+!/evaluation_summary_ep15000.png

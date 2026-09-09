@@ -1,0 +1,21 @@
+{
+  "episodes": 1000,
+  "mean_score": 35186.344,
+  "median_score": 34710.0,
+  "max_score": 78940,
+  "min_score": 5800,
+  "std_score": 14696.539030182039,
+  "rate_512": 1.0,
+  "rate_1024": 0.98,
+  "rate_2048": 0.813,
+  "rate_4096": 0.205,
+  "max_tile": 4096,
+  "mean_length": 1764.113,
+  "max_length": 3649,
+  "action_counts": [
+    46226,
+    46779,
+    46969,
+    46108
+  ]
+}
