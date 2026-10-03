@@ -12,16 +12,19 @@ Thumbs.db
 *.npz
 /models/*
 
-# 只保留 V3.1 episode 15000 的最终权重和评估摘要
+# 保留 V3.1 episode 15000、20000 权重及评估结果
 !/models/v3_1/
 /models/v3_1/*
 !/models/v3_1/dqn_ep15000.pth
+!/models/v3_1/dqn_ep20000.pth
 !/models/v3_1/eval_ep15000_greedy_1000.json
+!/models/v3_1/eval_ep20000_greedy_1000.json
+!/models/v3_1/eval_ep20000_expectimax-2_1000.json
 
-# 开发过程记录不上传
+# 开发过程记录
 /改动.md
 
-# 只保留 README 中引用的四张 V3.1 结果图
+# 保留 README 中引用的四张 V3.1 结果图
 /training_curve*.png
 !/training_curve_v31_ep15000.png
 /evaluation_summary*.png

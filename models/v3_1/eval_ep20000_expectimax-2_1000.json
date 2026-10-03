@@ -1,0 +1,7043 @@
+{
+  "seed": 200000,
+  "gamma": 0.99,
+  "device": "cuda",
+  "num_envs": 128,
+  "reward_mode": "transition",
+  "policy": "expectimax-2",
+  "precision": "float32",
+  "search_player_moves": 2,
+  "episodes": 1000,
+  "games": [
+    {
+      "episode_id": 0,
+      "seed": 200000,
+      "score": 69892,
+      "max_tile": 4096,
+      "length": 3160
+    },
+    {
+      "episode_id": 1,
+      "seed": 200001,
+      "score": 35976,
+      "max_tile": 2048,
+      "length": 1869
+    },
+    {
+      "episode_id": 2,
+      "seed": 200002,
+      "score": 71616,
+      "max_tile": 4096,
+      "length": 3294
+    },
+    {
+      "episode_id": 3,
+      "seed": 200003,
+      "score": 68688,
+      "max_tile": 4096,
+      "length": 3118
+    },
+    {
+      "episode_id": 4,
+      "seed": 200004,
+      "score": 70928,
+      "max_tile": 4096,
+      "length": 3231
+    },
+    {
+      "episode_id": 5,
+      "seed": 200005,
+      "score": 67568,
+      "max_tile": 4096,
+      "length": 3059
+    },
+    {
+      "episode_id": 6,
+      "seed": 200006,
+      "score": 71640,
+      "max_tile": 4096,
+      "length": 3292
+    },
+    {
+      "episode_id": 7,
+      "seed": 200007,
+      "score": 69296,
+      "max_tile": 4096,
+      "length": 3181
+    },
+    {
+      "episode_id": 8,
+      "seed": 200008,
+      "score": 60632,
+      "max_tile": 4096,
+      "length": 2824
+    },
+    {
+      "episode_id": 9,
+      "seed": 200009,
+      "score": 68292,
+      "max_tile": 4096,
+      "length": 3108
+    },
+    {
+      "episode_id": 10,
+      "seed": 200010,
+      "score": 49876,
+      "max_tile": 4096,
+      "length": 2256
+    },
+    {
+      "episode_id": 11,
+      "seed": 200011,
+      "score": 72188,
+      "max_tile": 4096,
+      "length": 3299
+    },
+    {
+      "episode_id": 12,
+      "seed": 200012,
+      "score": 68156,
+      "max_tile": 4096,
+      "length": 3101
+    },
+    {
+      "episode_id": 13,
+      "seed": 200013,
+      "score": 68848,
+      "max_tile": 4096,
+      "length": 3127
+    },
+    {
+      "episode_id": 14,
+      "seed": 200014,
+      "score": 69512,
+      "max_tile": 4096,
+      "length": 3138
+    },
+    {
+      "episode_id": 15,
+      "seed": 200015,
+      "score": 50712,
+      "max_tile": 4096,
+      "length": 2299
+    },
+    {
+      "episode_id": 16,
+      "seed": 200016,
+      "score": 36280,
+      "max_tile": 2048,
+      "length": 1889
+    },
+    {
+      "episode_id": 17,
+      "seed": 200017,
+      "score": 35976,
+      "max_tile": 2048,
+      "length": 1859
+    },
+    {
+      "episode_id": 18,
+      "seed": 200018,
+      "score": 60408,
+      "max_tile": 4096,
+      "length": 2808
+    },
+    {
+      "episode_id": 19,
+      "seed": 200019,
+      "score": 68116,
+      "max_tile": 4096,
+      "length": 3059
+    },
+    {
+      "episode_id": 20,
+      "seed": 200020,
+      "score": 36148,
+      "max_tile": 2048,
+      "length": 1869
+    },
+    {
+      "episode_id": 21,
+      "seed": 200021,
+      "score": 70944,
+      "max_tile": 4096,
+      "length": 3225
+    },
+    {
+      "episode_id": 22,
+      "seed": 200022,
+      "score": 69364,
+      "max_tile": 4096,
+      "length": 3165
+    },
+    {
+      "episode_id": 23,
+      "seed": 200023,
+      "score": 26788,
+      "max_tile": 2048,
+      "length": 1375
+    },
+    {
+      "episode_id": 24,
+      "seed": 200024,
+      "score": 67736,
+      "max_tile": 4096,
+      "length": 3061
+    },
+    {
+      "episode_id": 25,
+      "seed": 200025,
+      "score": 60524,
+      "max_tile": 4096,
+      "length": 2822
+    },
+    {
+      "episode_id": 26,
+      "seed": 200026,
+      "score": 69064,
+      "max_tile": 4096,
+      "length": 3137
+    },
+    {
+      "episode_id": 27,
+      "seed": 200027,
+      "score": 37020,
+      "max_tile": 2048,
+      "length": 1942
+    },
+    {
+      "episode_id": 28,
+      "seed": 200028,
+      "score": 74488,
+      "max_tile": 4096,
+      "length": 3382
+    },
+    {
+      "episode_id": 29,
+      "seed": 200029,
+      "score": 71284,
+      "max_tile": 4096,
+      "length": 3261
+    },
+    {
+      "episode_id": 30,
+      "seed": 200030,
+      "score": 35988,
+      "max_tile": 2048,
+      "length": 1861
+    },
+    {
+      "episode_id": 31,
+      "seed": 200031,
+      "score": 36152,
+      "max_tile": 2048,
+      "length": 1891
+    },
+    {
+      "episode_id": 32,
+      "seed": 200032,
+      "score": 69164,
+      "max_tile": 4096,
+      "length": 3148
+    },
+    {
+      "episode_id": 33,
+      "seed": 200033,
+      "score": 75556,
+      "max_tile": 4096,
+      "length": 3464
+    },
+    {
+      "episode_id": 34,
+      "seed": 200034,
+      "score": 60376,
+      "max_tile": 4096,
+      "length": 2817
+    },
+    {
+      "episode_id": 35,
+      "seed": 200035,
+      "score": 58636,
+      "max_tile": 4096,
+      "length": 2686
+    },
+    {
+      "episode_id": 36,
+      "seed": 200036,
+      "score": 72400,
+      "max_tile": 4096,
+      "length": 3316
+    },
+    {
+      "episode_id": 37,
+      "seed": 200037,
+      "score": 74592,
+      "max_tile": 4096,
+      "length": 3379
+    },
+    {
+      "episode_id": 38,
+      "seed": 200038,
+      "score": 72164,
+      "max_tile": 4096,
+      "length": 3300
+    },
+    {
+      "episode_id": 39,
+      "seed": 200039,
+      "score": 60484,
+      "max_tile": 4096,
+      "length": 2815
+    },
+    {
+      "episode_id": 40,
+      "seed": 200040,
+      "score": 75884,
+      "max_tile": 4096,
+      "length": 3453
+    },
+    {
+      "episode_id": 41,
+      "seed": 200041,
+      "score": 74720,
+      "max_tile": 4096,
+      "length": 3395
+    },
+    {
+      "episode_id": 42,
+      "seed": 200042,
+      "score": 68176,
+      "max_tile": 4096,
+      "length": 3083
+    },
+    {
+      "episode_id": 43,
+      "seed": 200043,
+      "score": 36312,
+      "max_tile": 2048,
+      "length": 1892
+    },
+    {
+      "episode_id": 44,
+      "seed": 200044,
+      "score": 68216,
+      "max_tile": 4096,
+      "length": 3071
+    },
+    {
+      "episode_id": 45,
+      "seed": 200045,
+      "score": 15772,
+      "max_tile": 1024,
+      "length": 916
+    },
+    {
+      "episode_id": 46,
+      "seed": 200046,
+      "score": 70012,
+      "max_tile": 4096,
+      "length": 3177
+    },
+    {
+      "episode_id": 47,
+      "seed": 200047,
+      "score": 69016,
+      "max_tile": 4096,
+      "length": 3137
+    },
+    {
+      "episode_id": 48,
+      "seed": 200048,
+      "score": 68544,
+      "max_tile": 4096,
+      "length": 3108
+    },
+    {
+      "episode_id": 49,
+      "seed": 200049,
+      "score": 56008,
+      "max_tile": 4096,
+      "length": 2527
+    },
+    {
+      "episode_id": 50,
+      "seed": 200050,
+      "score": 69208,
+      "max_tile": 4096,
+      "length": 3149
+    },
+    {
+      "episode_id": 51,
+      "seed": 200051,
+      "score": 68364,
+      "max_tile": 4096,
+      "length": 3097
+    },
+    {
+      "episode_id": 52,
+      "seed": 200052,
+      "score": 77044,
+      "max_tile": 4096,
+      "length": 3549
+    },
+    {
+      "episode_id": 53,
+      "seed": 200053,
+      "score": 60484,
+      "max_tile": 4096,
+      "length": 2813
+    },
+    {
+      "episode_id": 54,
+      "seed": 200054,
+      "score": 70780,
+      "max_tile": 4096,
+      "length": 3239
+    },
+    {
+      "episode_id": 55,
+      "seed": 200055,
+      "score": 71224,
+      "max_tile": 4096,
+      "length": 3242
+    },
+    {
+      "episode_id": 56,
+      "seed": 200056,
+      "score": 71324,
+      "max_tile": 4096,
+      "length": 3265
+    },
+    {
+      "episode_id": 57,
+      "seed": 200057,
+      "score": 71756,
+      "max_tile": 4096,
+      "length": 3309
+    },
+    {
+      "episode_id": 58,
+      "seed": 200058,
+      "score": 72248,
+      "max_tile": 4096,
+      "length": 3316
+    },
+    {
+      "episode_id": 59,
+      "seed": 200059,
+      "score": 35448,
+      "max_tile": 2048,
+      "length": 1813
+    },
+    {
+      "episode_id": 60,
+      "seed": 200060,
+      "score": 75744,
+      "max_tile": 4096,
+      "length": 3439
+    },
+    {
+      "episode_id": 61,
+      "seed": 200061,
+      "score": 68524,
+      "max_tile": 4096,
+      "length": 3115
+    },
+    {
+      "episode_id": 62,
+      "seed": 200062,
+      "score": 59304,
+      "max_tile": 4096,
+      "length": 2730
+    },
+    {
+      "episode_id": 63,
+      "seed": 200063,
+      "score": 68068,
+      "max_tile": 4096,
+      "length": 3091
+    },
+    {
+      "episode_id": 64,
+      "seed": 200064,
+      "score": 36608,
+      "max_tile": 2048,
+      "length": 1903
+    },
+    {
+      "episode_id": 65,
+      "seed": 200065,
+      "score": 69196,
+      "max_tile": 4096,
+      "length": 3152
+    },
+    {
+      "episode_id": 66,
+      "seed": 200066,
+      "score": 36248,
+      "max_tile": 2048,
+      "length": 1866
+    },
+    {
+      "episode_id": 67,
+      "seed": 200067,
+      "score": 70920,
+      "max_tile": 4096,
+      "length": 3252
+    },
+    {
+      "episode_id": 68,
+      "seed": 200068,
+      "score": 60724,
+      "max_tile": 4096,
+      "length": 2845
+    },
+    {
+      "episode_id": 69,
+      "seed": 200069,
+      "score": 74656,
+      "max_tile": 4096,
+      "length": 3365
+    },
+    {
+      "episode_id": 70,
+      "seed": 200070,
+      "score": 69488,
+      "max_tile": 4096,
+      "length": 3178
+    },
+    {
+      "episode_id": 71,
+      "seed": 200071,
+      "score": 27220,
+      "max_tile": 2048,
+      "length": 1413
+    },
+    {
+      "episode_id": 72,
+      "seed": 200072,
+      "score": 68120,
+      "max_tile": 4096,
+      "length": 3090
+    },
+    {
+      "episode_id": 73,
+      "seed": 200073,
+      "score": 70192,
+      "max_tile": 4096,
+      "length": 3191
+    },
+    {
+      "episode_id": 74,
+      "seed": 200074,
+      "score": 60296,
+      "max_tile": 4096,
+      "length": 2782
+    },
+    {
+      "episode_id": 75,
+      "seed": 200075,
+      "score": 73492,
+      "max_tile": 4096,
+      "length": 3364
+    },
+    {
+      "episode_id": 76,
+      "seed": 200076,
+      "score": 67840,
+      "max_tile": 4096,
+      "length": 3083
+    },
+    {
+      "episode_id": 77,
+      "seed": 200077,
+      "score": 74796,
+      "max_tile": 4096,
+      "length": 3386
+    },
+    {
+      "episode_id": 78,
+      "seed": 200078,
+      "score": 71376,
+      "max_tile": 4096,
+      "length": 3275
+    },
+    {
+      "episode_id": 79,
+      "seed": 200079,
+      "score": 60444,
+      "max_tile": 4096,
+      "length": 2807
+    },
+    {
+      "episode_id": 80,
+      "seed": 200080,
+      "score": 75496,
+      "max_tile": 4096,
+      "length": 3444
+    },
+    {
+      "episode_id": 81,
+      "seed": 200081,
+      "score": 69420,
+      "max_tile": 4096,
+      "length": 3154
+    },
+    {
+      "episode_id": 82,
+      "seed": 200082,
+      "score": 60492,
+      "max_tile": 4096,
+      "length": 2829
+    },
+    {
+      "episode_id": 83,
+      "seed": 200083,
+      "score": 68976,
+      "max_tile": 4096,
+      "length": 3142
+    },
+    {
+      "episode_id": 84,
+      "seed": 200084,
+      "score": 74936,
+      "max_tile": 4096,
+      "length": 3405
+    },
+    {
+      "episode_id": 85,
+      "seed": 200085,
+      "score": 70172,
+      "max_tile": 4096,
+      "length": 3201
+    },
+    {
+      "episode_id": 86,
+      "seed": 200086,
+      "score": 69340,
+      "max_tile": 4096,
+      "length": 3155
+    },
+    {
+      "episode_id": 87,
+      "seed": 200087,
+      "score": 60352,
+      "max_tile": 4096,
+      "length": 2790
+    },
+    {
+      "episode_id": 88,
+      "seed": 200088,
+      "score": 71664,
+      "max_tile": 4096,
+      "length": 3288
+    },
+    {
+      "episode_id": 89,
+      "seed": 200089,
+      "score": 69492,
+      "max_tile": 4096,
+      "length": 3150
+    },
+    {
+      "episode_id": 90,
+      "seed": 200090,
+      "score": 67472,
+      "max_tile": 4096,
+      "length": 3032
+    },
+    {
+      "episode_id": 91,
+      "seed": 200091,
+      "score": 71596,
+      "max_tile": 4096,
+      "length": 3270
+    },
+    {
+      "episode_id": 92,
+      "seed": 200092,
+      "score": 68188,
+      "max_tile": 4096,
+      "length": 3093
+    },
+    {
+      "episode_id": 93,
+      "seed": 200093,
+      "score": 34696,
+      "max_tile": 2048,
+      "length": 1810
+    },
+    {
+      "episode_id": 94,
+      "seed": 200094,
+      "score": 69704,
+      "max_tile": 4096,
+      "length": 3149
+    },
+    {
+      "episode_id": 95,
+      "seed": 200095,
+      "score": 67748,
+      "max_tile": 4096,
+      "length": 3060
+    },
+    {
+      "episode_id": 96,
+      "seed": 200096,
+      "score": 66952,
+      "max_tile": 4096,
+      "length": 2964
+    },
+    {
+      "episode_id": 97,
+      "seed": 200097,
+      "score": 71208,
+      "max_tile": 4096,
+      "length": 3236
+    },
+    {
+      "episode_id": 98,
+      "seed": 200098,
+      "score": 67452,
+      "max_tile": 4096,
+      "length": 3030
+    },
+    {
+      "episode_id": 99,
+      "seed": 200099,
+      "score": 68648,
+      "max_tile": 4096,
+      "length": 3119
+    },
+    {
+      "episode_id": 100,
+      "seed": 200100,
+      "score": 60228,
+      "max_tile": 4096,
+      "length": 2796
+    },
+    {
+      "episode_id": 101,
+      "seed": 200101,
+      "score": 60188,
+      "max_tile": 4096,
+      "length": 2810
+    },
+    {
+      "episode_id": 102,
+      "seed": 200102,
+      "score": 59876,
+      "max_tile": 4096,
+      "length": 2757
+    },
+    {
+      "episode_id": 103,
+      "seed": 200103,
+      "score": 69216,
+      "max_tile": 4096,
+      "length": 3155
+    },
+    {
+      "episode_id": 104,
+      "seed": 200104,
+      "score": 75816,
+      "max_tile": 4096,
+      "length": 3447
+    },
+    {
+      "episode_id": 105,
+      "seed": 200105,
+      "score": 75108,
+      "max_tile": 4096,
+      "length": 3402
+    },
+    {
+      "episode_id": 106,
+      "seed": 200106,
+      "score": 68932,
+      "max_tile": 4096,
+      "length": 3124
+    },
+    {
+      "episode_id": 107,
+      "seed": 200107,
+      "score": 58636,
+      "max_tile": 4096,
+      "length": 2686
+    },
+    {
+      "episode_id": 108,
+      "seed": 200108,
+      "score": 60520,
+      "max_tile": 4096,
+      "length": 2825
+    },
+    {
+      "episode_id": 109,
+      "seed": 200109,
+      "score": 67404,
+      "max_tile": 4096,
+      "length": 3050
+    },
+    {
+      "episode_id": 110,
+      "seed": 200110,
+      "score": 71836,
+      "max_tile": 4096,
+      "length": 3313
+    },
+    {
+      "episode_id": 111,
+      "seed": 200111,
+      "score": 68372,
+      "max_tile": 4096,
+      "length": 3077
+    },
+    {
+      "episode_id": 112,
+      "seed": 200112,
+      "score": 36500,
+      "max_tile": 2048,
+      "length": 1872
+    },
+    {
+      "episode_id": 113,
+      "seed": 200113,
+      "score": 72344,
+      "max_tile": 4096,
+      "length": 3313
+    },
+    {
+      "episode_id": 114,
+      "seed": 200114,
+      "score": 67568,
+      "max_tile": 4096,
+      "length": 3058
+    },
+    {
+      "episode_id": 115,
+      "seed": 200115,
+      "score": 71372,
+      "max_tile": 4096,
+      "length": 3252
+    },
+    {
+      "episode_id": 116,
+      "seed": 200116,
+      "score": 61032,
+      "max_tile": 4096,
+      "length": 2845
+    },
+    {
+      "episode_id": 117,
+      "seed": 200117,
+      "score": 71808,
+      "max_tile": 4096,
+      "length": 3311
+    },
+    {
+      "episode_id": 118,
+      "seed": 200118,
+      "score": 36904,
+      "max_tile": 2048,
+      "length": 1924
+    },
+    {
+      "episode_id": 119,
+      "seed": 200119,
+      "score": 70892,
+      "max_tile": 4096,
+      "length": 3248
+    },
+    {
+      "episode_id": 120,
+      "seed": 200120,
+      "score": 69512,
+      "max_tile": 4096,
+      "length": 3134
+    },
+    {
+      "episode_id": 121,
+      "seed": 200121,
+      "score": 35536,
+      "max_tile": 2048,
+      "length": 1834
+    },
+    {
+      "episode_id": 122,
+      "seed": 200122,
+      "score": 59688,
+      "max_tile": 4096,
+      "length": 2746
+    },
+    {
+      "episode_id": 123,
+      "seed": 200123,
+      "score": 71328,
+      "max_tile": 4096,
+      "length": 3251
+    },
+    {
+      "episode_id": 124,
+      "seed": 200124,
+      "score": 37024,
+      "max_tile": 2048,
+      "length": 1924
+    },
+    {
+      "episode_id": 125,
+      "seed": 200125,
+      "score": 69924,
+      "max_tile": 4096,
+      "length": 3184
+    },
+    {
+      "episode_id": 126,
+      "seed": 200126,
+      "score": 67688,
+      "max_tile": 4096,
+      "length": 3061
+    },
+    {
+      "episode_id": 127,
+      "seed": 200127,
+      "score": 71860,
+      "max_tile": 4096,
+      "length": 3305
+    },
+    {
+      "episode_id": 128,
+      "seed": 200128,
+      "score": 35968,
+      "max_tile": 2048,
+      "length": 1855
+    },
+    {
+      "episode_id": 129,
+      "seed": 200129,
+      "score": 60304,
+      "max_tile": 4096,
+      "length": 2789
+    },
+    {
+      "episode_id": 130,
+      "seed": 200130,
+      "score": 68992,
+      "max_tile": 4096,
+      "length": 3126
+    },
+    {
+      "episode_id": 131,
+      "seed": 200131,
+      "score": 16152,
+      "max_tile": 1024,
+      "length": 957
+    },
+    {
+      "episode_id": 132,
+      "seed": 200132,
+      "score": 68308,
+      "max_tile": 4096,
+      "length": 3073
+    },
+    {
+      "episode_id": 133,
+      "seed": 200133,
+      "score": 60316,
+      "max_tile": 4096,
+      "length": 2803
+    },
+    {
+      "episode_id": 134,
+      "seed": 200134,
+      "score": 68952,
+      "max_tile": 4096,
+      "length": 3125
+    },
+    {
+      "episode_id": 135,
+      "seed": 200135,
+      "score": 68348,
+      "max_tile": 4096,
+      "length": 3082
+    },
+    {
+      "episode_id": 136,
+      "seed": 200136,
+      "score": 25496,
+      "max_tile": 2048,
+      "length": 1302
+    },
+    {
+      "episode_id": 137,
+      "seed": 200137,
+      "score": 36172,
+      "max_tile": 2048,
+      "length": 1875
+    },
+    {
+      "episode_id": 138,
+      "seed": 200138,
+      "score": 36240,
+      "max_tile": 2048,
+      "length": 1875
+    },
+    {
+      "episode_id": 139,
+      "seed": 200139,
+      "score": 68500,
+      "max_tile": 4096,
+      "length": 3106
+    },
+    {
+      "episode_id": 140,
+      "seed": 200140,
+      "score": 35864,
+      "max_tile": 2048,
+      "length": 1842
+    },
+    {
+      "episode_id": 141,
+      "seed": 200141,
+      "score": 68680,
+      "max_tile": 4096,
+      "length": 3114
+    },
+    {
+      "episode_id": 142,
+      "seed": 200142,
+      "score": 68348,
+      "max_tile": 4096,
+      "length": 3095
+    },
+    {
+      "episode_id": 143,
+      "seed": 200143,
+      "score": 35324,
+      "max_tile": 2048,
+      "length": 1814
+    },
+    {
+      "episode_id": 144,
+      "seed": 200144,
+      "score": 34524,
+      "max_tile": 2048,
+      "length": 1773
+    },
+    {
+      "episode_id": 145,
+      "seed": 200145,
+      "score": 71524,
+      "max_tile": 4096,
+      "length": 3271
+    },
+    {
+      "episode_id": 146,
+      "seed": 200146,
+      "score": 67476,
+      "max_tile": 4096,
+      "length": 3035
+    },
+    {
+      "episode_id": 147,
+      "seed": 200147,
+      "score": 69372,
+      "max_tile": 4096,
+      "length": 3187
+    },
+    {
+      "episode_id": 148,
+      "seed": 200148,
+      "score": 68988,
+      "max_tile": 4096,
+      "length": 3130
+    },
+    {
+      "episode_id": 149,
+      "seed": 200149,
+      "score": 67800,
+      "max_tile": 4096,
+      "length": 3060
+    },
+    {
+      "episode_id": 150,
+      "seed": 200150,
+      "score": 36148,
+      "max_tile": 2048,
+      "length": 1864
+    },
+    {
+      "episode_id": 151,
+      "seed": 200151,
+      "score": 69288,
+      "max_tile": 4096,
+      "length": 3147
+    },
+    {
+      "episode_id": 152,
+      "seed": 200152,
+      "score": 70748,
+      "max_tile": 4096,
+      "length": 3218
+    },
+    {
+      "episode_id": 153,
+      "seed": 200153,
+      "score": 70832,
+      "max_tile": 4096,
+      "length": 3236
+    },
+    {
+      "episode_id": 154,
+      "seed": 200154,
+      "score": 58684,
+      "max_tile": 4096,
+      "length": 2697
+    },
+    {
+      "episode_id": 155,
+      "seed": 200155,
+      "score": 36480,
+      "max_tile": 2048,
+      "length": 1902
+    },
+    {
+      "episode_id": 156,
+      "seed": 200156,
+      "score": 61536,
+      "max_tile": 4096,
+      "length": 2821
+    },
+    {
+      "episode_id": 157,
+      "seed": 200157,
+      "score": 16048,
+      "max_tile": 1024,
+      "length": 939
+    },
+    {
+      "episode_id": 158,
+      "seed": 200158,
+      "score": 65828,
+      "max_tile": 4096,
+      "length": 2933
+    },
+    {
+      "episode_id": 159,
+      "seed": 200159,
+      "score": 68356,
+      "max_tile": 4096,
+      "length": 3100
+    },
+    {
+      "episode_id": 160,
+      "seed": 200160,
+      "score": 70176,
+      "max_tile": 4096,
+      "length": 3197
+    },
+    {
+      "episode_id": 161,
+      "seed": 200161,
+      "score": 71300,
+      "max_tile": 4096,
+      "length": 3259
+    },
+    {
+      "episode_id": 162,
+      "seed": 200162,
+      "score": 67524,
+      "max_tile": 4096,
+      "length": 3049
+    },
+    {
+      "episode_id": 163,
+      "seed": 200163,
+      "score": 72224,
+      "max_tile": 4096,
+      "length": 3321
+    },
+    {
+      "episode_id": 164,
+      "seed": 200164,
+      "score": 69272,
+      "max_tile": 4096,
+      "length": 3153
+    },
+    {
+      "episode_id": 165,
+      "seed": 200165,
+      "score": 67800,
+      "max_tile": 4096,
+      "length": 3048
+    },
+    {
+      "episode_id": 166,
+      "seed": 200166,
+      "score": 60524,
+      "max_tile": 4096,
+      "length": 2805
+    },
+    {
+      "episode_id": 167,
+      "seed": 200167,
+      "score": 74984,
+      "max_tile": 4096,
+      "length": 3413
+    },
+    {
+      "episode_id": 168,
+      "seed": 200168,
+      "score": 69860,
+      "max_tile": 4096,
+      "length": 3166
+    },
+    {
+      "episode_id": 169,
+      "seed": 200169,
+      "score": 71440,
+      "max_tile": 4096,
+      "length": 3257
+    },
+    {
+      "episode_id": 170,
+      "seed": 200170,
+      "score": 36408,
+      "max_tile": 2048,
+      "length": 1905
+    },
+    {
+      "episode_id": 171,
+      "seed": 200171,
+      "score": 60660,
+      "max_tile": 4096,
+      "length": 2829
+    },
+    {
+      "episode_id": 172,
+      "seed": 200172,
+      "score": 35908,
+      "max_tile": 2048,
+      "length": 1867
+    },
+    {
+      "episode_id": 173,
+      "seed": 200173,
+      "score": 71612,
+      "max_tile": 4096,
+      "length": 3293
+    },
+    {
+      "episode_id": 174,
+      "seed": 200174,
+      "score": 53596,
+      "max_tile": 4096,
+      "length": 2369
+    },
+    {
+      "episode_id": 175,
+      "seed": 200175,
+      "score": 36204,
+      "max_tile": 2048,
+      "length": 1868
+    },
+    {
+      "episode_id": 176,
+      "seed": 200176,
+      "score": 35920,
+      "max_tile": 2048,
+      "length": 1845
+    },
+    {
+      "episode_id": 177,
+      "seed": 200177,
+      "score": 60500,
+      "max_tile": 4096,
+      "length": 2816
+    },
+    {
+      "episode_id": 178,
+      "seed": 200178,
+      "score": 76140,
+      "max_tile": 4096,
+      "length": 3468
+    },
+    {
+      "episode_id": 179,
+      "seed": 200179,
+      "score": 70256,
+      "max_tile": 4096,
+      "length": 3196
+    },
+    {
+      "episode_id": 180,
+      "seed": 200180,
+      "score": 36092,
+      "max_tile": 2048,
+      "length": 1870
+    },
+    {
+      "episode_id": 181,
+      "seed": 200181,
+      "score": 60576,
+      "max_tile": 4096,
+      "length": 2823
+    },
+    {
+      "episode_id": 182,
+      "seed": 200182,
+      "score": 58516,
+      "max_tile": 4096,
+      "length": 2694
+    },
+    {
+      "episode_id": 183,
+      "seed": 200183,
+      "score": 69272,
+      "max_tile": 4096,
+      "length": 3169
+    },
+    {
+      "episode_id": 184,
+      "seed": 200184,
+      "score": 69396,
+      "max_tile": 4096,
+      "length": 3177
+    },
+    {
+      "episode_id": 185,
+      "seed": 200185,
+      "score": 36356,
+      "max_tile": 2048,
+      "length": 1888
+    },
+    {
+      "episode_id": 186,
+      "seed": 200186,
+      "score": 60444,
+      "max_tile": 4096,
+      "length": 2807
+    },
+    {
+      "episode_id": 187,
+      "seed": 200187,
+      "score": 61056,
+      "max_tile": 4096,
+      "length": 2846
+    },
+    {
+      "episode_id": 188,
+      "seed": 200188,
+      "score": 71216,
+      "max_tile": 4096,
+      "length": 3274
+    },
+    {
+      "episode_id": 189,
+      "seed": 200189,
+      "score": 69432,
+      "max_tile": 4096,
+      "length": 3146
+    },
+    {
+      "episode_id": 190,
+      "seed": 200190,
+      "score": 76496,
+      "max_tile": 4096,
+      "length": 3502
+    },
+    {
+      "episode_id": 191,
+      "seed": 200191,
+      "score": 27268,
+      "max_tile": 2048,
+      "length": 1421
+    },
+    {
+      "episode_id": 192,
+      "seed": 200192,
+      "score": 71840,
+      "max_tile": 4096,
+      "length": 3301
+    },
+    {
+      "episode_id": 193,
+      "seed": 200193,
+      "score": 70788,
+      "max_tile": 4096,
+      "length": 3221
+    },
+    {
+      "episode_id": 194,
+      "seed": 200194,
+      "score": 69980,
+      "max_tile": 4096,
+      "length": 3189
+    },
+    {
+      "episode_id": 195,
+      "seed": 200195,
+      "score": 67684,
+      "max_tile": 4096,
+      "length": 3061
+    },
+    {
+      "episode_id": 196,
+      "seed": 200196,
+      "score": 67556,
+      "max_tile": 4096,
+      "length": 3050
+    },
+    {
+      "episode_id": 197,
+      "seed": 200197,
+      "score": 68360,
+      "max_tile": 4096,
+      "length": 3102
+    },
+    {
+      "episode_id": 198,
+      "seed": 200198,
+      "score": 74388,
+      "max_tile": 4096,
+      "length": 3429
+    },
+    {
+      "episode_id": 199,
+      "seed": 200199,
+      "score": 66608,
+      "max_tile": 4096,
+      "length": 2977
+    },
+    {
+      "episode_id": 200,
+      "seed": 200200,
+      "score": 69024,
+      "max_tile": 4096,
+      "length": 3143
+    },
+    {
+      "episode_id": 201,
+      "seed": 200201,
+      "score": 67868,
+      "max_tile": 4096,
+      "length": 3059
+    },
+    {
+      "episode_id": 202,
+      "seed": 200202,
+      "score": 36064,
+      "max_tile": 2048,
+      "length": 1859
+    },
+    {
+      "episode_id": 203,
+      "seed": 200203,
+      "score": 68228,
+      "max_tile": 4096,
+      "length": 3085
+    },
+    {
+      "episode_id": 204,
+      "seed": 200204,
+      "score": 71480,
+      "max_tile": 4096,
+      "length": 3274
+    },
+    {
+      "episode_id": 205,
+      "seed": 200205,
+      "score": 71268,
+      "max_tile": 4096,
+      "length": 3242
+    },
+    {
+      "episode_id": 206,
+      "seed": 200206,
+      "score": 68448,
+      "max_tile": 4096,
+      "length": 3113
+    },
+    {
+      "episode_id": 207,
+      "seed": 200207,
+      "score": 35632,
+      "max_tile": 2048,
+      "length": 1843
+    },
+    {
+      "episode_id": 208,
+      "seed": 200208,
+      "score": 27140,
+      "max_tile": 2048,
+      "length": 1405
+    },
+    {
+      "episode_id": 209,
+      "seed": 200209,
+      "score": 36296,
+      "max_tile": 2048,
+      "length": 1884
+    },
+    {
+      "episode_id": 210,
+      "seed": 200210,
+      "score": 60288,
+      "max_tile": 4096,
+      "length": 2778
+    },
+    {
+      "episode_id": 211,
+      "seed": 200211,
+      "score": 72344,
+      "max_tile": 4096,
+      "length": 3323
+    },
+    {
+      "episode_id": 212,
+      "seed": 200212,
+      "score": 56944,
+      "max_tile": 4096,
+      "length": 2631
+    },
+    {
+      "episode_id": 213,
+      "seed": 200213,
+      "score": 36872,
+      "max_tile": 2048,
+      "length": 1922
+    },
+    {
+      "episode_id": 214,
+      "seed": 200214,
+      "score": 72124,
+      "max_tile": 4096,
+      "length": 3326
+    },
+    {
+      "episode_id": 215,
+      "seed": 200215,
+      "score": 68692,
+      "max_tile": 4096,
+      "length": 3136
+    },
+    {
+      "episode_id": 216,
+      "seed": 200216,
+      "score": 71032,
+      "max_tile": 4096,
+      "length": 3241
+    },
+    {
+      "episode_id": 217,
+      "seed": 200217,
+      "score": 60412,
+      "max_tile": 4096,
+      "length": 2815
+    },
+    {
+      "episode_id": 218,
+      "seed": 200218,
+      "score": 60456,
+      "max_tile": 4096,
+      "length": 2810
+    },
+    {
+      "episode_id": 219,
+      "seed": 200219,
+      "score": 70948,
+      "max_tile": 4096,
+      "length": 3221
+    },
+    {
+      "episode_id": 220,
+      "seed": 200220,
+      "score": 60468,
+      "max_tile": 4096,
+      "length": 2811
+    },
+    {
+      "episode_id": 221,
+      "seed": 200221,
+      "score": 67872,
+      "max_tile": 4096,
+      "length": 3049
+    },
+    {
+      "episode_id": 222,
+      "seed": 200222,
+      "score": 71644,
+      "max_tile": 4096,
+      "length": 3271
+    },
+    {
+      "episode_id": 223,
+      "seed": 200223,
+      "score": 69068,
+      "max_tile": 4096,
+      "length": 3131
+    },
+    {
+      "episode_id": 224,
+      "seed": 200224,
+      "score": 67508,
+      "max_tile": 4096,
+      "length": 3044
+    },
+    {
+      "episode_id": 225,
+      "seed": 200225,
+      "score": 71536,
+      "max_tile": 4096,
+      "length": 3279
+    },
+    {
+      "episode_id": 226,
+      "seed": 200226,
+      "score": 68564,
+      "max_tile": 4096,
+      "length": 3115
+    },
+    {
+      "episode_id": 227,
+      "seed": 200227,
+      "score": 68468,
+      "max_tile": 4096,
+      "length": 3096
+    },
+    {
+      "episode_id": 228,
+      "seed": 200228,
+      "score": 36180,
+      "max_tile": 2048,
+      "length": 1877
+    },
+    {
+      "episode_id": 229,
+      "seed": 200229,
+      "score": 47880,
+      "max_tile": 4096,
+      "length": 2147
+    },
+    {
+      "episode_id": 230,
+      "seed": 200230,
+      "score": 60372,
+      "max_tile": 4096,
+      "length": 2800
+    },
+    {
+      "episode_id": 231,
+      "seed": 200231,
+      "score": 69104,
+      "max_tile": 4096,
+      "length": 3144
+    },
+    {
+      "episode_id": 232,
+      "seed": 200232,
+      "score": 59724,
+      "max_tile": 4096,
+      "length": 2763
+    },
+    {
+      "episode_id": 233,
+      "seed": 200233,
+      "score": 71948,
+      "max_tile": 4096,
+      "length": 3328
+    },
+    {
+      "episode_id": 234,
+      "seed": 200234,
+      "score": 70544,
+      "max_tile": 4096,
+      "length": 3192
+    },
+    {
+      "episode_id": 235,
+      "seed": 200235,
+      "score": 68876,
+      "max_tile": 4096,
+      "length": 3134
+    },
+    {
+      "episode_id": 236,
+      "seed": 200236,
+      "score": 60792,
+      "max_tile": 4096,
+      "length": 2833
+    },
+    {
+      "episode_id": 237,
+      "seed": 200237,
+      "score": 71240,
+      "max_tile": 4096,
+      "length": 3251
+    },
+    {
+      "episode_id": 238,
+      "seed": 200238,
+      "score": 60472,
+      "max_tile": 4096,
+      "length": 2820
+    },
+    {
+      "episode_id": 239,
+      "seed": 200239,
+      "score": 68096,
+      "max_tile": 4096,
+      "length": 3085
+    },
+    {
+      "episode_id": 240,
+      "seed": 200240,
+      "score": 75344,
+      "max_tile": 4096,
+      "length": 3417
+    },
+    {
+      "episode_id": 241,
+      "seed": 200241,
+      "score": 36244,
+      "max_tile": 2048,
+      "length": 1888
+    },
+    {
+      "episode_id": 242,
+      "seed": 200242,
+      "score": 65420,
+      "max_tile": 4096,
+      "length": 2900
+    },
+    {
+      "episode_id": 243,
+      "seed": 200243,
+      "score": 35776,
+      "max_tile": 2048,
+      "length": 1836
+    },
+    {
+      "episode_id": 244,
+      "seed": 200244,
+      "score": 34372,
+      "max_tile": 2048,
+      "length": 1739
+    },
+    {
+      "episode_id": 245,
+      "seed": 200245,
+      "score": 36460,
+      "max_tile": 2048,
+      "length": 1898
+    },
+    {
+      "episode_id": 246,
+      "seed": 200246,
+      "score": 58912,
+      "max_tile": 4096,
+      "length": 2716
+    },
+    {
+      "episode_id": 247,
+      "seed": 200247,
+      "score": 74368,
+      "max_tile": 4096,
+      "length": 3436
+    },
+    {
+      "episode_id": 248,
+      "seed": 200248,
+      "score": 67684,
+      "max_tile": 4096,
+      "length": 3060
+    },
+    {
+      "episode_id": 249,
+      "seed": 200249,
+      "score": 67892,
+      "max_tile": 4096,
+      "length": 3079
+    },
+    {
+      "episode_id": 250,
+      "seed": 200250,
+      "score": 36328,
+      "max_tile": 2048,
+      "length": 1897
+    },
+    {
+      "episode_id": 251,
+      "seed": 200251,
+      "score": 71432,
+      "max_tile": 4096,
+      "length": 3259
+    },
+    {
+      "episode_id": 252,
+      "seed": 200252,
+      "score": 71692,
+      "max_tile": 4096,
+      "length": 3291
+    },
+    {
+      "episode_id": 253,
+      "seed": 200253,
+      "score": 60384,
+      "max_tile": 4096,
+      "length": 2804
+    },
+    {
+      "episode_id": 254,
+      "seed": 200254,
+      "score": 51436,
+      "max_tile": 4096,
+      "length": 2354
+    },
+    {
+      "episode_id": 255,
+      "seed": 200255,
+      "score": 71008,
+      "max_tile": 4096,
+      "length": 3252
+    },
+    {
+      "episode_id": 256,
+      "seed": 200256,
+      "score": 36224,
+      "max_tile": 2048,
+      "length": 1871
+    },
+    {
+      "episode_id": 257,
+      "seed": 200257,
+      "score": 69160,
+      "max_tile": 4096,
+      "length": 3145
+    },
+    {
+      "episode_id": 258,
+      "seed": 200258,
+      "score": 74024,
+      "max_tile": 4096,
+      "length": 3335
+    },
+    {
+      "episode_id": 259,
+      "seed": 200259,
+      "score": 67520,
+      "max_tile": 4096,
+      "length": 3049
+    },
+    {
+      "episode_id": 260,
+      "seed": 200260,
+      "score": 69112,
+      "max_tile": 4096,
+      "length": 3104
+    },
+    {
+      "episode_id": 261,
+      "seed": 200261,
+      "score": 68524,
+      "max_tile": 4096,
+      "length": 3119
+    },
+    {
+      "episode_id": 262,
+      "seed": 200262,
+      "score": 36632,
+      "max_tile": 2048,
+      "length": 1923
+    },
+    {
+      "episode_id": 263,
+      "seed": 200263,
+      "score": 68196,
+      "max_tile": 4096,
+      "length": 3097
+    },
+    {
+      "episode_id": 264,
+      "seed": 200264,
+      "score": 67648,
+      "max_tile": 4096,
+      "length": 3067
+    },
+    {
+      "episode_id": 265,
+      "seed": 200265,
+      "score": 72972,
+      "max_tile": 4096,
+      "length": 3371
+    },
+    {
+      "episode_id": 266,
+      "seed": 200266,
+      "score": 69616,
+      "max_tile": 4096,
+      "length": 3205
+    },
+    {
+      "episode_id": 267,
+      "seed": 200267,
+      "score": 71580,
+      "max_tile": 4096,
+      "length": 3287
+    },
+    {
+      "episode_id": 268,
+      "seed": 200268,
+      "score": 71536,
+      "max_tile": 4096,
+      "length": 3279
+    },
+    {
+      "episode_id": 269,
+      "seed": 200269,
+      "score": 69280,
+      "max_tile": 4096,
+      "length": 3148
+    },
+    {
+      "episode_id": 270,
+      "seed": 200270,
+      "score": 71512,
+      "max_tile": 4096,
+      "length": 3284
+    },
+    {
+      "episode_id": 271,
+      "seed": 200271,
+      "score": 67916,
+      "max_tile": 4096,
+      "length": 3054
+    },
+    {
+      "episode_id": 272,
+      "seed": 200272,
+      "score": 68208,
+      "max_tile": 4096,
+      "length": 3077
+    },
+    {
+      "episode_id": 273,
+      "seed": 200273,
+      "score": 72588,
+      "max_tile": 4096,
+      "length": 3346
+    },
+    {
+      "episode_id": 274,
+      "seed": 200274,
+      "score": 68504,
+      "max_tile": 4096,
+      "length": 3093
+    },
+    {
+      "episode_id": 275,
+      "seed": 200275,
+      "score": 71532,
+      "max_tile": 4096,
+      "length": 3278
+    },
+    {
+      "episode_id": 276,
+      "seed": 200276,
+      "score": 60620,
+      "max_tile": 4096,
+      "length": 2817
+    },
+    {
+      "episode_id": 277,
+      "seed": 200277,
+      "score": 71004,
+      "max_tile": 4096,
+      "length": 3249
+    },
+    {
+      "episode_id": 278,
+      "seed": 200278,
+      "score": 67140,
+      "max_tile": 4096,
+      "length": 3014
+    },
+    {
+      "episode_id": 279,
+      "seed": 200279,
+      "score": 67868,
+      "max_tile": 4096,
+      "length": 3077
+    },
+    {
+      "episode_id": 280,
+      "seed": 200280,
+      "score": 75592,
+      "max_tile": 4096,
+      "length": 3432
+    },
+    {
+      "episode_id": 281,
+      "seed": 200281,
+      "score": 69452,
+      "max_tile": 4096,
+      "length": 3170
+    },
+    {
+      "episode_id": 282,
+      "seed": 200282,
+      "score": 36436,
+      "max_tile": 2048,
+      "length": 1900
+    },
+    {
+      "episode_id": 283,
+      "seed": 200283,
+      "score": 56504,
+      "max_tile": 4096,
+      "length": 2585
+    },
+    {
+      "episode_id": 284,
+      "seed": 200284,
+      "score": 34160,
+      "max_tile": 2048,
+      "length": 1741
+    },
+    {
+      "episode_id": 285,
+      "seed": 200285,
+      "score": 16304,
+      "max_tile": 1024,
+      "length": 954
+    },
+    {
+      "episode_id": 286,
+      "seed": 200286,
+      "score": 60408,
+      "max_tile": 4096,
+      "length": 2809
+    },
+    {
+      "episode_id": 287,
+      "seed": 200287,
+      "score": 67780,
+      "max_tile": 4096,
+      "length": 3057
+    },
+    {
+      "episode_id": 288,
+      "seed": 200288,
+      "score": 60360,
+      "max_tile": 4096,
+      "length": 2802
+    },
+    {
+      "episode_id": 289,
+      "seed": 200289,
+      "score": 67184,
+      "max_tile": 4096,
+      "length": 3005
+    },
+    {
+      "episode_id": 290,
+      "seed": 200290,
+      "score": 60448,
+      "max_tile": 4096,
+      "length": 2815
+    },
+    {
+      "episode_id": 291,
+      "seed": 200291,
+      "score": 59108,
+      "max_tile": 4096,
+      "length": 2739
+    },
+    {
+      "episode_id": 292,
+      "seed": 200292,
+      "score": 67504,
+      "max_tile": 4096,
+      "length": 3047
+    },
+    {
+      "episode_id": 293,
+      "seed": 200293,
+      "score": 73016,
+      "max_tile": 4096,
+      "length": 3338
+    },
+    {
+      "episode_id": 294,
+      "seed": 200294,
+      "score": 69352,
+      "max_tile": 4096,
+      "length": 3109
+    },
+    {
+      "episode_id": 295,
+      "seed": 200295,
+      "score": 69352,
+      "max_tile": 4096,
+      "length": 3178
+    },
+    {
+      "episode_id": 296,
+      "seed": 200296,
+      "score": 69196,
+      "max_tile": 4096,
+      "length": 3147
+    },
+    {
+      "episode_id": 297,
+      "seed": 200297,
+      "score": 71884,
+      "max_tile": 4096,
+      "length": 3317
+    },
+    {
+      "episode_id": 298,
+      "seed": 200298,
+      "score": 36292,
+      "max_tile": 2048,
+      "length": 1884
+    },
+    {
+      "episode_id": 299,
+      "seed": 200299,
+      "score": 69332,
+      "max_tile": 4096,
+      "length": 3141
+    },
+    {
+      "episode_id": 300,
+      "seed": 200300,
+      "score": 73280,
+      "max_tile": 4096,
+      "length": 3394
+    },
+    {
+      "episode_id": 301,
+      "seed": 200301,
+      "score": 76416,
+      "max_tile": 4096,
+      "length": 3493
+    },
+    {
+      "episode_id": 302,
+      "seed": 200302,
+      "score": 74800,
+      "max_tile": 4096,
+      "length": 3388
+    },
+    {
+      "episode_id": 303,
+      "seed": 200303,
+      "score": 68524,
+      "max_tile": 4096,
+      "length": 3107
+    },
+    {
+      "episode_id": 304,
+      "seed": 200304,
+      "score": 67248,
+      "max_tile": 4096,
+      "length": 3032
+    },
+    {
+      "episode_id": 305,
+      "seed": 200305,
+      "score": 68004,
+      "max_tile": 4096,
+      "length": 3085
+    },
+    {
+      "episode_id": 306,
+      "seed": 200306,
+      "score": 36136,
+      "max_tile": 2048,
+      "length": 1862
+    },
+    {
+      "episode_id": 307,
+      "seed": 200307,
+      "score": 60056,
+      "max_tile": 4096,
+      "length": 2749
+    },
+    {
+      "episode_id": 308,
+      "seed": 200308,
+      "score": 68908,
+      "max_tile": 4096,
+      "length": 3161
+    },
+    {
+      "episode_id": 309,
+      "seed": 200309,
+      "score": 36260,
+      "max_tile": 2048,
+      "length": 1886
+    },
+    {
+      "episode_id": 310,
+      "seed": 200310,
+      "score": 71436,
+      "max_tile": 4096,
+      "length": 3278
+    },
+    {
+      "episode_id": 311,
+      "seed": 200311,
+      "score": 72700,
+      "max_tile": 4096,
+      "length": 3369
+    },
+    {
+      "episode_id": 312,
+      "seed": 200312,
+      "score": 36284,
+      "max_tile": 2048,
+      "length": 1888
+    },
+    {
+      "episode_id": 313,
+      "seed": 200313,
+      "score": 60264,
+      "max_tile": 4096,
+      "length": 2800
+    },
+    {
+      "episode_id": 314,
+      "seed": 200314,
+      "score": 67788,
+      "max_tile": 4096,
+      "length": 3085
+    },
+    {
+      "episode_id": 315,
+      "seed": 200315,
+      "score": 49780,
+      "max_tile": 4096,
+      "length": 2254
+    },
+    {
+      "episode_id": 316,
+      "seed": 200316,
+      "score": 36956,
+      "max_tile": 2048,
+      "length": 1941
+    },
+    {
+      "episode_id": 317,
+      "seed": 200317,
+      "score": 77140,
+      "max_tile": 4096,
+      "length": 3524
+    },
+    {
+      "episode_id": 318,
+      "seed": 200318,
+      "score": 68796,
+      "max_tile": 4096,
+      "length": 3080
+    },
+    {
+      "episode_id": 319,
+      "seed": 200319,
+      "score": 68064,
+      "max_tile": 4096,
+      "length": 3068
+    },
+    {
+      "episode_id": 320,
+      "seed": 200320,
+      "score": 67640,
+      "max_tile": 4096,
+      "length": 3054
+    },
+    {
+      "episode_id": 321,
+      "seed": 200321,
+      "score": 70088,
+      "max_tile": 4096,
+      "length": 3193
+    },
+    {
+      "episode_id": 322,
+      "seed": 200322,
+      "score": 73048,
+      "max_tile": 4096,
+      "length": 3376
+    },
+    {
+      "episode_id": 323,
+      "seed": 200323,
+      "score": 70156,
+      "max_tile": 4096,
+      "length": 3200
+    },
+    {
+      "episode_id": 324,
+      "seed": 200324,
+      "score": 67588,
+      "max_tile": 4096,
+      "length": 3052
+    },
+    {
+      "episode_id": 325,
+      "seed": 200325,
+      "score": 74088,
+      "max_tile": 4096,
+      "length": 3428
+    },
+    {
+      "episode_id": 326,
+      "seed": 200326,
+      "score": 71520,
+      "max_tile": 4096,
+      "length": 3283
+    },
+    {
+      "episode_id": 327,
+      "seed": 200327,
+      "score": 71284,
+      "max_tile": 4096,
+      "length": 3259
+    },
+    {
+      "episode_id": 328,
+      "seed": 200328,
+      "score": 77944,
+      "max_tile": 4096,
+      "length": 3593
+    },
+    {
+      "episode_id": 329,
+      "seed": 200329,
+      "score": 35396,
+      "max_tile": 2048,
+      "length": 1805
+    },
+    {
+      "episode_id": 330,
+      "seed": 200330,
+      "score": 36224,
+      "max_tile": 2048,
+      "length": 1866
+    },
+    {
+      "episode_id": 331,
+      "seed": 200331,
+      "score": 70832,
+      "max_tile": 4096,
+      "length": 3240
+    },
+    {
+      "episode_id": 332,
+      "seed": 200332,
+      "score": 68560,
+      "max_tile": 4096,
+      "length": 3119
+    },
+    {
+      "episode_id": 333,
+      "seed": 200333,
+      "score": 66260,
+      "max_tile": 4096,
+      "length": 2965
+    },
+    {
+      "episode_id": 334,
+      "seed": 200334,
+      "score": 36480,
+      "max_tile": 2048,
+      "length": 1898
+    },
+    {
+      "episode_id": 335,
+      "seed": 200335,
+      "score": 74404,
+      "max_tile": 4096,
+      "length": 3369
+    },
+    {
+      "episode_id": 336,
+      "seed": 200336,
+      "score": 70156,
+      "max_tile": 4096,
+      "length": 3202
+    },
+    {
+      "episode_id": 337,
+      "seed": 200337,
+      "score": 36432,
+      "max_tile": 2048,
+      "length": 1897
+    },
+    {
+      "episode_id": 338,
+      "seed": 200338,
+      "score": 36572,
+      "max_tile": 2048,
+      "length": 1892
+    },
+    {
+      "episode_id": 339,
+      "seed": 200339,
+      "score": 76776,
+      "max_tile": 4096,
+      "length": 3534
+    },
+    {
+      "episode_id": 340,
+      "seed": 200340,
+      "score": 36212,
+      "max_tile": 2048,
+      "length": 1869
+    },
+    {
+      "episode_id": 341,
+      "seed": 200341,
+      "score": 32280,
+      "max_tile": 2048,
+      "length": 1649
+    },
+    {
+      "episode_id": 342,
+      "seed": 200342,
+      "score": 67928,
+      "max_tile": 4096,
+      "length": 3075
+    },
+    {
+      "episode_id": 343,
+      "seed": 200343,
+      "score": 69116,
+      "max_tile": 4096,
+      "length": 3157
+    },
+    {
+      "episode_id": 344,
+      "seed": 200344,
+      "score": 67240,
+      "max_tile": 4096,
+      "length": 3013
+    },
+    {
+      "episode_id": 345,
+      "seed": 200345,
+      "score": 60672,
+      "max_tile": 4096,
+      "length": 2832
+    },
+    {
+      "episode_id": 346,
+      "seed": 200346,
+      "score": 36480,
+      "max_tile": 2048,
+      "length": 1892
+    },
+    {
+      "episode_id": 347,
+      "seed": 200347,
+      "score": 69704,
+      "max_tile": 4096,
+      "length": 3166
+    },
+    {
+      "episode_id": 348,
+      "seed": 200348,
+      "score": 70356,
+      "max_tile": 4096,
+      "length": 3186
+    },
+    {
+      "episode_id": 349,
+      "seed": 200349,
+      "score": 68452,
+      "max_tile": 4096,
+      "length": 3093
+    },
+    {
+      "episode_id": 350,
+      "seed": 200350,
+      "score": 71392,
+      "max_tile": 4096,
+      "length": 3269
+    },
+    {
+      "episode_id": 351,
+      "seed": 200351,
+      "score": 70872,
+      "max_tile": 4096,
+      "length": 3227
+    },
+    {
+      "episode_id": 352,
+      "seed": 200352,
+      "score": 71420,
+      "max_tile": 4096,
+      "length": 3266
+    },
+    {
+      "episode_id": 353,
+      "seed": 200353,
+      "score": 36168,
+      "max_tile": 2048,
+      "length": 1864
+    },
+    {
+      "episode_id": 354,
+      "seed": 200354,
+      "score": 60224,
+      "max_tile": 4096,
+      "length": 2767
+    },
+    {
+      "episode_id": 355,
+      "seed": 200355,
+      "score": 70812,
+      "max_tile": 4096,
+      "length": 3221
+    },
+    {
+      "episode_id": 356,
+      "seed": 200356,
+      "score": 71356,
+      "max_tile": 4096,
+      "length": 3258
+    },
+    {
+      "episode_id": 357,
+      "seed": 200357,
+      "score": 60484,
+      "max_tile": 4096,
+      "length": 2817
+    },
+    {
+      "episode_id": 358,
+      "seed": 200358,
+      "score": 69104,
+      "max_tile": 4096,
+      "length": 3154
+    },
+    {
+      "episode_id": 359,
+      "seed": 200359,
+      "score": 67616,
+      "max_tile": 4096,
+      "length": 3059
+    },
+    {
+      "episode_id": 360,
+      "seed": 200360,
+      "score": 70160,
+      "max_tile": 4096,
+      "length": 3187
+    },
+    {
+      "episode_id": 361,
+      "seed": 200361,
+      "score": 71896,
+      "max_tile": 4096,
+      "length": 3332
+    },
+    {
+      "episode_id": 362,
+      "seed": 200362,
+      "score": 68416,
+      "max_tile": 4096,
+      "length": 3115
+    },
+    {
+      "episode_id": 363,
+      "seed": 200363,
+      "score": 36236,
+      "max_tile": 2048,
+      "length": 1875
+    },
+    {
+      "episode_id": 364,
+      "seed": 200364,
+      "score": 56448,
+      "max_tile": 4096,
+      "length": 2588
+    },
+    {
+      "episode_id": 365,
+      "seed": 200365,
+      "score": 61344,
+      "max_tile": 4096,
+      "length": 2887
+    },
+    {
+      "episode_id": 366,
+      "seed": 200366,
+      "score": 69888,
+      "max_tile": 4096,
+      "length": 3181
+    },
+    {
+      "episode_id": 367,
+      "seed": 200367,
+      "score": 51520,
+      "max_tile": 4096,
+      "length": 2379
+    },
+    {
+      "episode_id": 368,
+      "seed": 200368,
+      "score": 75964,
+      "max_tile": 4096,
+      "length": 3472
+    },
+    {
+      "episode_id": 369,
+      "seed": 200369,
+      "score": 37084,
+      "max_tile": 2048,
+      "length": 1918
+    },
+    {
+      "episode_id": 370,
+      "seed": 200370,
+      "score": 69428,
+      "max_tile": 4096,
+      "length": 3177
+    },
+    {
+      "episode_id": 371,
+      "seed": 200371,
+      "score": 36232,
+      "max_tile": 2048,
+      "length": 1873
+    },
+    {
+      "episode_id": 372,
+      "seed": 200372,
+      "score": 61428,
+      "max_tile": 4096,
+      "length": 2891
+    },
+    {
+      "episode_id": 373,
+      "seed": 200373,
+      "score": 71520,
+      "max_tile": 4096,
+      "length": 3272
+    },
+    {
+      "episode_id": 374,
+      "seed": 200374,
+      "score": 68764,
+      "max_tile": 4096,
+      "length": 3125
+    },
+    {
+      "episode_id": 375,
+      "seed": 200375,
+      "score": 59660,
+      "max_tile": 4096,
+      "length": 2738
+    },
+    {
+      "episode_id": 376,
+      "seed": 200376,
+      "score": 36460,
+      "max_tile": 2048,
+      "length": 1900
+    },
+    {
+      "episode_id": 377,
+      "seed": 200377,
+      "score": 36080,
+      "max_tile": 2048,
+      "length": 1859
+    },
+    {
+      "episode_id": 378,
+      "seed": 200378,
+      "score": 68192,
+      "max_tile": 4096,
+      "length": 3091
+    },
+    {
+      "episode_id": 379,
+      "seed": 200379,
+      "score": 66488,
+      "max_tile": 4096,
+      "length": 2985
+    },
+    {
+      "episode_id": 380,
+      "seed": 200380,
+      "score": 36220,
+      "max_tile": 2048,
+      "length": 1881
+    },
+    {
+      "episode_id": 381,
+      "seed": 200381,
+      "score": 27304,
+      "max_tile": 2048,
+      "length": 1429
+    },
+    {
+      "episode_id": 382,
+      "seed": 200382,
+      "score": 67020,
+      "max_tile": 4096,
+      "length": 3006
+    },
+    {
+      "episode_id": 383,
+      "seed": 200383,
+      "score": 36540,
+      "max_tile": 2048,
+      "length": 1913
+    },
+    {
+      "episode_id": 384,
+      "seed": 200384,
+      "score": 67568,
+      "max_tile": 4096,
+      "length": 3034
+    },
+    {
+      "episode_id": 385,
+      "seed": 200385,
+      "score": 69760,
+      "max_tile": 4096,
+      "length": 3163
+    },
+    {
+      "episode_id": 386,
+      "seed": 200386,
+      "score": 60496,
+      "max_tile": 4096,
+      "length": 2814
+    },
+    {
+      "episode_id": 387,
+      "seed": 200387,
+      "score": 70488,
+      "max_tile": 4096,
+      "length": 3221
+    },
+    {
+      "episode_id": 388,
+      "seed": 200388,
+      "score": 60372,
+      "max_tile": 4096,
+      "length": 2807
+    },
+    {
+      "episode_id": 389,
+      "seed": 200389,
+      "score": 67980,
+      "max_tile": 4096,
+      "length": 3091
+    },
+    {
+      "episode_id": 390,
+      "seed": 200390,
+      "score": 71544,
+      "max_tile": 4096,
+      "length": 3273
+    },
+    {
+      "episode_id": 391,
+      "seed": 200391,
+      "score": 69820,
+      "max_tile": 4096,
+      "length": 3174
+    },
+    {
+      "episode_id": 392,
+      "seed": 200392,
+      "score": 71776,
+      "max_tile": 4096,
+      "length": 3286
+    },
+    {
+      "episode_id": 393,
+      "seed": 200393,
+      "score": 71608,
+      "max_tile": 4096,
+      "length": 3287
+    },
+    {
+      "episode_id": 394,
+      "seed": 200394,
+      "score": 36448,
+      "max_tile": 2048,
+      "length": 1899
+    },
+    {
+      "episode_id": 395,
+      "seed": 200395,
+      "score": 36428,
+      "max_tile": 2048,
+      "length": 1891
+    },
+    {
+      "episode_id": 396,
+      "seed": 200396,
+      "score": 69920,
+      "max_tile": 4096,
+      "length": 3161
+    },
+    {
+      "episode_id": 397,
+      "seed": 200397,
+      "score": 60244,
+      "max_tile": 4096,
+      "length": 2774
+    },
+    {
+      "episode_id": 398,
+      "seed": 200398,
+      "score": 71328,
+      "max_tile": 4096,
+      "length": 3268
+    },
+    {
+      "episode_id": 399,
+      "seed": 200399,
+      "score": 70100,
+      "max_tile": 4096,
+      "length": 3199
+    },
+    {
+      "episode_id": 400,
+      "seed": 200400,
+      "score": 60476,
+      "max_tile": 4096,
+      "length": 2812
+    },
+    {
+      "episode_id": 401,
+      "seed": 200401,
+      "score": 70804,
+      "max_tile": 4096,
+      "length": 3216
+    },
+    {
+      "episode_id": 402,
+      "seed": 200402,
+      "score": 67788,
+      "max_tile": 4096,
+      "length": 3074
+    },
+    {
+      "episode_id": 403,
+      "seed": 200403,
+      "score": 56288,
+      "max_tile": 4096,
+      "length": 2565
+    },
+    {
+      "episode_id": 404,
+      "seed": 200404,
+      "score": 36468,
+      "max_tile": 2048,
+      "length": 1895
+    },
+    {
+      "episode_id": 405,
+      "seed": 200405,
+      "score": 32156,
+      "max_tile": 2048,
+      "length": 1639
+    },
+    {
+      "episode_id": 406,
+      "seed": 200406,
+      "score": 60512,
+      "max_tile": 4096,
+      "length": 2814
+    },
+    {
+      "episode_id": 407,
+      "seed": 200407,
+      "score": 69064,
+      "max_tile": 4096,
+      "length": 3115
+    },
+    {
+      "episode_id": 408,
+      "seed": 200408,
+      "score": 51680,
+      "max_tile": 4096,
+      "length": 2375
+    },
+    {
+      "episode_id": 409,
+      "seed": 200409,
+      "score": 60360,
+      "max_tile": 4096,
+      "length": 2798
+    },
+    {
+      "episode_id": 410,
+      "seed": 200410,
+      "score": 59336,
+      "max_tile": 4096,
+      "length": 2738
+    },
+    {
+      "episode_id": 411,
+      "seed": 200411,
+      "score": 37332,
+      "max_tile": 2048,
+      "length": 1951
+    },
+    {
+      "episode_id": 412,
+      "seed": 200412,
+      "score": 73236,
+      "max_tile": 4096,
+      "length": 3391
+    },
+    {
+      "episode_id": 413,
+      "seed": 200413,
+      "score": 69804,
+      "max_tile": 4096,
+      "length": 3171
+    },
+    {
+      "episode_id": 414,
+      "seed": 200414,
+      "score": 68184,
+      "max_tile": 4096,
+      "length": 3101
+    },
+    {
+      "episode_id": 415,
+      "seed": 200415,
+      "score": 68196,
+      "max_tile": 4096,
+      "length": 3065
+    },
+    {
+      "episode_id": 416,
+      "seed": 200416,
+      "score": 36896,
+      "max_tile": 2048,
+      "length": 1915
+    },
+    {
+      "episode_id": 417,
+      "seed": 200417,
+      "score": 69840,
+      "max_tile": 4096,
+      "length": 3172
+    },
+    {
+      "episode_id": 418,
+      "seed": 200418,
+      "score": 69884,
+      "max_tile": 4096,
+      "length": 3162
+    },
+    {
+      "episode_id": 419,
+      "seed": 200419,
+      "score": 71472,
+      "max_tile": 4096,
+      "length": 3271
+    },
+    {
+      "episode_id": 420,
+      "seed": 200420,
+      "score": 71076,
+      "max_tile": 4096,
+      "length": 3242
+    },
+    {
+      "episode_id": 421,
+      "seed": 200421,
+      "score": 36152,
+      "max_tile": 2048,
+      "length": 1866
+    },
+    {
+      "episode_id": 422,
+      "seed": 200422,
+      "score": 76960,
+      "max_tile": 4096,
+      "length": 3537
+    },
+    {
+      "episode_id": 423,
+      "seed": 200423,
+      "score": 68600,
+      "max_tile": 4096,
+      "length": 3107
+    },
+    {
+      "episode_id": 424,
+      "seed": 200424,
+      "score": 71368,
+      "max_tile": 4096,
+      "length": 3265
+    },
+    {
+      "episode_id": 425,
+      "seed": 200425,
+      "score": 69976,
+      "max_tile": 4096,
+      "length": 3191
+    },
+    {
+      "episode_id": 426,
+      "seed": 200426,
+      "score": 68440,
+      "max_tile": 4096,
+      "length": 3145
+    },
+    {
+      "episode_id": 427,
+      "seed": 200427,
+      "score": 66444,
+      "max_tile": 4096,
+      "length": 2963
+    },
+    {
+      "episode_id": 428,
+      "seed": 200428,
+      "score": 70612,
+      "max_tile": 4096,
+      "length": 3236
+    },
+    {
+      "episode_id": 429,
+      "seed": 200429,
+      "score": 54604,
+      "max_tile": 4096,
+      "length": 2457
+    },
+    {
+      "episode_id": 430,
+      "seed": 200430,
+      "score": 36204,
+      "max_tile": 2048,
+      "length": 1870
+    },
+    {
+      "episode_id": 431,
+      "seed": 200431,
+      "score": 67168,
+      "max_tile": 4096,
+      "length": 3028
+    },
+    {
+      "episode_id": 432,
+      "seed": 200432,
+      "score": 68136,
+      "max_tile": 4096,
+      "length": 3108
+    },
+    {
+      "episode_id": 433,
+      "seed": 200433,
+      "score": 68936,
+      "max_tile": 4096,
+      "length": 3123
+    },
+    {
+      "episode_id": 434,
+      "seed": 200434,
+      "score": 69184,
+      "max_tile": 4096,
+      "length": 3152
+    },
+    {
+      "episode_id": 435,
+      "seed": 200435,
+      "score": 68480,
+      "max_tile": 4096,
+      "length": 3100
+    },
+    {
+      "episode_id": 436,
+      "seed": 200436,
+      "score": 72036,
+      "max_tile": 4096,
+      "length": 3300
+    },
+    {
+      "episode_id": 437,
+      "seed": 200437,
+      "score": 59604,
+      "max_tile": 4096,
+      "length": 2739
+    },
+    {
+      "episode_id": 438,
+      "seed": 200438,
+      "score": 71628,
+      "max_tile": 4096,
+      "length": 3276
+    },
+    {
+      "episode_id": 439,
+      "seed": 200439,
+      "score": 70328,
+      "max_tile": 4096,
+      "length": 3173
+    },
+    {
+      "episode_id": 440,
+      "seed": 200440,
+      "score": 71256,
+      "max_tile": 4096,
+      "length": 3248
+    },
+    {
+      "episode_id": 441,
+      "seed": 200441,
+      "score": 71252,
+      "max_tile": 4096,
+      "length": 3248
+    },
+    {
+      "episode_id": 442,
+      "seed": 200442,
+      "score": 71232,
+      "max_tile": 4096,
+      "length": 3229
+    },
+    {
+      "episode_id": 443,
+      "seed": 200443,
+      "score": 71120,
+      "max_tile": 4096,
+      "length": 3257
+    },
+    {
+      "episode_id": 444,
+      "seed": 200444,
+      "score": 72564,
+      "max_tile": 4096,
+      "length": 3340
+    },
+    {
+      "episode_id": 445,
+      "seed": 200445,
+      "score": 71484,
+      "max_tile": 4096,
+      "length": 3274
+    },
+    {
+      "episode_id": 446,
+      "seed": 200446,
+      "score": 69240,
+      "max_tile": 4096,
+      "length": 3167
+    },
+    {
+      "episode_id": 447,
+      "seed": 200447,
+      "score": 70144,
+      "max_tile": 4096,
+      "length": 3199
+    },
+    {
+      "episode_id": 448,
+      "seed": 200448,
+      "score": 60688,
+      "max_tile": 4096,
+      "length": 2831
+    },
+    {
+      "episode_id": 449,
+      "seed": 200449,
+      "score": 60732,
+      "max_tile": 4096,
+      "length": 2834
+    },
+    {
+      "episode_id": 450,
+      "seed": 200450,
+      "score": 71080,
+      "max_tile": 4096,
+      "length": 3221
+    },
+    {
+      "episode_id": 451,
+      "seed": 200451,
+      "score": 27188,
+      "max_tile": 2048,
+      "length": 1413
+    },
+    {
+      "episode_id": 452,
+      "seed": 200452,
+      "score": 36304,
+      "max_tile": 2048,
+      "length": 1880
+    },
+    {
+      "episode_id": 453,
+      "seed": 200453,
+      "score": 69148,
+      "max_tile": 4096,
+      "length": 3154
+    },
+    {
+      "episode_id": 454,
+      "seed": 200454,
+      "score": 67260,
+      "max_tile": 4096,
+      "length": 3010
+    },
+    {
+      "episode_id": 455,
+      "seed": 200455,
+      "score": 72456,
+      "max_tile": 4096,
+      "length": 3342
+    },
+    {
+      "episode_id": 456,
+      "seed": 200456,
+      "score": 51232,
+      "max_tile": 4096,
+      "length": 2325
+    },
+    {
+      "episode_id": 457,
+      "seed": 200457,
+      "score": 69252,
+      "max_tile": 4096,
+      "length": 3152
+    },
+    {
+      "episode_id": 458,
+      "seed": 200458,
+      "score": 60432,
+      "max_tile": 4096,
+      "length": 2810
+    },
+    {
+      "episode_id": 459,
+      "seed": 200459,
+      "score": 70104,
+      "max_tile": 4096,
+      "length": 3189
+    },
+    {
+      "episode_id": 460,
+      "seed": 200460,
+      "score": 72160,
+      "max_tile": 4096,
+      "length": 3299
+    },
+    {
+      "episode_id": 461,
+      "seed": 200461,
+      "score": 36196,
+      "max_tile": 2048,
+      "length": 1880
+    },
+    {
+      "episode_id": 462,
+      "seed": 200462,
+      "score": 36100,
+      "max_tile": 2048,
+      "length": 1856
+    },
+    {
+      "episode_id": 463,
+      "seed": 200463,
+      "score": 75736,
+      "max_tile": 4096,
+      "length": 3445
+    },
+    {
+      "episode_id": 464,
+      "seed": 200464,
+      "score": 60400,
+      "max_tile": 4096,
+      "length": 2807
+    },
+    {
+      "episode_id": 465,
+      "seed": 200465,
+      "score": 67692,
+      "max_tile": 4096,
+      "length": 3065
+    },
+    {
+      "episode_id": 466,
+      "seed": 200466,
+      "score": 60340,
+      "max_tile": 4096,
+      "length": 2791
+    },
+    {
+      "episode_id": 467,
+      "seed": 200467,
+      "score": 72732,
+      "max_tile": 4096,
+      "length": 3339
+    },
+    {
+      "episode_id": 468,
+      "seed": 200468,
+      "score": 67188,
+      "max_tile": 4096,
+      "length": 3037
+    },
+    {
+      "episode_id": 469,
+      "seed": 200469,
+      "score": 33828,
+      "max_tile": 2048,
+      "length": 1716
+    },
+    {
+      "episode_id": 470,
+      "seed": 200470,
+      "score": 70772,
+      "max_tile": 4096,
+      "length": 3212
+    },
+    {
+      "episode_id": 471,
+      "seed": 200471,
+      "score": 67480,
+      "max_tile": 4096,
+      "length": 3037
+    },
+    {
+      "episode_id": 472,
+      "seed": 200472,
+      "score": 67688,
+      "max_tile": 4096,
+      "length": 3049
+    },
+    {
+      "episode_id": 473,
+      "seed": 200473,
+      "score": 71204,
+      "max_tile": 4096,
+      "length": 3244
+    },
+    {
+      "episode_id": 474,
+      "seed": 200474,
+      "score": 58276,
+      "max_tile": 4096,
+      "length": 2660
+    },
+    {
+      "episode_id": 475,
+      "seed": 200475,
+      "score": 60556,
+      "max_tile": 4096,
+      "length": 2833
+    },
+    {
+      "episode_id": 476,
+      "seed": 200476,
+      "score": 66544,
+      "max_tile": 4096,
+      "length": 2962
+    },
+    {
+      "episode_id": 477,
+      "seed": 200477,
+      "score": 36208,
+      "max_tile": 2048,
+      "length": 1884
+    },
+    {
+      "episode_id": 478,
+      "seed": 200478,
+      "score": 65400,
+      "max_tile": 4096,
+      "length": 2918
+    },
+    {
+      "episode_id": 479,
+      "seed": 200479,
+      "score": 56428,
+      "max_tile": 4096,
+      "length": 2582
+    },
+    {
+      "episode_id": 480,
+      "seed": 200480,
+      "score": 68976,
+      "max_tile": 4096,
+      "length": 3093
+    },
+    {
+      "episode_id": 481,
+      "seed": 200481,
+      "score": 68812,
+      "max_tile": 4096,
+      "length": 3130
+    },
+    {
+      "episode_id": 482,
+      "seed": 200482,
+      "score": 67400,
+      "max_tile": 4096,
+      "length": 3026
+    },
+    {
+      "episode_id": 483,
+      "seed": 200483,
+      "score": 66564,
+      "max_tile": 4096,
+      "length": 2989
+    },
+    {
+      "episode_id": 484,
+      "seed": 200484,
+      "score": 69344,
+      "max_tile": 4096,
+      "length": 3173
+    },
+    {
+      "episode_id": 485,
+      "seed": 200485,
+      "score": 68008,
+      "max_tile": 4096,
+      "length": 3076
+    },
+    {
+      "episode_id": 486,
+      "seed": 200486,
+      "score": 73620,
+      "max_tile": 4096,
+      "length": 3392
+    },
+    {
+      "episode_id": 487,
+      "seed": 200487,
+      "score": 32188,
+      "max_tile": 2048,
+      "length": 1643
+    },
+    {
+      "episode_id": 488,
+      "seed": 200488,
+      "score": 68088,
+      "max_tile": 4096,
+      "length": 3081
+    },
+    {
+      "episode_id": 489,
+      "seed": 200489,
+      "score": 71800,
+      "max_tile": 4096,
+      "length": 3305
+    },
+    {
+      "episode_id": 490,
+      "seed": 200490,
+      "score": 70316,
+      "max_tile": 4096,
+      "length": 3203
+    },
+    {
+      "episode_id": 491,
+      "seed": 200491,
+      "score": 67668,
+      "max_tile": 4096,
+      "length": 3061
+    },
+    {
+      "episode_id": 492,
+      "seed": 200492,
+      "score": 69096,
+      "max_tile": 4096,
+      "length": 3149
+    },
+    {
+      "episode_id": 493,
+      "seed": 200493,
+      "score": 60060,
+      "max_tile": 4096,
+      "length": 2766
+    },
+    {
+      "episode_id": 494,
+      "seed": 200494,
+      "score": 69044,
+      "max_tile": 4096,
+      "length": 3134
+    },
+    {
+      "episode_id": 495,
+      "seed": 200495,
+      "score": 71372,
+      "max_tile": 4096,
+      "length": 3269
+    },
+    {
+      "episode_id": 496,
+      "seed": 200496,
+      "score": 74060,
+      "max_tile": 4096,
+      "length": 3315
+    },
+    {
+      "episode_id": 497,
+      "seed": 200497,
+      "score": 56516,
+      "max_tile": 4096,
+      "length": 2593
+    },
+    {
+      "episode_id": 498,
+      "seed": 200498,
+      "score": 71160,
+      "max_tile": 4096,
+      "length": 3230
+    },
+    {
+      "episode_id": 499,
+      "seed": 200499,
+      "score": 71396,
+      "max_tile": 4096,
+      "length": 3273
+    },
+    {
+      "episode_id": 500,
+      "seed": 200500,
+      "score": 36056,
+      "max_tile": 2048,
+      "length": 1858
+    },
+    {
+      "episode_id": 501,
+      "seed": 200501,
+      "score": 60388,
+      "max_tile": 4096,
+      "length": 2812
+    },
+    {
+      "episode_id": 502,
+      "seed": 200502,
+      "score": 65764,
+      "max_tile": 4096,
+      "length": 2934
+    },
+    {
+      "episode_id": 503,
+      "seed": 200503,
+      "score": 69480,
+      "max_tile": 4096,
+      "length": 3177
+    },
+    {
+      "episode_id": 504,
+      "seed": 200504,
+      "score": 37748,
+      "max_tile": 2048,
+      "length": 1943
+    },
+    {
+      "episode_id": 505,
+      "seed": 200505,
+      "score": 67576,
+      "max_tile": 4096,
+      "length": 3036
+    },
+    {
+      "episode_id": 506,
+      "seed": 200506,
+      "score": 71704,
+      "max_tile": 4096,
+      "length": 3303
+    },
+    {
+      "episode_id": 507,
+      "seed": 200507,
+      "score": 69896,
+      "max_tile": 4096,
+      "length": 3154
+    },
+    {
+      "episode_id": 508,
+      "seed": 200508,
+      "score": 27500,
+      "max_tile": 2048,
+      "length": 1434
+    },
+    {
+      "episode_id": 509,
+      "seed": 200509,
+      "score": 68720,
+      "max_tile": 4096,
+      "length": 3100
+    },
+    {
+      "episode_id": 510,
+      "seed": 200510,
+      "score": 69368,
+      "max_tile": 4096,
+      "length": 3166
+    },
+    {
+      "episode_id": 511,
+      "seed": 200511,
+      "score": 36292,
+      "max_tile": 2048,
+      "length": 1875
+    },
+    {
+      "episode_id": 512,
+      "seed": 200512,
+      "score": 70348,
+      "max_tile": 4096,
+      "length": 3199
+    },
+    {
+      "episode_id": 513,
+      "seed": 200513,
+      "score": 67748,
+      "max_tile": 4096,
+      "length": 3056
+    },
+    {
+      "episode_id": 514,
+      "seed": 200514,
+      "score": 69108,
+      "max_tile": 4096,
+      "length": 3136
+    },
+    {
+      "episode_id": 515,
+      "seed": 200515,
+      "score": 59328,
+      "max_tile": 4096,
+      "length": 2730
+    },
+    {
+      "episode_id": 516,
+      "seed": 200516,
+      "score": 68168,
+      "max_tile": 4096,
+      "length": 3075
+    },
+    {
+      "episode_id": 517,
+      "seed": 200517,
+      "score": 75080,
+      "max_tile": 4096,
+      "length": 3426
+    },
+    {
+      "episode_id": 518,
+      "seed": 200518,
+      "score": 51776,
+      "max_tile": 4096,
+      "length": 2378
+    },
+    {
+      "episode_id": 519,
+      "seed": 200519,
+      "score": 36464,
+      "max_tile": 2048,
+      "length": 1898
+    },
+    {
+      "episode_id": 520,
+      "seed": 200520,
+      "score": 71340,
+      "max_tile": 4096,
+      "length": 3251
+    },
+    {
+      "episode_id": 521,
+      "seed": 200521,
+      "score": 59656,
+      "max_tile": 4096,
+      "length": 2744
+    },
+    {
+      "episode_id": 522,
+      "seed": 200522,
+      "score": 47140,
+      "max_tile": 4096,
+      "length": 2084
+    },
+    {
+      "episode_id": 523,
+      "seed": 200523,
+      "score": 67844,
+      "max_tile": 4096,
+      "length": 3095
+    },
+    {
+      "episode_id": 524,
+      "seed": 200524,
+      "score": 73680,
+      "max_tile": 4096,
+      "length": 3386
+    },
+    {
+      "episode_id": 525,
+      "seed": 200525,
+      "score": 71624,
+      "max_tile": 4096,
+      "length": 3309
+    },
+    {
+      "episode_id": 526,
+      "seed": 200526,
+      "score": 67400,
+      "max_tile": 4096,
+      "length": 3031
+    },
+    {
+      "episode_id": 527,
+      "seed": 200527,
+      "score": 68376,
+      "max_tile": 4096,
+      "length": 3128
+    },
+    {
+      "episode_id": 528,
+      "seed": 200528,
+      "score": 68620,
+      "max_tile": 4096,
+      "length": 3103
+    },
+    {
+      "episode_id": 529,
+      "seed": 200529,
+      "score": 69604,
+      "max_tile": 4096,
+      "length": 3145
+    },
+    {
+      "episode_id": 530,
+      "seed": 200530,
+      "score": 60304,
+      "max_tile": 4096,
+      "length": 2804
+    },
+    {
+      "episode_id": 531,
+      "seed": 200531,
+      "score": 68336,
+      "max_tile": 4096,
+      "length": 3132
+    },
+    {
+      "episode_id": 532,
+      "seed": 200532,
+      "score": 61780,
+      "max_tile": 4096,
+      "length": 2829
+    },
+    {
+      "episode_id": 533,
+      "seed": 200533,
+      "score": 69320,
+      "max_tile": 4096,
+      "length": 3165
+    },
+    {
+      "episode_id": 534,
+      "seed": 200534,
+      "score": 70960,
+      "max_tile": 4096,
+      "length": 3233
+    },
+    {
+      "episode_id": 535,
+      "seed": 200535,
+      "score": 56496,
+      "max_tile": 4096,
+      "length": 2588
+    },
+    {
+      "episode_id": 536,
+      "seed": 200536,
+      "score": 71492,
+      "max_tile": 4096,
+      "length": 3268
+    },
+    {
+      "episode_id": 537,
+      "seed": 200537,
+      "score": 71648,
+      "max_tile": 4096,
+      "length": 3271
+    },
+    {
+      "episode_id": 538,
+      "seed": 200538,
+      "score": 68372,
+      "max_tile": 4096,
+      "length": 3136
+    },
+    {
+      "episode_id": 539,
+      "seed": 200539,
+      "score": 69236,
+      "max_tile": 4096,
+      "length": 3160
+    },
+    {
+      "episode_id": 540,
+      "seed": 200540,
+      "score": 33856,
+      "max_tile": 2048,
+      "length": 1728
+    },
+    {
+      "episode_id": 541,
+      "seed": 200541,
+      "score": 69016,
+      "max_tile": 4096,
+      "length": 3150
+    },
+    {
+      "episode_id": 542,
+      "seed": 200542,
+      "score": 36044,
+      "max_tile": 2048,
+      "length": 1858
+    },
+    {
+      "episode_id": 543,
+      "seed": 200543,
+      "score": 71328,
+      "max_tile": 4096,
+      "length": 3256
+    },
+    {
+      "episode_id": 544,
+      "seed": 200544,
+      "score": 72476,
+      "max_tile": 4096,
+      "length": 3325
+    },
+    {
+      "episode_id": 545,
+      "seed": 200545,
+      "score": 69204,
+      "max_tile": 4096,
+      "length": 3152
+    },
+    {
+      "episode_id": 546,
+      "seed": 200546,
+      "score": 32448,
+      "max_tile": 2048,
+      "length": 1675
+    },
+    {
+      "episode_id": 547,
+      "seed": 200547,
+      "score": 67468,
+      "max_tile": 4096,
+      "length": 3042
+    },
+    {
+      "episode_id": 548,
+      "seed": 200548,
+      "score": 71192,
+      "max_tile": 4096,
+      "length": 3250
+    },
+    {
+      "episode_id": 549,
+      "seed": 200549,
+      "score": 71624,
+      "max_tile": 4096,
+      "length": 3264
+    },
+    {
+      "episode_id": 550,
+      "seed": 200550,
+      "score": 74840,
+      "max_tile": 4096,
+      "length": 3463
+    },
+    {
+      "episode_id": 551,
+      "seed": 200551,
+      "score": 67516,
+      "max_tile": 4096,
+      "length": 3051
+    },
+    {
+      "episode_id": 552,
+      "seed": 200552,
+      "score": 74656,
+      "max_tile": 4096,
+      "length": 3383
+    },
+    {
+      "episode_id": 553,
+      "seed": 200553,
+      "score": 36384,
+      "max_tile": 2048,
+      "length": 1879
+    },
+    {
+      "episode_id": 554,
+      "seed": 200554,
+      "score": 69204,
+      "max_tile": 4096,
+      "length": 3151
+    },
+    {
+      "episode_id": 555,
+      "seed": 200555,
+      "score": 68864,
+      "max_tile": 4096,
+      "length": 3102
+    },
+    {
+      "episode_id": 556,
+      "seed": 200556,
+      "score": 68464,
+      "max_tile": 4096,
+      "length": 3097
+    },
+    {
+      "episode_id": 557,
+      "seed": 200557,
+      "score": 54072,
+      "max_tile": 4096,
+      "length": 2431
+    },
+    {
+      "episode_id": 558,
+      "seed": 200558,
+      "score": 33916,
+      "max_tile": 2048,
+      "length": 1731
+    },
+    {
+      "episode_id": 559,
+      "seed": 200559,
+      "score": 71400,
+      "max_tile": 4096,
+      "length": 3256
+    },
+    {
+      "episode_id": 560,
+      "seed": 200560,
+      "score": 69700,
+      "max_tile": 4096,
+      "length": 3154
+    },
+    {
+      "episode_id": 561,
+      "seed": 200561,
+      "score": 51508,
+      "max_tile": 4096,
+      "length": 2372
+    },
+    {
+      "episode_id": 562,
+      "seed": 200562,
+      "score": 35564,
+      "max_tile": 2048,
+      "length": 1835
+    },
+    {
+      "episode_id": 563,
+      "seed": 200563,
+      "score": 16380,
+      "max_tile": 1024,
+      "length": 974
+    },
+    {
+      "episode_id": 564,
+      "seed": 200564,
+      "score": 36336,
+      "max_tile": 2048,
+      "length": 1872
+    },
+    {
+      "episode_id": 565,
+      "seed": 200565,
+      "score": 36540,
+      "max_tile": 2048,
+      "length": 1899
+    },
+    {
+      "episode_id": 566,
+      "seed": 200566,
+      "score": 60388,
+      "max_tile": 4096,
+      "length": 2812
+    },
+    {
+      "episode_id": 567,
+      "seed": 200567,
+      "score": 70792,
+      "max_tile": 4096,
+      "length": 3219
+    },
+    {
+      "episode_id": 568,
+      "seed": 200568,
+      "score": 69500,
+      "max_tile": 4096,
+      "length": 3150
+    },
+    {
+      "episode_id": 569,
+      "seed": 200569,
+      "score": 71384,
+      "max_tile": 4096,
+      "length": 3259
+    },
+    {
+      "episode_id": 570,
+      "seed": 200570,
+      "score": 68104,
+      "max_tile": 4096,
+      "length": 3070
+    },
+    {
+      "episode_id": 571,
+      "seed": 200571,
+      "score": 60728,
+      "max_tile": 4096,
+      "length": 2841
+    },
+    {
+      "episode_id": 572,
+      "seed": 200572,
+      "score": 60452,
+      "max_tile": 4096,
+      "length": 2802
+    },
+    {
+      "episode_id": 573,
+      "seed": 200573,
+      "score": 67456,
+      "max_tile": 4096,
+      "length": 3025
+    },
+    {
+      "episode_id": 574,
+      "seed": 200574,
+      "score": 68404,
+      "max_tile": 4096,
+      "length": 3128
+    },
+    {
+      "episode_id": 575,
+      "seed": 200575,
+      "score": 67232,
+      "max_tile": 4096,
+      "length": 3027
+    },
+    {
+      "episode_id": 576,
+      "seed": 200576,
+      "score": 72996,
+      "max_tile": 4096,
+      "length": 3363
+    },
+    {
+      "episode_id": 577,
+      "seed": 200577,
+      "score": 71348,
+      "max_tile": 4096,
+      "length": 3269
+    },
+    {
+      "episode_id": 578,
+      "seed": 200578,
+      "score": 60356,
+      "max_tile": 4096,
+      "length": 2796
+    },
+    {
+      "episode_id": 579,
+      "seed": 200579,
+      "score": 67556,
+      "max_tile": 4096,
+      "length": 3048
+    },
+    {
+      "episode_id": 580,
+      "seed": 200580,
+      "score": 67524,
+      "max_tile": 4096,
+      "length": 3043
+    },
+    {
+      "episode_id": 581,
+      "seed": 200581,
+      "score": 68112,
+      "max_tile": 4096,
+      "length": 3051
+    },
+    {
+      "episode_id": 582,
+      "seed": 200582,
+      "score": 49644,
+      "max_tile": 4096,
+      "length": 2226
+    },
+    {
+      "episode_id": 583,
+      "seed": 200583,
+      "score": 71752,
+      "max_tile": 4096,
+      "length": 3330
+    },
+    {
+      "episode_id": 584,
+      "seed": 200584,
+      "score": 71480,
+      "max_tile": 4096,
+      "length": 3274
+    },
+    {
+      "episode_id": 585,
+      "seed": 200585,
+      "score": 70580,
+      "max_tile": 4096,
+      "length": 3214
+    },
+    {
+      "episode_id": 586,
+      "seed": 200586,
+      "score": 70120,
+      "max_tile": 4096,
+      "length": 3194
+    },
+    {
+      "episode_id": 587,
+      "seed": 200587,
+      "score": 68216,
+      "max_tile": 4096,
+      "length": 3071
+    },
+    {
+      "episode_id": 588,
+      "seed": 200588,
+      "score": 36396,
+      "max_tile": 2048,
+      "length": 1878
+    },
+    {
+      "episode_id": 589,
+      "seed": 200589,
+      "score": 69288,
+      "max_tile": 4096,
+      "length": 3129
+    },
+    {
+      "episode_id": 590,
+      "seed": 200590,
+      "score": 36048,
+      "max_tile": 2048,
+      "length": 1849
+    },
+    {
+      "episode_id": 591,
+      "seed": 200591,
+      "score": 59268,
+      "max_tile": 4096,
+      "length": 2743
+    },
+    {
+      "episode_id": 592,
+      "seed": 200592,
+      "score": 71360,
+      "max_tile": 4096,
+      "length": 3274
+    },
+    {
+      "episode_id": 593,
+      "seed": 200593,
+      "score": 68144,
+      "max_tile": 4096,
+      "length": 3095
+    },
+    {
+      "episode_id": 594,
+      "seed": 200594,
+      "score": 60552,
+      "max_tile": 4096,
+      "length": 2833
+    },
+    {
+      "episode_id": 595,
+      "seed": 200595,
+      "score": 60452,
+      "max_tile": 4096,
+      "length": 2808
+    },
+    {
+      "episode_id": 596,
+      "seed": 200596,
+      "score": 71500,
+      "max_tile": 4096,
+      "length": 3282
+    },
+    {
+      "episode_id": 597,
+      "seed": 200597,
+      "score": 74868,
+      "max_tile": 4096,
+      "length": 3373
+    },
+    {
+      "episode_id": 598,
+      "seed": 200598,
+      "score": 70140,
+      "max_tile": 4096,
+      "length": 3185
+    },
+    {
+      "episode_id": 599,
+      "seed": 200599,
+      "score": 71704,
+      "max_tile": 4096,
+      "length": 3280
+    },
+    {
+      "episode_id": 600,
+      "seed": 200600,
+      "score": 71432,
+      "max_tile": 4096,
+      "length": 3260
+    },
+    {
+      "episode_id": 601,
+      "seed": 200601,
+      "score": 21128,
+      "max_tile": 2048,
+      "length": 1040
+    },
+    {
+      "episode_id": 602,
+      "seed": 200602,
+      "score": 67600,
+      "max_tile": 4096,
+      "length": 3055
+    },
+    {
+      "episode_id": 603,
+      "seed": 200603,
+      "score": 72692,
+      "max_tile": 4096,
+      "length": 3356
+    },
+    {
+      "episode_id": 604,
+      "seed": 200604,
+      "score": 59220,
+      "max_tile": 4096,
+      "length": 2690
+    },
+    {
+      "episode_id": 605,
+      "seed": 200605,
+      "score": 60892,
+      "max_tile": 4096,
+      "length": 2850
+    },
+    {
+      "episode_id": 606,
+      "seed": 200606,
+      "score": 71680,
+      "max_tile": 4096,
+      "length": 3263
+    },
+    {
+      "episode_id": 607,
+      "seed": 200607,
+      "score": 27204,
+      "max_tile": 2048,
+      "length": 1423
+    },
+    {
+      "episode_id": 608,
+      "seed": 200608,
+      "score": 60528,
+      "max_tile": 4096,
+      "length": 2822
+    },
+    {
+      "episode_id": 609,
+      "seed": 200609,
+      "score": 60620,
+      "max_tile": 4096,
+      "length": 2818
+    },
+    {
+      "episode_id": 610,
+      "seed": 200610,
+      "score": 69344,
+      "max_tile": 4096,
+      "length": 3173
+    },
+    {
+      "episode_id": 611,
+      "seed": 200611,
+      "score": 56376,
+      "max_tile": 4096,
+      "length": 2575
+    },
+    {
+      "episode_id": 612,
+      "seed": 200612,
+      "score": 69308,
+      "max_tile": 4096,
+      "length": 3163
+    },
+    {
+      "episode_id": 613,
+      "seed": 200613,
+      "score": 71548,
+      "max_tile": 4096,
+      "length": 3290
+    },
+    {
+      "episode_id": 614,
+      "seed": 200614,
+      "score": 69164,
+      "max_tile": 4096,
+      "length": 3151
+    },
+    {
+      "episode_id": 615,
+      "seed": 200615,
+      "score": 60460,
+      "max_tile": 4096,
+      "length": 2806
+    },
+    {
+      "episode_id": 616,
+      "seed": 200616,
+      "score": 36528,
+      "max_tile": 2048,
+      "length": 1911
+    },
+    {
+      "episode_id": 617,
+      "seed": 200617,
+      "score": 70900,
+      "max_tile": 4096,
+      "length": 3236
+    },
+    {
+      "episode_id": 618,
+      "seed": 200618,
+      "score": 35768,
+      "max_tile": 2048,
+      "length": 1849
+    },
+    {
+      "episode_id": 619,
+      "seed": 200619,
+      "score": 72288,
+      "max_tile": 4096,
+      "length": 3340
+    },
+    {
+      "episode_id": 620,
+      "seed": 200620,
+      "score": 67892,
+      "max_tile": 4096,
+      "length": 3067
+    },
+    {
+      "episode_id": 621,
+      "seed": 200621,
+      "score": 71644,
+      "max_tile": 4096,
+      "length": 3301
+    },
+    {
+      "episode_id": 622,
+      "seed": 200622,
+      "score": 66704,
+      "max_tile": 4096,
+      "length": 2970
+    },
+    {
+      "episode_id": 623,
+      "seed": 200623,
+      "score": 36916,
+      "max_tile": 2048,
+      "length": 1932
+    },
+    {
+      "episode_id": 624,
+      "seed": 200624,
+      "score": 69544,
+      "max_tile": 4096,
+      "length": 3137
+    },
+    {
+      "episode_id": 625,
+      "seed": 200625,
+      "score": 69072,
+      "max_tile": 4096,
+      "length": 3152
+    },
+    {
+      "episode_id": 626,
+      "seed": 200626,
+      "score": 35588,
+      "max_tile": 2048,
+      "length": 1836
+    },
+    {
+      "episode_id": 627,
+      "seed": 200627,
+      "score": 68940,
+      "max_tile": 4096,
+      "length": 3149
+    },
+    {
+      "episode_id": 628,
+      "seed": 200628,
+      "score": 67608,
+      "max_tile": 4096,
+      "length": 3067
+    },
+    {
+      "episode_id": 629,
+      "seed": 200629,
+      "score": 73932,
+      "max_tile": 4096,
+      "length": 3402
+    },
+    {
+      "episode_id": 630,
+      "seed": 200630,
+      "score": 71156,
+      "max_tile": 4096,
+      "length": 3255
+    },
+    {
+      "episode_id": 631,
+      "seed": 200631,
+      "score": 70712,
+      "max_tile": 4096,
+      "length": 3214
+    },
+    {
+      "episode_id": 632,
+      "seed": 200632,
+      "score": 37236,
+      "max_tile": 2048,
+      "length": 1888
+    },
+    {
+      "episode_id": 633,
+      "seed": 200633,
+      "score": 36256,
+      "max_tile": 2048,
+      "length": 1879
+    },
+    {
+      "episode_id": 634,
+      "seed": 200634,
+      "score": 68148,
+      "max_tile": 4096,
+      "length": 3097
+    },
+    {
+      "episode_id": 635,
+      "seed": 200635,
+      "score": 67600,
+      "max_tile": 4096,
+      "length": 3055
+    },
+    {
+      "episode_id": 636,
+      "seed": 200636,
+      "score": 60480,
+      "max_tile": 4096,
+      "length": 2811
+    },
+    {
+      "episode_id": 637,
+      "seed": 200637,
+      "score": 69184,
+      "max_tile": 4096,
+      "length": 3178
+    },
+    {
+      "episode_id": 638,
+      "seed": 200638,
+      "score": 16148,
+      "max_tile": 1024,
+      "length": 945
+    },
+    {
+      "episode_id": 639,
+      "seed": 200639,
+      "score": 68704,
+      "max_tile": 4096,
+      "length": 3064
+    },
+    {
+      "episode_id": 640,
+      "seed": 200640,
+      "score": 68616,
+      "max_tile": 4096,
+      "length": 3133
+    },
+    {
+      "episode_id": 641,
+      "seed": 200641,
+      "score": 36404,
+      "max_tile": 2048,
+      "length": 1885
+    },
+    {
+      "episode_id": 642,
+      "seed": 200642,
+      "score": 67568,
+      "max_tile": 4096,
+      "length": 3046
+    },
+    {
+      "episode_id": 643,
+      "seed": 200643,
+      "score": 35684,
+      "max_tile": 2048,
+      "length": 1844
+    },
+    {
+      "episode_id": 644,
+      "seed": 200644,
+      "score": 72608,
+      "max_tile": 4096,
+      "length": 3355
+    },
+    {
+      "episode_id": 645,
+      "seed": 200645,
+      "score": 60452,
+      "max_tile": 4096,
+      "length": 2820
+    },
+    {
+      "episode_id": 646,
+      "seed": 200646,
+      "score": 71656,
+      "max_tile": 4096,
+      "length": 3300
+    },
+    {
+      "episode_id": 647,
+      "seed": 200647,
+      "score": 66568,
+      "max_tile": 4096,
+      "length": 2999
+    },
+    {
+      "episode_id": 648,
+      "seed": 200648,
+      "score": 27148,
+      "max_tile": 2048,
+      "length": 1411
+    },
+    {
+      "episode_id": 649,
+      "seed": 200649,
+      "score": 36324,
+      "max_tile": 2048,
+      "length": 1894
+    },
+    {
+      "episode_id": 650,
+      "seed": 200650,
+      "score": 71408,
+      "max_tile": 4096,
+      "length": 3266
+    },
+    {
+      "episode_id": 651,
+      "seed": 200651,
+      "score": 58788,
+      "max_tile": 4096,
+      "length": 2704
+    },
+    {
+      "episode_id": 652,
+      "seed": 200652,
+      "score": 36544,
+      "max_tile": 2048,
+      "length": 1903
+    },
+    {
+      "episode_id": 653,
+      "seed": 200653,
+      "score": 34348,
+      "max_tile": 2048,
+      "length": 1744
+    },
+    {
+      "episode_id": 654,
+      "seed": 200654,
+      "score": 60256,
+      "max_tile": 4096,
+      "length": 2789
+    },
+    {
+      "episode_id": 655,
+      "seed": 200655,
+      "score": 71316,
+      "max_tile": 4096,
+      "length": 3263
+    },
+    {
+      "episode_id": 656,
+      "seed": 200656,
+      "score": 36404,
+      "max_tile": 2048,
+      "length": 1891
+    },
+    {
+      "episode_id": 657,
+      "seed": 200657,
+      "score": 69884,
+      "max_tile": 4096,
+      "length": 3174
+    },
+    {
+      "episode_id": 658,
+      "seed": 200658,
+      "score": 36212,
+      "max_tile": 2048,
+      "length": 1879
+    },
+    {
+      "episode_id": 659,
+      "seed": 200659,
+      "score": 70164,
+      "max_tile": 4096,
+      "length": 3189
+    },
+    {
+      "episode_id": 660,
+      "seed": 200660,
+      "score": 68980,
+      "max_tile": 4096,
+      "length": 3139
+    },
+    {
+      "episode_id": 661,
+      "seed": 200661,
+      "score": 75632,
+      "max_tile": 4096,
+      "length": 3467
+    },
+    {
+      "episode_id": 662,
+      "seed": 200662,
+      "score": 72532,
+      "max_tile": 4096,
+      "length": 3348
+    },
+    {
+      "episode_id": 663,
+      "seed": 200663,
+      "score": 68892,
+      "max_tile": 4096,
+      "length": 3090
+    },
+    {
+      "episode_id": 664,
+      "seed": 200664,
+      "score": 72540,
+      "max_tile": 4096,
+      "length": 3331
+    },
+    {
+      "episode_id": 665,
+      "seed": 200665,
+      "score": 69000,
+      "max_tile": 4096,
+      "length": 3099
+    },
+    {
+      "episode_id": 666,
+      "seed": 200666,
+      "score": 71520,
+      "max_tile": 4096,
+      "length": 3279
+    },
+    {
+      "episode_id": 667,
+      "seed": 200667,
+      "score": 34444,
+      "max_tile": 2048,
+      "length": 1755
+    },
+    {
+      "episode_id": 668,
+      "seed": 200668,
+      "score": 66664,
+      "max_tile": 4096,
+      "length": 2962
+    },
+    {
+      "episode_id": 669,
+      "seed": 200669,
+      "score": 66080,
+      "max_tile": 4096,
+      "length": 2934
+    },
+    {
+      "episode_id": 670,
+      "seed": 200670,
+      "score": 60576,
+      "max_tile": 4096,
+      "length": 2835
+    },
+    {
+      "episode_id": 671,
+      "seed": 200671,
+      "score": 69212,
+      "max_tile": 4096,
+      "length": 3171
+    },
+    {
+      "episode_id": 672,
+      "seed": 200672,
+      "score": 71108,
+      "max_tile": 4096,
+      "length": 3259
+    },
+    {
+      "episode_id": 673,
+      "seed": 200673,
+      "score": 35932,
+      "max_tile": 2048,
+      "length": 1847
+    },
+    {
+      "episode_id": 674,
+      "seed": 200674,
+      "score": 68992,
+      "max_tile": 4096,
+      "length": 3107
+    },
+    {
+      "episode_id": 675,
+      "seed": 200675,
+      "score": 60372,
+      "max_tile": 4096,
+      "length": 2804
+    },
+    {
+      "episode_id": 676,
+      "seed": 200676,
+      "score": 68292,
+      "max_tile": 4096,
+      "length": 3099
+    },
+    {
+      "episode_id": 677,
+      "seed": 200677,
+      "score": 70044,
+      "max_tile": 4096,
+      "length": 3176
+    },
+    {
+      "episode_id": 678,
+      "seed": 200678,
+      "score": 36204,
+      "max_tile": 2048,
+      "length": 1867
+    },
+    {
+      "episode_id": 679,
+      "seed": 200679,
+      "score": 72352,
+      "max_tile": 4096,
+      "length": 3318
+    },
+    {
+      "episode_id": 680,
+      "seed": 200680,
+      "score": 60648,
+      "max_tile": 4096,
+      "length": 2815
+    },
+    {
+      "episode_id": 681,
+      "seed": 200681,
+      "score": 68228,
+      "max_tile": 4096,
+      "length": 3086
+    },
+    {
+      "episode_id": 682,
+      "seed": 200682,
+      "score": 71392,
+      "max_tile": 4096,
+      "length": 3267
+    },
+    {
+      "episode_id": 683,
+      "seed": 200683,
+      "score": 66868,
+      "max_tile": 4096,
+      "length": 3012
+    },
+    {
+      "episode_id": 684,
+      "seed": 200684,
+      "score": 36172,
+      "max_tile": 2048,
+      "length": 1870
+    },
+    {
+      "episode_id": 685,
+      "seed": 200685,
+      "score": 54580,
+      "max_tile": 4096,
+      "length": 2448
+    },
+    {
+      "episode_id": 686,
+      "seed": 200686,
+      "score": 71468,
+      "max_tile": 4096,
+      "length": 3265
+    },
+    {
+      "episode_id": 687,
+      "seed": 200687,
+      "score": 71628,
+      "max_tile": 4096,
+      "length": 3298
+    },
+    {
+      "episode_id": 688,
+      "seed": 200688,
+      "score": 69576,
+      "max_tile": 4096,
+      "length": 3185
+    },
+    {
+      "episode_id": 689,
+      "seed": 200689,
+      "score": 60408,
+      "max_tile": 4096,
+      "length": 2808
+    },
+    {
+      "episode_id": 690,
+      "seed": 200690,
+      "score": 72644,
+      "max_tile": 4096,
+      "length": 3329
+    },
+    {
+      "episode_id": 691,
+      "seed": 200691,
+      "score": 36180,
+      "max_tile": 2048,
+      "length": 1871
+    },
+    {
+      "episode_id": 692,
+      "seed": 200692,
+      "score": 70784,
+      "max_tile": 4096,
+      "length": 3223
+    },
+    {
+      "episode_id": 693,
+      "seed": 200693,
+      "score": 66048,
+      "max_tile": 4096,
+      "length": 2956
+    },
+    {
+      "episode_id": 694,
+      "seed": 200694,
+      "score": 69296,
+      "max_tile": 4096,
+      "length": 3174
+    },
+    {
+      "episode_id": 695,
+      "seed": 200695,
+      "score": 69792,
+      "max_tile": 4096,
+      "length": 3148
+    },
+    {
+      "episode_id": 696,
+      "seed": 200696,
+      "score": 73308,
+      "max_tile": 4096,
+      "length": 3351
+    },
+    {
+      "episode_id": 697,
+      "seed": 200697,
+      "score": 67212,
+      "max_tile": 4096,
+      "length": 3006
+    },
+    {
+      "episode_id": 698,
+      "seed": 200698,
+      "score": 68564,
+      "max_tile": 4096,
+      "length": 3100
+    },
+    {
+      "episode_id": 699,
+      "seed": 200699,
+      "score": 74208,
+      "max_tile": 4096,
+      "length": 3336
+    },
+    {
+      "episode_id": 700,
+      "seed": 200700,
+      "score": 71560,
+      "max_tile": 4096,
+      "length": 3277
+    },
+    {
+      "episode_id": 701,
+      "seed": 200701,
+      "score": 75924,
+      "max_tile": 4096,
+      "length": 3478
+    },
+    {
+      "episode_id": 702,
+      "seed": 200702,
+      "score": 69244,
+      "max_tile": 4096,
+      "length": 3162
+    },
+    {
+      "episode_id": 703,
+      "seed": 200703,
+      "score": 67512,
+      "max_tile": 4096,
+      "length": 3048
+    },
+    {
+      "episode_id": 704,
+      "seed": 200704,
+      "score": 56884,
+      "max_tile": 4096,
+      "length": 2620
+    },
+    {
+      "episode_id": 705,
+      "seed": 200705,
+      "score": 71996,
+      "max_tile": 4096,
+      "length": 3326
+    },
+    {
+      "episode_id": 706,
+      "seed": 200706,
+      "score": 69652,
+      "max_tile": 4096,
+      "length": 3165
+    },
+    {
+      "episode_id": 707,
+      "seed": 200707,
+      "score": 67536,
+      "max_tile": 4096,
+      "length": 3051
+    },
+    {
+      "episode_id": 708,
+      "seed": 200708,
+      "score": 69544,
+      "max_tile": 4096,
+      "length": 3189
+    },
+    {
+      "episode_id": 709,
+      "seed": 200709,
+      "score": 36144,
+      "max_tile": 2048,
+      "length": 1855
+    },
+    {
+      "episode_id": 710,
+      "seed": 200710,
+      "score": 60584,
+      "max_tile": 4096,
+      "length": 2816
+    },
+    {
+      "episode_id": 711,
+      "seed": 200711,
+      "score": 51512,
+      "max_tile": 4096,
+      "length": 2356
+    },
+    {
+      "episode_id": 712,
+      "seed": 200712,
+      "score": 36504,
+      "max_tile": 2048,
+      "length": 1892
+    },
+    {
+      "episode_id": 713,
+      "seed": 200713,
+      "score": 72108,
+      "max_tile": 4096,
+      "length": 3334
+    },
+    {
+      "episode_id": 714,
+      "seed": 200714,
+      "score": 60340,
+      "max_tile": 4096,
+      "length": 2797
+    },
+    {
+      "episode_id": 715,
+      "seed": 200715,
+      "score": 70744,
+      "max_tile": 4096,
+      "length": 3217
+    },
+    {
+      "episode_id": 716,
+      "seed": 200716,
+      "score": 69828,
+      "max_tile": 4096,
+      "length": 3138
+    },
+    {
+      "episode_id": 717,
+      "seed": 200717,
+      "score": 67392,
+      "max_tile": 4096,
+      "length": 3020
+    },
+    {
+      "episode_id": 718,
+      "seed": 200718,
+      "score": 71272,
+      "max_tile": 4096,
+      "length": 3260
+    },
+    {
+      "episode_id": 719,
+      "seed": 200719,
+      "score": 66576,
+      "max_tile": 4096,
+      "length": 2994
+    },
+    {
+      "episode_id": 720,
+      "seed": 200720,
+      "score": 36216,
+      "max_tile": 2048,
+      "length": 1882
+    },
+    {
+      "episode_id": 721,
+      "seed": 200721,
+      "score": 70964,
+      "max_tile": 4096,
+      "length": 3240
+    },
+    {
+      "episode_id": 722,
+      "seed": 200722,
+      "score": 36420,
+      "max_tile": 2048,
+      "length": 1894
+    },
+    {
+      "episode_id": 723,
+      "seed": 200723,
+      "score": 69296,
+      "max_tile": 4096,
+      "length": 3170
+    },
+    {
+      "episode_id": 724,
+      "seed": 200724,
+      "score": 71444,
+      "max_tile": 4096,
+      "length": 3273
+    },
+    {
+      "episode_id": 725,
+      "seed": 200725,
+      "score": 71476,
+      "max_tile": 4096,
+      "length": 3293
+    },
+    {
+      "episode_id": 726,
+      "seed": 200726,
+      "score": 36276,
+      "max_tile": 2048,
+      "length": 1881
+    },
+    {
+      "episode_id": 727,
+      "seed": 200727,
+      "score": 67920,
+      "max_tile": 4096,
+      "length": 3077
+    },
+    {
+      "episode_id": 728,
+      "seed": 200728,
+      "score": 74984,
+      "max_tile": 4096,
+      "length": 3429
+    },
+    {
+      "episode_id": 729,
+      "seed": 200729,
+      "score": 71376,
+      "max_tile": 4096,
+      "length": 3259
+    },
+    {
+      "episode_id": 730,
+      "seed": 200730,
+      "score": 36512,
+      "max_tile": 2048,
+      "length": 1906
+    },
+    {
+      "episode_id": 731,
+      "seed": 200731,
+      "score": 71016,
+      "max_tile": 4096,
+      "length": 3235
+    },
+    {
+      "episode_id": 732,
+      "seed": 200732,
+      "score": 36196,
+      "max_tile": 2048,
+      "length": 1870
+    },
+    {
+      "episode_id": 733,
+      "seed": 200733,
+      "score": 75800,
+      "max_tile": 4096,
+      "length": 3466
+    },
+    {
+      "episode_id": 734,
+      "seed": 200734,
+      "score": 51532,
+      "max_tile": 4096,
+      "length": 2369
+    },
+    {
+      "episode_id": 735,
+      "seed": 200735,
+      "score": 70924,
+      "max_tile": 4096,
+      "length": 3231
+    },
+    {
+      "episode_id": 736,
+      "seed": 200736,
+      "score": 59172,
+      "max_tile": 4096,
+      "length": 2759
+    },
+    {
+      "episode_id": 737,
+      "seed": 200737,
+      "score": 70216,
+      "max_tile": 4096,
+      "length": 3205
+    },
+    {
+      "episode_id": 738,
+      "seed": 200738,
+      "score": 60352,
+      "max_tile": 4096,
+      "length": 2795
+    },
+    {
+      "episode_id": 739,
+      "seed": 200739,
+      "score": 58820,
+      "max_tile": 4096,
+      "length": 2699
+    },
+    {
+      "episode_id": 740,
+      "seed": 200740,
+      "score": 37216,
+      "max_tile": 2048,
+      "length": 1934
+    },
+    {
+      "episode_id": 741,
+      "seed": 200741,
+      "score": 68336,
+      "max_tile": 4096,
+      "length": 3068
+    },
+    {
+      "episode_id": 742,
+      "seed": 200742,
+      "score": 51484,
+      "max_tile": 4096,
+      "length": 2353
+    },
+    {
+      "episode_id": 743,
+      "seed": 200743,
+      "score": 74736,
+      "max_tile": 4096,
+      "length": 3389
+    },
+    {
+      "episode_id": 744,
+      "seed": 200744,
+      "score": 60420,
+      "max_tile": 4096,
+      "length": 2812
+    },
+    {
+      "episode_id": 745,
+      "seed": 200745,
+      "score": 34404,
+      "max_tile": 2048,
+      "length": 1764
+    },
+    {
+      "episode_id": 746,
+      "seed": 200746,
+      "score": 67756,
+      "max_tile": 4096,
+      "length": 3066
+    },
+    {
+      "episode_id": 747,
+      "seed": 200747,
+      "score": 70856,
+      "max_tile": 4096,
+      "length": 3223
+    },
+    {
+      "episode_id": 748,
+      "seed": 200748,
+      "score": 71796,
+      "max_tile": 4096,
+      "length": 3306
+    },
+    {
+      "episode_id": 749,
+      "seed": 200749,
+      "score": 35540,
+      "max_tile": 2048,
+      "length": 1825
+    },
+    {
+      "episode_id": 750,
+      "seed": 200750,
+      "score": 68456,
+      "max_tile": 4096,
+      "length": 3098
+    },
+    {
+      "episode_id": 751,
+      "seed": 200751,
+      "score": 68056,
+      "max_tile": 4096,
+      "length": 3095
+    },
+    {
+      "episode_id": 752,
+      "seed": 200752,
+      "score": 60504,
+      "max_tile": 4096,
+      "length": 2822
+    },
+    {
+      "episode_id": 753,
+      "seed": 200753,
+      "score": 59648,
+      "max_tile": 4096,
+      "length": 2747
+    },
+    {
+      "episode_id": 754,
+      "seed": 200754,
+      "score": 36668,
+      "max_tile": 2048,
+      "length": 1910
+    },
+    {
+      "episode_id": 755,
+      "seed": 200755,
+      "score": 60496,
+      "max_tile": 4096,
+      "length": 2828
+    },
+    {
+      "episode_id": 756,
+      "seed": 200756,
+      "score": 71560,
+      "max_tile": 4096,
+      "length": 3293
+    },
+    {
+      "episode_id": 757,
+      "seed": 200757,
+      "score": 69856,
+      "max_tile": 4096,
+      "length": 3174
+    },
+    {
+      "episode_id": 758,
+      "seed": 200758,
+      "score": 28048,
+      "max_tile": 2048,
+      "length": 1486
+    },
+    {
+      "episode_id": 759,
+      "seed": 200759,
+      "score": 69452,
+      "max_tile": 4096,
+      "length": 3135
+    },
+    {
+      "episode_id": 760,
+      "seed": 200760,
+      "score": 67740,
+      "max_tile": 4096,
+      "length": 3086
+    },
+    {
+      "episode_id": 761,
+      "seed": 200761,
+      "score": 71884,
+      "max_tile": 4096,
+      "length": 3283
+    },
+    {
+      "episode_id": 762,
+      "seed": 200762,
+      "score": 36608,
+      "max_tile": 2048,
+      "length": 1898
+    },
+    {
+      "episode_id": 763,
+      "seed": 200763,
+      "score": 71520,
+      "max_tile": 4096,
+      "length": 3270
+    },
+    {
+      "episode_id": 764,
+      "seed": 200764,
+      "score": 69144,
+      "max_tile": 4096,
+      "length": 3125
+    },
+    {
+      "episode_id": 765,
+      "seed": 200765,
+      "score": 68988,
+      "max_tile": 4096,
+      "length": 3130
+    },
+    {
+      "episode_id": 766,
+      "seed": 200766,
+      "score": 69280,
+      "max_tile": 4096,
+      "length": 3140
+    },
+    {
+      "episode_id": 767,
+      "seed": 200767,
+      "score": 71628,
+      "max_tile": 4096,
+      "length": 3301
+    },
+    {
+      "episode_id": 768,
+      "seed": 200768,
+      "score": 37128,
+      "max_tile": 2048,
+      "length": 1923
+    },
+    {
+      "episode_id": 769,
+      "seed": 200769,
+      "score": 36096,
+      "max_tile": 2048,
+      "length": 1856
+    },
+    {
+      "episode_id": 770,
+      "seed": 200770,
+      "score": 69500,
+      "max_tile": 4096,
+      "length": 3143
+    },
+    {
+      "episode_id": 771,
+      "seed": 200771,
+      "score": 69348,
+      "max_tile": 4096,
+      "length": 3140
+    },
+    {
+      "episode_id": 772,
+      "seed": 200772,
+      "score": 27328,
+      "max_tile": 2048,
+      "length": 1424
+    },
+    {
+      "episode_id": 773,
+      "seed": 200773,
+      "score": 60828,
+      "max_tile": 4096,
+      "length": 2822
+    },
+    {
+      "episode_id": 774,
+      "seed": 200774,
+      "score": 69064,
+      "max_tile": 4096,
+      "length": 3153
+    },
+    {
+      "episode_id": 775,
+      "seed": 200775,
+      "score": 71596,
+      "max_tile": 4096,
+      "length": 3273
+    },
+    {
+      "episode_id": 776,
+      "seed": 200776,
+      "score": 69008,
+      "max_tile": 4096,
+      "length": 3097
+    },
+    {
+      "episode_id": 777,
+      "seed": 200777,
+      "score": 36400,
+      "max_tile": 2048,
+      "length": 1910
+    },
+    {
+      "episode_id": 778,
+      "seed": 200778,
+      "score": 30556,
+      "max_tile": 2048,
+      "length": 1539
+    },
+    {
+      "episode_id": 779,
+      "seed": 200779,
+      "score": 32148,
+      "max_tile": 2048,
+      "length": 1633
+    },
+    {
+      "episode_id": 780,
+      "seed": 200780,
+      "score": 68920,
+      "max_tile": 4096,
+      "length": 3099
+    },
+    {
+      "episode_id": 781,
+      "seed": 200781,
+      "score": 71676,
+      "max_tile": 4096,
+      "length": 3281
+    },
+    {
+      "episode_id": 782,
+      "seed": 200782,
+      "score": 72616,
+      "max_tile": 4096,
+      "length": 3348
+    },
+    {
+      "episode_id": 783,
+      "seed": 200783,
+      "score": 36032,
+      "max_tile": 2048,
+      "length": 1856
+    },
+    {
+      "episode_id": 784,
+      "seed": 200784,
+      "score": 71916,
+      "max_tile": 4096,
+      "length": 3302
+    },
+    {
+      "episode_id": 785,
+      "seed": 200785,
+      "score": 74232,
+      "max_tile": 4096,
+      "length": 3361
+    },
+    {
+      "episode_id": 786,
+      "seed": 200786,
+      "score": 67964,
+      "max_tile": 4096,
+      "length": 3071
+    },
+    {
+      "episode_id": 787,
+      "seed": 200787,
+      "score": 60424,
+      "max_tile": 4096,
+      "length": 2806
+    },
+    {
+      "episode_id": 788,
+      "seed": 200788,
+      "score": 68956,
+      "max_tile": 4096,
+      "length": 3134
+    },
+    {
+      "episode_id": 789,
+      "seed": 200789,
+      "score": 71068,
+      "max_tile": 4096,
+      "length": 3220
+    },
+    {
+      "episode_id": 790,
+      "seed": 200790,
+      "score": 69716,
+      "max_tile": 4096,
+      "length": 3157
+    },
+    {
+      "episode_id": 791,
+      "seed": 200791,
+      "score": 71608,
+      "max_tile": 4096,
+      "length": 3292
+    },
+    {
+      "episode_id": 792,
+      "seed": 200792,
+      "score": 36292,
+      "max_tile": 2048,
+      "length": 1887
+    },
+    {
+      "episode_id": 793,
+      "seed": 200793,
+      "score": 69192,
+      "max_tile": 4096,
+      "length": 3153
+    },
+    {
+      "episode_id": 794,
+      "seed": 200794,
+      "score": 58812,
+      "max_tile": 4096,
+      "length": 2713
+    },
+    {
+      "episode_id": 795,
+      "seed": 200795,
+      "score": 68200,
+      "max_tile": 4096,
+      "length": 3109
+    },
+    {
+      "episode_id": 796,
+      "seed": 200796,
+      "score": 68016,
+      "max_tile": 4096,
+      "length": 3046
+    },
+    {
+      "episode_id": 797,
+      "seed": 200797,
+      "score": 75300,
+      "max_tile": 4096,
+      "length": 3437
+    },
+    {
+      "episode_id": 798,
+      "seed": 200798,
+      "score": 67484,
+      "max_tile": 4096,
+      "length": 3043
+    },
+    {
+      "episode_id": 799,
+      "seed": 200799,
+      "score": 67492,
+      "max_tile": 4096,
+      "length": 3049
+    },
+    {
+      "episode_id": 800,
+      "seed": 200800,
+      "score": 69148,
+      "max_tile": 4096,
+      "length": 3151
+    },
+    {
+      "episode_id": 801,
+      "seed": 200801,
+      "score": 36792,
+      "max_tile": 2048,
+      "length": 1902
+    },
+    {
+      "episode_id": 802,
+      "seed": 200802,
+      "score": 56268,
+      "max_tile": 4096,
+      "length": 2543
+    },
+    {
+      "episode_id": 803,
+      "seed": 200803,
+      "score": 60828,
+      "max_tile": 4096,
+      "length": 2850
+    },
+    {
+      "episode_id": 804,
+      "seed": 200804,
+      "score": 67196,
+      "max_tile": 4096,
+      "length": 3009
+    },
+    {
+      "episode_id": 805,
+      "seed": 200805,
+      "score": 36280,
+      "max_tile": 2048,
+      "length": 1885
+    },
+    {
+      "episode_id": 806,
+      "seed": 200806,
+      "score": 67444,
+      "max_tile": 4096,
+      "length": 3033
+    },
+    {
+      "episode_id": 807,
+      "seed": 200807,
+      "score": 68296,
+      "max_tile": 4096,
+      "length": 3111
+    },
+    {
+      "episode_id": 808,
+      "seed": 200808,
+      "score": 67476,
+      "max_tile": 4096,
+      "length": 3029
+    },
+    {
+      "episode_id": 809,
+      "seed": 200809,
+      "score": 74876,
+      "max_tile": 4096,
+      "length": 3406
+    },
+    {
+      "episode_id": 810,
+      "seed": 200810,
+      "score": 68812,
+      "max_tile": 4096,
+      "length": 3133
+    },
+    {
+      "episode_id": 811,
+      "seed": 200811,
+      "score": 68656,
+      "max_tile": 4096,
+      "length": 3127
+    },
+    {
+      "episode_id": 812,
+      "seed": 200812,
+      "score": 68192,
+      "max_tile": 4096,
+      "length": 3076
+    },
+    {
+      "episode_id": 813,
+      "seed": 200813,
+      "score": 70496,
+      "max_tile": 4096,
+      "length": 3228
+    },
+    {
+      "episode_id": 814,
+      "seed": 200814,
+      "score": 36184,
+      "max_tile": 2048,
+      "length": 1872
+    },
+    {
+      "episode_id": 815,
+      "seed": 200815,
+      "score": 71412,
+      "max_tile": 4096,
+      "length": 3264
+    },
+    {
+      "episode_id": 816,
+      "seed": 200816,
+      "score": 31540,
+      "max_tile": 2048,
+      "length": 1593
+    },
+    {
+      "episode_id": 817,
+      "seed": 200817,
+      "score": 72292,
+      "max_tile": 4096,
+      "length": 3316
+    },
+    {
+      "episode_id": 818,
+      "seed": 200818,
+      "score": 71216,
+      "max_tile": 4096,
+      "length": 3243
+    },
+    {
+      "episode_id": 819,
+      "seed": 200819,
+      "score": 71992,
+      "max_tile": 4096,
+      "length": 3313
+    },
+    {
+      "episode_id": 820,
+      "seed": 200820,
+      "score": 74656,
+      "max_tile": 4096,
+      "length": 3396
+    },
+    {
+      "episode_id": 821,
+      "seed": 200821,
+      "score": 70744,
+      "max_tile": 4096,
+      "length": 3232
+    },
+    {
+      "episode_id": 822,
+      "seed": 200822,
+      "score": 74416,
+      "max_tile": 4096,
+      "length": 3363
+    },
+    {
+      "episode_id": 823,
+      "seed": 200823,
+      "score": 69352,
+      "max_tile": 4096,
+      "length": 3177
+    },
+    {
+      "episode_id": 824,
+      "seed": 200824,
+      "score": 67972,
+      "max_tile": 4096,
+      "length": 3084
+    },
+    {
+      "episode_id": 825,
+      "seed": 200825,
+      "score": 72912,
+      "max_tile": 4096,
+      "length": 3304
+    },
+    {
+      "episode_id": 826,
+      "seed": 200826,
+      "score": 36224,
+      "max_tile": 2048,
+      "length": 1883
+    },
+    {
+      "episode_id": 827,
+      "seed": 200827,
+      "score": 60404,
+      "max_tile": 4096,
+      "length": 2808
+    },
+    {
+      "episode_id": 828,
+      "seed": 200828,
+      "score": 16456,
+      "max_tile": 1024,
+      "length": 977
+    },
+    {
+      "episode_id": 829,
+      "seed": 200829,
+      "score": 35064,
+      "max_tile": 2048,
+      "length": 1772
+    },
+    {
+      "episode_id": 830,
+      "seed": 200830,
+      "score": 71636,
+      "max_tile": 4096,
+      "length": 3292
+    },
+    {
+      "episode_id": 831,
+      "seed": 200831,
+      "score": 69684,
+      "max_tile": 4096,
+      "length": 3162
+    },
+    {
+      "episode_id": 832,
+      "seed": 200832,
+      "score": 70688,
+      "max_tile": 4096,
+      "length": 3203
+    },
+    {
+      "episode_id": 833,
+      "seed": 200833,
+      "score": 35616,
+      "max_tile": 2048,
+      "length": 1832
+    },
+    {
+      "episode_id": 834,
+      "seed": 200834,
+      "score": 68724,
+      "max_tile": 4096,
+      "length": 3128
+    },
+    {
+      "episode_id": 835,
+      "seed": 200835,
+      "score": 67780,
+      "max_tile": 4096,
+      "length": 3067
+    },
+    {
+      "episode_id": 836,
+      "seed": 200836,
+      "score": 69328,
+      "max_tile": 4096,
+      "length": 3162
+    },
+    {
+      "episode_id": 837,
+      "seed": 200837,
+      "score": 32200,
+      "max_tile": 2048,
+      "length": 1642
+    },
+    {
+      "episode_id": 838,
+      "seed": 200838,
+      "score": 68996,
+      "max_tile": 4096,
+      "length": 3157
+    },
+    {
+      "episode_id": 839,
+      "seed": 200839,
+      "score": 69032,
+      "max_tile": 4096,
+      "length": 3095
+    },
+    {
+      "episode_id": 840,
+      "seed": 200840,
+      "score": 71860,
+      "max_tile": 4096,
+      "length": 3320
+    },
+    {
+      "episode_id": 841,
+      "seed": 200841,
+      "score": 36376,
+      "max_tile": 2048,
+      "length": 1883
+    },
+    {
+      "episode_id": 842,
+      "seed": 200842,
+      "score": 67376,
+      "max_tile": 4096,
+      "length": 3032
+    },
+    {
+      "episode_id": 843,
+      "seed": 200843,
+      "score": 71544,
+      "max_tile": 4096,
+      "length": 3271
+    },
+    {
+      "episode_id": 844,
+      "seed": 200844,
+      "score": 66756,
+      "max_tile": 4096,
+      "length": 3028
+    },
+    {
+      "episode_id": 845,
+      "seed": 200845,
+      "score": 58460,
+      "max_tile": 4096,
+      "length": 2692
+    },
+    {
+      "episode_id": 846,
+      "seed": 200846,
+      "score": 58896,
+      "max_tile": 4096,
+      "length": 2719
+    },
+    {
+      "episode_id": 847,
+      "seed": 200847,
+      "score": 60384,
+      "max_tile": 4096,
+      "length": 2802
+    },
+    {
+      "episode_id": 848,
+      "seed": 200848,
+      "score": 70028,
+      "max_tile": 4096,
+      "length": 3182
+    },
+    {
+      "episode_id": 849,
+      "seed": 200849,
+      "score": 68596,
+      "max_tile": 4096,
+      "length": 3127
+    },
+    {
+      "episode_id": 850,
+      "seed": 200850,
+      "score": 67800,
+      "max_tile": 4096,
+      "length": 3073
+    },
+    {
+      "episode_id": 851,
+      "seed": 200851,
+      "score": 72560,
+      "max_tile": 4096,
+      "length": 3351
+    },
+    {
+      "episode_id": 852,
+      "seed": 200852,
+      "score": 71408,
+      "max_tile": 4096,
+      "length": 3255
+    },
+    {
+      "episode_id": 853,
+      "seed": 200853,
+      "score": 71624,
+      "max_tile": 4096,
+      "length": 3276
+    },
+    {
+      "episode_id": 854,
+      "seed": 200854,
+      "score": 36288,
+      "max_tile": 2048,
+      "length": 1882
+    },
+    {
+      "episode_id": 855,
+      "seed": 200855,
+      "score": 67864,
+      "max_tile": 4096,
+      "length": 3082
+    },
+    {
+      "episode_id": 856,
+      "seed": 200856,
+      "score": 71540,
+      "max_tile": 4096,
+      "length": 3287
+    },
+    {
+      "episode_id": 857,
+      "seed": 200857,
+      "score": 67424,
+      "max_tile": 4096,
+      "length": 3025
+    },
+    {
+      "episode_id": 858,
+      "seed": 200858,
+      "score": 35476,
+      "max_tile": 2048,
+      "length": 1812
+    },
+    {
+      "episode_id": 859,
+      "seed": 200859,
+      "score": 69140,
+      "max_tile": 4096,
+      "length": 3144
+    },
+    {
+      "episode_id": 860,
+      "seed": 200860,
+      "score": 69196,
+      "max_tile": 4096,
+      "length": 3149
+    },
+    {
+      "episode_id": 861,
+      "seed": 200861,
+      "score": 69504,
+      "max_tile": 4096,
+      "length": 3197
+    },
+    {
+      "episode_id": 862,
+      "seed": 200862,
+      "score": 58676,
+      "max_tile": 4096,
+      "length": 2693
+    },
+    {
+      "episode_id": 863,
+      "seed": 200863,
+      "score": 68596,
+      "max_tile": 4096,
+      "length": 3096
+    },
+    {
+      "episode_id": 864,
+      "seed": 200864,
+      "score": 37328,
+      "max_tile": 2048,
+      "length": 1892
+    },
+    {
+      "episode_id": 865,
+      "seed": 200865,
+      "score": 68872,
+      "max_tile": 4096,
+      "length": 3137
+    },
+    {
+      "episode_id": 866,
+      "seed": 200866,
+      "score": 36188,
+      "max_tile": 2048,
+      "length": 1868
+    },
+    {
+      "episode_id": 867,
+      "seed": 200867,
+      "score": 69156,
+      "max_tile": 4096,
+      "length": 3128
+    },
+    {
+      "episode_id": 868,
+      "seed": 200868,
+      "score": 71600,
+      "max_tile": 4096,
+      "length": 3290
+    },
+    {
+      "episode_id": 869,
+      "seed": 200869,
+      "score": 58996,
+      "max_tile": 4096,
+      "length": 2727
+    },
+    {
+      "episode_id": 870,
+      "seed": 200870,
+      "score": 27564,
+      "max_tile": 2048,
+      "length": 1431
+    },
+    {
+      "episode_id": 871,
+      "seed": 200871,
+      "score": 71556,
+      "max_tile": 4096,
+      "length": 3285
+    },
+    {
+      "episode_id": 872,
+      "seed": 200872,
+      "score": 69636,
+      "max_tile": 4096,
+      "length": 3149
+    },
+    {
+      "episode_id": 873,
+      "seed": 200873,
+      "score": 74052,
+      "max_tile": 4096,
+      "length": 3330
+    },
+    {
+      "episode_id": 874,
+      "seed": 200874,
+      "score": 70920,
+      "max_tile": 4096,
+      "length": 3217
+    },
+    {
+      "episode_id": 875,
+      "seed": 200875,
+      "score": 68900,
+      "max_tile": 4096,
+      "length": 3113
+    },
+    {
+      "episode_id": 876,
+      "seed": 200876,
+      "score": 69044,
+      "max_tile": 4096,
+      "length": 3149
+    },
+    {
+      "episode_id": 877,
+      "seed": 200877,
+      "score": 60452,
+      "max_tile": 4096,
+      "length": 2813
+    },
+    {
+      "episode_id": 878,
+      "seed": 200878,
+      "score": 32188,
+      "max_tile": 2048,
+      "length": 1642
+    },
+    {
+      "episode_id": 879,
+      "seed": 200879,
+      "score": 15840,
+      "max_tile": 1024,
+      "length": 923
+    },
+    {
+      "episode_id": 880,
+      "seed": 200880,
+      "score": 27148,
+      "max_tile": 2048,
+      "length": 1413
+    },
+    {
+      "episode_id": 881,
+      "seed": 200881,
+      "score": 68644,
+      "max_tile": 4096,
+      "length": 3124
+    },
+    {
+      "episode_id": 882,
+      "seed": 200882,
+      "score": 69908,
+      "max_tile": 4096,
+      "length": 3183
+    },
+    {
+      "episode_id": 883,
+      "seed": 200883,
+      "score": 69316,
+      "max_tile": 4096,
+      "length": 3169
+    },
+    {
+      "episode_id": 884,
+      "seed": 200884,
+      "score": 70316,
+      "max_tile": 4096,
+      "length": 3181
+    },
+    {
+      "episode_id": 885,
+      "seed": 200885,
+      "score": 67516,
+      "max_tile": 4096,
+      "length": 3040
+    },
+    {
+      "episode_id": 886,
+      "seed": 200886,
+      "score": 60876,
+      "max_tile": 4096,
+      "length": 2833
+    },
+    {
+      "episode_id": 887,
+      "seed": 200887,
+      "score": 60500,
+      "max_tile": 4096,
+      "length": 2803
+    },
+    {
+      "episode_id": 888,
+      "seed": 200888,
+      "score": 69440,
+      "max_tile": 4096,
+      "length": 3164
+    },
+    {
+      "episode_id": 889,
+      "seed": 200889,
+      "score": 71288,
+      "max_tile": 4096,
+      "length": 3235
+    },
+    {
+      "episode_id": 890,
+      "seed": 200890,
+      "score": 69244,
+      "max_tile": 4096,
+      "length": 3161
+    },
+    {
+      "episode_id": 891,
+      "seed": 200891,
+      "score": 60332,
+      "max_tile": 4096,
+      "length": 2790
+    },
+    {
+      "episode_id": 892,
+      "seed": 200892,
+      "score": 69160,
+      "max_tile": 4096,
+      "length": 3145
+    },
+    {
+      "episode_id": 893,
+      "seed": 200893,
+      "score": 35920,
+      "max_tile": 2048,
+      "length": 1852
+    },
+    {
+      "episode_id": 894,
+      "seed": 200894,
+      "score": 69316,
+      "max_tile": 4096,
+      "length": 3090
+    },
+    {
+      "episode_id": 895,
+      "seed": 200895,
+      "score": 60576,
+      "max_tile": 4096,
+      "length": 2839
+    },
+    {
+      "episode_id": 896,
+      "seed": 200896,
+      "score": 71584,
+      "max_tile": 4096,
+      "length": 3282
+    },
+    {
+      "episode_id": 897,
+      "seed": 200897,
+      "score": 71264,
+      "max_tile": 4096,
+      "length": 3251
+    },
+    {
+      "episode_id": 898,
+      "seed": 200898,
+      "score": 74128,
+      "max_tile": 4096,
+      "length": 3354
+    },
+    {
+      "episode_id": 899,
+      "seed": 200899,
+      "score": 71564,
+      "max_tile": 4096,
+      "length": 3277
+    },
+    {
+      "episode_id": 900,
+      "seed": 200900,
+      "score": 68628,
+      "max_tile": 4096,
+      "length": 3070
+    },
+    {
+      "episode_id": 901,
+      "seed": 200901,
+      "score": 71700,
+      "max_tile": 4096,
+      "length": 3299
+    },
+    {
+      "episode_id": 902,
+      "seed": 200902,
+      "score": 60532,
+      "max_tile": 4096,
+      "length": 2797
+    },
+    {
+      "episode_id": 903,
+      "seed": 200903,
+      "score": 61072,
+      "max_tile": 4096,
+      "length": 2850
+    },
+    {
+      "episode_id": 904,
+      "seed": 200904,
+      "score": 65008,
+      "max_tile": 4096,
+      "length": 2877
+    },
+    {
+      "episode_id": 905,
+      "seed": 200905,
+      "score": 60384,
+      "max_tile": 4096,
+      "length": 2798
+    },
+    {
+      "episode_id": 906,
+      "seed": 200906,
+      "score": 69144,
+      "max_tile": 4096,
+      "length": 3117
+    },
+    {
+      "episode_id": 907,
+      "seed": 200907,
+      "score": 71452,
+      "max_tile": 4096,
+      "length": 3261
+    },
+    {
+      "episode_id": 908,
+      "seed": 200908,
+      "score": 36260,
+      "max_tile": 2048,
+      "length": 1892
+    },
+    {
+      "episode_id": 909,
+      "seed": 200909,
+      "score": 67500,
+      "max_tile": 4096,
+      "length": 3019
+    },
+    {
+      "episode_id": 910,
+      "seed": 200910,
+      "score": 58748,
+      "max_tile": 4096,
+      "length": 2697
+    },
+    {
+      "episode_id": 911,
+      "seed": 200911,
+      "score": 67688,
+      "max_tile": 4096,
+      "length": 3066
+    },
+    {
+      "episode_id": 912,
+      "seed": 200912,
+      "score": 71428,
+      "max_tile": 4096,
+      "length": 3265
+    },
+    {
+      "episode_id": 913,
+      "seed": 200913,
+      "score": 69116,
+      "max_tile": 4096,
+      "length": 3161
+    },
+    {
+      "episode_id": 914,
+      "seed": 200914,
+      "score": 77696,
+      "max_tile": 4096,
+      "length": 3606
+    },
+    {
+      "episode_id": 915,
+      "seed": 200915,
+      "score": 37608,
+      "max_tile": 2048,
+      "length": 1925
+    },
+    {
+      "episode_id": 916,
+      "seed": 200916,
+      "score": 61148,
+      "max_tile": 4096,
+      "length": 2869
+    },
+    {
+      "episode_id": 917,
+      "seed": 200917,
+      "score": 36420,
+      "max_tile": 2048,
+      "length": 1878
+    },
+    {
+      "episode_id": 918,
+      "seed": 200918,
+      "score": 71748,
+      "max_tile": 4096,
+      "length": 3296
+    },
+    {
+      "episode_id": 919,
+      "seed": 200919,
+      "score": 67560,
+      "max_tile": 4096,
+      "length": 3045
+    },
+    {
+      "episode_id": 920,
+      "seed": 200920,
+      "score": 67492,
+      "max_tile": 4096,
+      "length": 3040
+    },
+    {
+      "episode_id": 921,
+      "seed": 200921,
+      "score": 73952,
+      "max_tile": 4096,
+      "length": 3312
+    },
+    {
+      "episode_id": 922,
+      "seed": 200922,
+      "score": 60212,
+      "max_tile": 4096,
+      "length": 2776
+    },
+    {
+      "episode_id": 923,
+      "seed": 200923,
+      "score": 36188,
+      "max_tile": 2048,
+      "length": 1866
+    },
+    {
+      "episode_id": 924,
+      "seed": 200924,
+      "score": 75064,
+      "max_tile": 4096,
+      "length": 3412
+    },
+    {
+      "episode_id": 925,
+      "seed": 200925,
+      "score": 76048,
+      "max_tile": 4096,
+      "length": 3484
+    },
+    {
+      "episode_id": 926,
+      "seed": 200926,
+      "score": 69768,
+      "max_tile": 4096,
+      "length": 3150
+    },
+    {
+      "episode_id": 927,
+      "seed": 200927,
+      "score": 74016,
+      "max_tile": 4096,
+      "length": 3315
+    },
+    {
+      "episode_id": 928,
+      "seed": 200928,
+      "score": 71408,
+      "max_tile": 4096,
+      "length": 3261
+    },
+    {
+      "episode_id": 929,
+      "seed": 200929,
+      "score": 68380,
+      "max_tile": 4096,
+      "length": 3078
+    },
+    {
+      "episode_id": 930,
+      "seed": 200930,
+      "score": 36292,
+      "max_tile": 2048,
+      "length": 1886
+    },
+    {
+      "episode_id": 931,
+      "seed": 200931,
+      "score": 71740,
+      "max_tile": 4096,
+      "length": 3279
+    },
+    {
+      "episode_id": 932,
+      "seed": 200932,
+      "score": 68676,
+      "max_tile": 4096,
+      "length": 3125
+    },
+    {
+      "episode_id": 933,
+      "seed": 200933,
+      "score": 67336,
+      "max_tile": 4096,
+      "length": 3017
+    },
+    {
+      "episode_id": 934,
+      "seed": 200934,
+      "score": 71092,
+      "max_tile": 4096,
+      "length": 3221
+    },
+    {
+      "episode_id": 935,
+      "seed": 200935,
+      "score": 69280,
+      "max_tile": 4096,
+      "length": 3172
+    },
+    {
+      "episode_id": 936,
+      "seed": 200936,
+      "score": 30452,
+      "max_tile": 2048,
+      "length": 1530
+    },
+    {
+      "episode_id": 937,
+      "seed": 200937,
+      "score": 61072,
+      "max_tile": 4096,
+      "length": 2852
+    },
+    {
+      "episode_id": 938,
+      "seed": 200938,
+      "score": 76560,
+      "max_tile": 4096,
+      "length": 3512
+    },
+    {
+      "episode_id": 939,
+      "seed": 200939,
+      "score": 36060,
+      "max_tile": 2048,
+      "length": 1861
+    },
+    {
+      "episode_id": 940,
+      "seed": 200940,
+      "score": 66540,
+      "max_tile": 4096,
+      "length": 2995
+    },
+    {
+      "episode_id": 941,
+      "seed": 200941,
+      "score": 69528,
+      "max_tile": 4096,
+      "length": 3184
+    },
+    {
+      "episode_id": 942,
+      "seed": 200942,
+      "score": 67920,
+      "max_tile": 4096,
+      "length": 3064
+    },
+    {
+      "episode_id": 943,
+      "seed": 200943,
+      "score": 36152,
+      "max_tile": 2048,
+      "length": 1897
+    },
+    {
+      "episode_id": 944,
+      "seed": 200944,
+      "score": 69300,
+      "max_tile": 4096,
+      "length": 3164
+    },
+    {
+      "episode_id": 945,
+      "seed": 200945,
+      "score": 69084,
+      "max_tile": 4096,
+      "length": 3134
+    },
+    {
+      "episode_id": 946,
+      "seed": 200946,
+      "score": 71168,
+      "max_tile": 4096,
+      "length": 3232
+    },
+    {
+      "episode_id": 947,
+      "seed": 200947,
+      "score": 68184,
+      "max_tile": 4096,
+      "length": 3093
+    },
+    {
+      "episode_id": 948,
+      "seed": 200948,
+      "score": 60388,
+      "max_tile": 4096,
+      "length": 2799
+    },
+    {
+      "episode_id": 949,
+      "seed": 200949,
+      "score": 36264,
+      "max_tile": 2048,
+      "length": 1881
+    },
+    {
+      "episode_id": 950,
+      "seed": 200950,
+      "score": 67468,
+      "max_tile": 4096,
+      "length": 3039
+    },
+    {
+      "episode_id": 951,
+      "seed": 200951,
+      "score": 67392,
+      "max_tile": 4096,
+      "length": 3026
+    },
+    {
+      "episode_id": 952,
+      "seed": 200952,
+      "score": 71548,
+      "max_tile": 4096,
+      "length": 3275
+    },
+    {
+      "episode_id": 953,
+      "seed": 200953,
+      "score": 70868,
+      "max_tile": 4096,
+      "length": 3236
+    },
+    {
+      "episode_id": 954,
+      "seed": 200954,
+      "score": 68140,
+      "max_tile": 4096,
+      "length": 3082
+    },
+    {
+      "episode_id": 955,
+      "seed": 200955,
+      "score": 68556,
+      "max_tile": 4096,
+      "length": 3149
+    },
+    {
+      "episode_id": 956,
+      "seed": 200956,
+      "score": 75340,
+      "max_tile": 4096,
+      "length": 3431
+    },
+    {
+      "episode_id": 957,
+      "seed": 200957,
+      "score": 36096,
+      "max_tile": 2048,
+      "length": 1875
+    },
+    {
+      "episode_id": 958,
+      "seed": 200958,
+      "score": 69772,
+      "max_tile": 4096,
+      "length": 3182
+    },
+    {
+      "episode_id": 959,
+      "seed": 200959,
+      "score": 75616,
+      "max_tile": 4096,
+      "length": 3439
+    },
+    {
+      "episode_id": 960,
+      "seed": 200960,
+      "score": 75776,
+      "max_tile": 4096,
+      "length": 3436
+    },
+    {
+      "episode_id": 961,
+      "seed": 200961,
+      "score": 16064,
+      "max_tile": 1024,
+      "length": 935
+    },
+    {
+      "episode_id": 962,
+      "seed": 200962,
+      "score": 16596,
+      "max_tile": 1024,
+      "length": 980
+    },
+    {
+      "episode_id": 963,
+      "seed": 200963,
+      "score": 34928,
+      "max_tile": 2048,
+      "length": 1819
+    },
+    {
+      "episode_id": 964,
+      "seed": 200964,
+      "score": 66192,
+      "max_tile": 4096,
+      "length": 2960
+    },
+    {
+      "episode_id": 965,
+      "seed": 200965,
+      "score": 58628,
+      "max_tile": 4096,
+      "length": 2679
+    },
+    {
+      "episode_id": 966,
+      "seed": 200966,
+      "score": 76628,
+      "max_tile": 4096,
+      "length": 3519
+    },
+    {
+      "episode_id": 967,
+      "seed": 200967,
+      "score": 76360,
+      "max_tile": 4096,
+      "length": 3497
+    },
+    {
+      "episode_id": 968,
+      "seed": 200968,
+      "score": 60476,
+      "max_tile": 4096,
+      "length": 2814
+    },
+    {
+      "episode_id": 969,
+      "seed": 200969,
+      "score": 72936,
+      "max_tile": 4096,
+      "length": 3328
+    },
+    {
+      "episode_id": 970,
+      "seed": 200970,
+      "score": 73624,
+      "max_tile": 4096,
+      "length": 3366
+    },
+    {
+      "episode_id": 971,
+      "seed": 200971,
+      "score": 74976,
+      "max_tile": 4096,
+      "length": 3489
+    },
+    {
+      "episode_id": 972,
+      "seed": 200972,
+      "score": 66780,
+      "max_tile": 4096,
+      "length": 2978
+    },
+    {
+      "episode_id": 973,
+      "seed": 200973,
+      "score": 68200,
+      "max_tile": 4096,
+      "length": 3108
+    },
+    {
+      "episode_id": 974,
+      "seed": 200974,
+      "score": 68936,
+      "max_tile": 4096,
+      "length": 3087
+    },
+    {
+      "episode_id": 975,
+      "seed": 200975,
+      "score": 76460,
+      "max_tile": 4096,
+      "length": 3510
+    },
+    {
+      "episode_id": 976,
+      "seed": 200976,
+      "score": 69532,
+      "max_tile": 4096,
+      "length": 3134
+    },
+    {
+      "episode_id": 977,
+      "seed": 200977,
+      "score": 70680,
+      "max_tile": 4096,
+      "length": 3207
+    },
+    {
+      "episode_id": 978,
+      "seed": 200978,
+      "score": 36332,
+      "max_tile": 2048,
+      "length": 1898
+    },
+    {
+      "episode_id": 979,
+      "seed": 200979,
+      "score": 71164,
+      "max_tile": 4096,
+      "length": 3244
+    },
+    {
+      "episode_id": 980,
+      "seed": 200980,
+      "score": 71576,
+      "max_tile": 4096,
+      "length": 3290
+    },
+    {
+      "episode_id": 981,
+      "seed": 200981,
+      "score": 69244,
+      "max_tile": 4096,
+      "length": 3157
+    },
+    {
+      "episode_id": 982,
+      "seed": 200982,
+      "score": 60400,
+      "max_tile": 4096,
+      "length": 2806
+    },
+    {
+      "episode_id": 983,
+      "seed": 200983,
+      "score": 76012,
+      "max_tile": 4096,
+      "length": 3466
+    },
+    {
+      "episode_id": 984,
+      "seed": 200984,
+      "score": 68984,
+      "max_tile": 4096,
+      "length": 3125
+    },
+    {
+      "episode_id": 985,
+      "seed": 200985,
+      "score": 51300,
+      "max_tile": 4096,
+      "length": 2330
+    },
+    {
+      "episode_id": 986,
+      "seed": 200986,
+      "score": 75252,
+      "max_tile": 4096,
+      "length": 3391
+    },
+    {
+      "episode_id": 987,
+      "seed": 200987,
+      "score": 68676,
+      "max_tile": 4096,
+      "length": 3121
+    },
+    {
+      "episode_id": 988,
+      "seed": 200988,
+      "score": 69768,
+      "max_tile": 4096,
+      "length": 3154
+    },
+    {
+      "episode_id": 989,
+      "seed": 200989,
+      "score": 72244,
+      "max_tile": 4096,
+      "length": 3304
+    },
+    {
+      "episode_id": 990,
+      "seed": 200990,
+      "score": 68372,
+      "max_tile": 4096,
+      "length": 3077
+    },
+    {
+      "episode_id": 991,
+      "seed": 200991,
+      "score": 73392,
+      "max_tile": 4096,
+      "length": 3374
+    },
+    {
+      "episode_id": 992,
+      "seed": 200992,
+      "score": 71404,
+      "max_tile": 4096,
+      "length": 3271
+    },
+    {
+      "episode_id": 993,
+      "seed": 200993,
+      "score": 71580,
+      "max_tile": 4096,
+      "length": 3283
+    },
+    {
+      "episode_id": 994,
+      "seed": 200994,
+      "score": 70000,
+      "max_tile": 4096,
+      "length": 3175
+    },
+    {
+      "episode_id": 995,
+      "seed": 200995,
+      "score": 68460,
+      "max_tile": 4096,
+      "length": 3099
+    },
+    {
+      "episode_id": 996,
+      "seed": 200996,
+      "score": 68412,
+      "max_tile": 4096,
+      "length": 3086
+    },
+    {
+      "episode_id": 997,
+      "seed": 200997,
+      "score": 70900,
+      "max_tile": 4096,
+      "length": 3224
+    },
+    {
+      "episode_id": 998,
+      "seed": 200998,
+      "score": 71308,
+      "max_tile": 4096,
+      "length": 3235
+    },
+    {
+      "episode_id": 999,
+      "seed": 200999,
+      "score": 71584,
+      "max_tile": 4096,
+      "length": 3271
+    }
+  ],
+  "mean_score": 61807.092,
+  "median_score": 68368.0,
+  "std_score": 14084.639927223416,
+  "max_score": 77944,
+  "min_score": 15772,
+  "max_tile": 4096,
+  "mean_length": 2858.071,
+  "max_length": 3606,
+  "rate_512": 1.0,
+  "rate_1024": 1.0,
+  "rate_2048": 0.99,
+  "rate_4096": 0.818,
+  "rate_8192": 0.0,
+  "inference_seconds": 6582.571500007354,
+  "elapsed_seconds": 6707.56407370005,
+  "inference_batches": 28165,
+  "action_counts": [
+    729286,
+    703484,
+    721863,
+    703438
+  ],
+  "leaf_batch_sizes": [
+    1024,
+    16384
+  ],
+  "timing_note": "Search timing mixes batch sizes if leaf_batch_sizes has multiple entries; excludes interrupted unsaved work.",
+  "checkpoint": "D:\\Desktop\\pp\\2048-v3\\models\\v3_1\\dqn_ep20000.pth",
+  "checkpoint_sha256": "1e383f4385cecd6d77028da7fc80bdbf1ae1352207bf03701adae11f9e8c826c",
+  "version": "v3.1-afterstate-quantile-cnn-dqn"
+}

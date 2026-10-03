@@ -185,6 +185,8 @@ class ReplayBuffer:
 
         actual_batch = min(int(batch_size), self.size)
         total_priority = self.tree.total()
+        if not np.isfinite(total_priority):
+            raise FloatingPointError("replay priority total is not finite")
         indices = np.empty(actual_batch, dtype=np.int64)
         tree_indices = np.empty(actual_batch, dtype=np.int64)
         weights = np.empty(actual_batch, dtype=np.float32)
@@ -244,6 +246,8 @@ class ReplayBuffer:
 
         leaves = tree_indices[valid]
         priorities = (np.abs(td_errors[valid]) + self.eps) ** self.alpha
+        if not np.all(np.isfinite(priorities)):
+            raise FloatingPointError("nonfinite TD priorities; replay tree was not modified")
         unique_leaves, inverse = np.unique(leaves, return_inverse=True)
         combined_priorities = np.zeros(len(unique_leaves), dtype=np.float64)
         np.maximum.at(combined_priorities, inverse, priorities)

@@ -10,6 +10,7 @@ from fast_afterstate import (
     slide_all_actions_batch,
 )
 from game_2048 import Game2048
+from restart import validate_restart_board
 
 
 class BatchEnv2048:
@@ -33,11 +34,25 @@ class BatchEnv2048:
             copy=True,
         )
 
-    def reset(self) -> tuple[np.ndarray, np.ndarray]:
+    def reset(
+        self,
+        initial_boards: list[np.ndarray | None] | None = None,
+    ) -> tuple[np.ndarray, np.ndarray]:
         """Reset every game and return observations plus legal-action masks."""
 
+        if initial_boards is None:
+            initial_boards = [None] * self.num_envs
+        if len(initial_boards) != self.num_envs:
+            raise ValueError("initial_boards must contain one entry per environment")
+        initial_boards = [
+            None if board is None else validate_restart_board(board)
+            for board in initial_boards
+        ]
         for index, game in enumerate(self.games):
             game.reset(seed=self.seed + index)
+            if initial_boards[index] is not None:
+                game.board = initial_boards[index]
+                game.last_afterstate = game.board.copy()
         boards = self.boards()
         return boards_to_observations(boards), self._valid_masks(boards)
 

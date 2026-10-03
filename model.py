@@ -163,7 +163,11 @@ class AfterstateValueNet(nn.Module):
         """Return quantile values with shape ``(batch, num_quantiles)``."""
 
         encoded = self._encode(observation)
-        return self.quantile_head(self.head(self.features(encoded)))
+        features = self.features(encoded)
+        # The pre-normalization linear output can exceed FP16's finite range.
+        with torch.autocast(device_type=features.device.type, enabled=False):
+            hidden = self.head(features.float())
+        return self.quantile_head(hidden)
 
 
 if __name__ == "__main__":
